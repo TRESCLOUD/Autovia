@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <!-- Workflow definition -->
+
+        <record id="wkf_autopolo_letras" model="workflow">
+            <field name="name">Autopolo Letras  Workflow</field>
+            <field name="osv">tres.line.letras</field>
+            <field name="on_create">True</field>
+        </record>
+        
+<!-- ACTIVITY -->
+        <record id="act_esperando" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_autopolo_letras"/>
+            <field name="name">esperando</field>
+            <field name="flow_start">True</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state': 'esperando'})</field>
+        </record>
+		
+		<record id="act_pagados" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_autopolo_letras"/>
+            <field name="name">pagados</field>
+            <field name="flow_stop">True</field>
+            <field name="kind">function</field>
+            <field name="action">pagados()</field>
+        </record>
+		
+        <record id="act_mora" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_autopolo_letras"/>
+            <field name="name">mora</field>
+            <field name="kind">function</field>
+            <field name="action">mora()</field>
+        </record>
+
+  		  
+<!-- TRANSITION -->
+       
+        <record id="t_pagado" model="workflow.transition">
+            <field name="act_from" ref="act_esperando"/>
+            <field name="act_to" ref="act_pagados"/>
+            <field name="signal">pagados</field>
+        </record>
+        
+        <record id="t_confirm" model="workflow.transition">
+            <field name="act_from" ref="act_esperando"/>
+            <field name="act_to" ref="act_mora"/>
+            <field name="signal">mora</field>
+        </record>
+        
+        <record id="t_confirm" model="workflow.transition">
+            <field name="act_from" ref="act_mora"/>
+            <field name="act_to" ref="act_pagados"/>
+            <field name="signal">pagados</field>
+        </record>
+    </data>
+</openerp>

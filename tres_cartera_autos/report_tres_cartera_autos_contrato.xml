@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+          
+<!--       <report id="tres_cartera_autos_contrato_report" string="Contrato" model="tres.cartera"
+      	name="tres.cartera.autos.contrato.report" rml="tres_cartera_autos/report/report_tres_cartera_autos_contrato.rml">
+      </report> 
+ -->
+    </data>
+</openerp>

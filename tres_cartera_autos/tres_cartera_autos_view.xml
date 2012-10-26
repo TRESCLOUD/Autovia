@@ -1,0 +1,651 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+	
+	<menuitem name="AUTOS" id="menu_tres_cartera" 
+	groups="group_tres_cartera_log,group_tres_cartera_gere"/>
+	
+	<record model="ir.actions.act_window" id="action_tres_cartera_form">
+		<field name="res_model">tres.cartera</field>
+		<field name="domain">[]</field>
+	</record>
+	<!-- #ICE search-->
+	<!-- #ICE search-->
+	<record model="ir.ui.view" id="tres_cartera_tree_search">
+        <field name="name">view.tres.cartera.search</field>
+        <field name="model">tres.cartera</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+		<search string="Busqueda de estados">
+                <filter string="Borrador" icon="terp-document-new" domain="[('state','=','draft')]"/>
+                <filter string="Espera" icon="gtk-go-forward" domain="[('state','=','confirm')]"/>
+                <filter string="Cartera" icon="terp-camera_test" domain="[('state','=','cartera')]"/>
+                               <separator orientation="vertical"/>
+                <filter string="No Aprobados" icon="gtk-cancel" domain="[('state','=','cancelled')]"/>
+	       	 	<newline/>
+                <field name="partner_id" string="Cliente" select="1"/>
+                <field name="name" string="Contrato" select="1"/>
+                <field name="product_id" string="Auto" select="1"/>
+            </search>
+        </field>
+     </record>
+	
+		<record model="ir.ui.view" id="tres_cartera_tree_search">
+        <field name="name">view.tres.cartera.search</field>
+        <field name="model">tres.cartera</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+		<search string="Busqueda de estados">
+                <filter string="Borrador" icon="terp-document-new" domain="[('state','=','draft')]"/>
+                <filter string="Espera" icon="gtk-go-forward" domain="[('state','=','confirm')]"/>
+                <filter string="Cartera" icon="terp-camera_test" domain="[('state','=','cartera')]"/>
+                <separator orientation ="vertical"/>
+                <filter string="No Aprobados" icon="gtk-cancel" domain="[('state','=','cancelled')]"/>
+	       	 	<newline/>
+                <field name="partner_id" string="Cliente" select="1"/>
+                <field name="name" string="Contrato" select="1"/>
+                <field name="product_id" string="Auto" select="1"/>
+            </search>
+        </field>
+     </record> 
+	
+    <record id="view_tres_cartera_tree" model="ir.ui.view">
+            <field name="name">view.tres.cartera.tree</field>
+            <field name="model">tres.cartera</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Solicitudes">
+                    <field name="name"/>
+                    <field name="date_creacion"/>
+                    <field name="partner_id"/>
+                    <field name="product_id"/>
+                    <field name="price" sum="Total"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+<!-- CR: Vista tree para el history -->
+
+    <record id="view_tres_cartera_history_tree" model="ir.ui.view">
+            <field name="name">view.tres.cartera.history.tree</field>
+            <field name="model">tres.cartera.history</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Historial">
+                    <field name="name" string="Codigo"/>
+                    <field name="partner_id"/>
+                    <field name="product_id"/>
+                    <field name="price"/>
+                    <field name="date_history"/>
+                </tree>
+            </field>
+        </record>
+       
+
+<!-- Vistas para cada tipo de pago -->
+
+<!-- ADICIONALES -->
+
+    <record id="view_tres_linea_estado_cuenta_adicional_form" model="ir.ui.view">
+	    <field name="name">Pago Adicional</field>
+	    <field name="model">tres.linea.estado.cuenta.adicional</field>
+	    <field name="type">form</field>
+	    <field name="arch" type="xml">
+			<form string="Adicional">
+				<field name="valor" on_change="onchange_general(meses, interes, valor)"/>
+				<field name="interes" on_change="onchange_general(meses, interes, valor)"/>
+				<!-- modificada la vista para los nuevos campos -->				                      
+				<field name="date_vencimiento"/>
+	       	 	<field name="meses" on_change="onchange_general(meses, interes, valor)"/>
+	       	 	<newline/>
+	       	 	<field name="valor_interes"/>
+	       </form>
+        </field>
+	</record>
+
+    <record id="view_tres_linea_estado_cuenta_adicional_tree" model="ir.ui.view">
+	    <field name="name">Pagos Adicionales</field>
+	    <field name="model">tres.linea.estado.cuenta.adicional</field>
+	    <field name="type">tree</field>
+	    <field name="arch" type="xml">
+			<tree string="Adicionales">
+                <field name="name"/>
+<!--                 <field name="descripcion"/> -->
+                <field name="meses"/>
+                <field name="interes"/>
+                <field name="valor"/>
+                <field name="valor_interes"/>
+				<!-- modificada la vista para los nuevos campos -->				                      
+                <field name="date_vencimiento"/>
+	       </tree>
+        </field>
+	</record>
+
+<!-- CUOTAS -->
+
+    <record id="view_tres_linea_estado_cuenta_cuota_form" model="ir.ui.view">
+	    <field name="name">Cuota</field>
+	    <field name="model">tres.linea.estado.cuenta.cuota</field>
+	    <field name="type">form</field>
+	    <field name="arch" type="xml">
+			<form string="Cuota">
+                <field name="name"/>
+				<!-- modificada la vista para los nuevos campos -->				                      
+                <field name="tipo_haber" readonly="1"/>
+                <field name="valor_interes" readonly="1"/>
+				<!-- modificada la vista para los nuevos campos -->				                      
+                <field name="date_vencimiento"/>
+	       </form>
+        </field>
+	</record>
+
+    <record id="view_tres_linea_estado_cuenta_cuota_tree" model="ir.ui.view">
+	    <field name="name">Cuotas</field>
+	    <field name="model">tres.linea.estado.cuenta.cuota</field>
+	    <field name="type">tree</field>
+	    <field name="arch" type="xml">
+			<tree string="Cuotas" editable="bottom">
+                <field name="name"/>
+                <field name="valor_interes" readonly="1"/>
+				<!-- modificada la vista para los nuevos campos -->				                      
+                <field name="date_vencimiento"/>
+	       </tree>
+        </field>
+	</record>
+
+<!-- Vistas para el formulario principal -->
+   
+	 <record model="ir.ui.view" id="view_tres_cartera_form">
+            <field name="name">view.cartera</field>
+            <field name="model">tres.cartera</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+           		 <form string="Tres Cartera">
+           		 <group col="4" colspan="4">
+                        <newline/>
+                        <separator string="Informacion de la Solicitud"/>
+                        <newline/>
+                        <field name="date_creacion" readonly="1"/>
+                        <field name="name"/>
+                        <field name="date_order"/>
+                        <newline/>
+                        <separator string="Cliente"/>
+                        <newline/>
+                        <group col="8" colspan="4">
+                        <field name="partner_id" required="1" string ="Cliente" on_change="onchange_partner_id(partner_id)" context="{'default_customer': 1,'search_default_customer':1,'default_supplier': 0}"/>
+                        <!-- 	<button name="action_partner_form_new" string ="Validar estado del cliente" states="draft" type="action" icon="terp-personal"/> -->
+                        <field name="cyg_partner_id" on_change="onchange_partner_id(partner_id)" context="{'default_customer': 0,'search_default_supplier':1,'default_conyugec': 1}" />
+                        </group>
+                    	<newline/>
+                    	<separator string="Garante"/>
+                    	<field name="sin_garante" colspan="4"/>
+                    	<group col="8" colspan="4">
+                    		<field name="garante_id" on_change="onchange_partner_id(partner_id)" context="{'default_customer': 0,'search_default_supplier':1,'default_supplier': 1}" attrs="{'invisible': [('sin_garante','=',True)]}"/>
+                    		<field name="cyg_garante_id" on_change="onchange_partner_id(partner_id)" context="{'default_customer': 0,'search_default_supplier':1,'default_conyugeg': 1}" attrs="{'invisible': [('sin_garante','=',True)]}"/>                    	
+                    	</group>
+                    	<separator string="Credito"/>
+                    	<newline/>
+                    	<field name="product_id" on_change="onchange_product_id(product_id)" />
+                    	<field name="price"/>
+                    	<field name="entrada" required="True"/>
+        				<field name="financiamiento" required="True"/>
+        				<field name="interes" />
+        				<field name="mora" invisible="True"/>
+        	<!--  			<field name="entrega" attrs="{'invisible': [('state','!=','accepted')]}" required="1"/>
+        	-->			<newline/>
+        				<notebook colspan="4">
+        					<page string="Estado de Cuenta" attrs="{'invisible': [('state','not in',('cartera','cancelada'))]}">
+							 <field colspan="4" name="lineaestado_ids" nolabel="1"
+							   	context="{'tree_view_ref' : 'tres_linea_estado_cuenta_tree_view_list'}" />
+ 		                    </page>
+		                    <page string="Adicionales" attrs="{'invisible': [('state','in',('cartera','cancelada'))]}">
+							  <field colspan="4" name="adicional_ids" nolabel="1" 
+							   	context="{'form_view_ref' : 'view_tres_linea_estado_cuenta_adicional_form', 
+							   	'tree_view_ref' : 'view_tres_linea_estado_cuenta_adicional_tree',
+							   	'partner_id':partner_id}"/>
+ 		                    </page>
+ 		                    <page string="Documentos">
+				                <separator string="Documentos del Cliente"/>
+								<group>
+								  <field name="copy_predio"/>	
+								  <field name="copy_rol"/>
+								  <field name="copy_ruc"/>
+								  <field name="copy_ci"/>
+								  <field name="copy_papeleta"/>
+								  <field name="copy_pago"/>
+								</group>
+								<!-- #ICE  -->
+								<group  attrs="{'readonly': [('state','=','invoiced')], 'invisible': [('sin_garante','=',True)]}">
+								<separator string="Documentos del Garante"/>
+								</group>
+								<group  attrs="{'readonly': [('state','=','invoiced')], 'invisible': [('sin_garante','=',True)]}">
+								  <field name="copy_predio_grt"/>	
+								  <field name="copy_rol_grt"/>
+								  <field name="copy_ruc_grt"/>
+								  <field name="copy_ci_grt"/>
+								  <field name="copy_papeleta_grt"/>
+								  <field name="copy_pago_grt"/>
+								</group>
+							</page>
+							<page string="Notas Para Gerencia" groups="base.group_system">
+								<group>
+			        				<field name="note" nolabel="1"/>
+								</group>
+							</page>
+ 		                    <!-- #ICE -->
+
+<!-- #ICE  --> 
+	                    </notebook>
+	                 <group colspan="4" col="7">
+	                 	<field name="monto_financiar"/>
+	                 	<field name="cuota_mes"/>
+	                 	<field name="total_letras"/>
+	                 	<field name="total_pagare"/>
+						<field name="total_pagare_texto"/>
+	                    <button name="button_dummy" string="Calcular" states="draft,confirm,accepted" icon="terp-stock_format-scientific"/>
+                      </group> 
+                       <separator colspan="4"/>
+                            <group colspan="4" col="8">
+                              <field name="state" widget="statusbar" statusbar_visible="draft,confirm,accepted,cartera" statusbar_colors='{"cancel":"red"}'/>                          
+                               <group col="5" colspan="5">                            		
+                                <group col="4" colspan="3" states="accepted,cartera" >
+                                	<!-- Cuotas icem-->
+                                	<button name="%(report_tres_cartera_autos_cuotas_cv)d" string="RESERVAS I" type="action" icon="gtk-print"/>
+                                	<button name="%(report_tres_cartera_autos_cuotas_cv2)d" string="RESERVAS II" type="action" icon="gtk-print"/>
+                                	<button name="%(report_tres_cartera_autos_cuotas_p)d" string="PAGARE" type="action" icon="gtk-print"/>
+                                	<button name="%(report_tres_cartera_autos_cuotas_c)d" string="CONTRATO" type="action" icon="gtk-print"/>
+                                	<button name="%(report_tres_cartera_autos_cuotas_m)d" string="MUTUO" type="action" icon="gtk-print"/>
+               						
+	                             </group> 
+                                <newline/>
+									<button name="confirm" states="draft" string="Validar" type="workflow" icon="gtk-ok"/>
+<!-- A.G <button name="confirm" states="draft" string="Validar" type="workflow" groups="tres_cartera_autos.group_tres_cartera_gere"/>-->
+                                	<button name="aceptar" states="confirm" string="Aprobar" type="workflow" icon="gtk-go-forward"/>                   
+             <!--A.G <button name="aceptar" states="confirm" string="Aprobar" type="workflow" groups="tres_cartera_autos.group_tres_cartera_admin"/>
+-->
+                                	<button name="cartera" states="accepted" string="Contrato Firmado" type="workflow" icon="gtk-copy" confirm="El contrato se encuentra Firmado?"/>
+									<button name="draft" states="confirm,accepted" string="Revisión" type="workflow" icon="terp-mrp"/>
+									<button name="refuse" states="draft,confirm,accepted" string="Anular" type="workflow" icon="gtk-cancel" />                                
+
+	                                <button name="pre_embargo" states="cartera" string="Pre-embargo" type="workflow" icon="gtk-copy"/> 
+    	                            <button name="embargo" states="pre_embargo" string="Embargar" type="workflow" icon="terp-sale"/>
+                                <!-- #ICE crear funcion de confiscar cambiar estado del auto activo, cambiar estados a confiscado del contrato, y letras sin pagos --> 
+	                                <button name="cancel_contrato" states="embargo" string="Confiscar" type="object" icon="terp-dialog-close" confirm="Esta seguro que desea confiscar"/>
+	                                <button name="cartera_reneg" states="renegociar" string="Cartera" type="workflow" icon="gtk-convert"/>                              
+                               <!--      cambios Ruth: Botones para renegociado -->
+    	                          	<button name="renegociar" states="cartera,pre_embargo,embargo" string="Renegociar" confirm="Está seguro que desea renegociar" icon="terp-stock_format-scientific" type="workflow"/>
+				               <!-- <button name="cartera" states="renegociar" string="Cartera" type="object" icon="gtk-convert"/> -->
+                               </group>
+                            </group>
+                    </group>   
+                </form>
+            </field>
+     </record>
+        	 
+	<record model="ir.ui.view" id="view_tres_cartera_history_form">
+            <field name="name">view.cartera.history</field>
+            <field name="model">tres.cartera.history</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+           		 <form string="Tres Cartera">
+           		 <group col="4" colspan="4">
+                        <newline/>
+                        <separator string="Historial de Contratos"/>
+                        <newline/>
+                        <field name="date_creacion" readonly="1"/>
+                        <field name="name" readonly="1"/>
+                        <field name="date_order" readonly="1"/>
+                        <newline/>
+                        <separator string="Cliente"/>
+                        <newline/>
+                        <field name="partner_id" readonly="1"/>
+                        <field name="cyg_partner_id" readonly="1"/>
+                    	<newline/>
+                    	<separator string="Garante"/>
+                    	<field name="sin_garante" colspan="4" />
+                    	<newline/>
+                    	<group col="4" colspan="4">
+                    		<field name="garante_id" readonly="1"/>
+                    		<field name="cyg_garante_id" readonly="1"/>                    	
+                    	</group>
+                    	<separator string="Credito"/>
+                    	<newline/>
+                    	<field name="product_id"/>
+                    	<field name="price" readonly="1"/>
+                    	<field name="entrada" />
+        				<field name="financiamiento"/>
+        				<field name="interes"/>
+        			<!--  	<field name="entrega" />-->
+        				<newline/>
+        				<notebook colspan="4">
+							<page string="Estado de Cuenta">
+					            <field colspan="4" name="lineaestado_ids" nolabel="1"
+							   	context="{'tree_view_ref' : 'tres_linea_estado_cuenta_tree_view_list'}"/>
+ 		                    </page>
+ 		                    <page string="Documentos">
+				                <separator string="Documentos del Cliente"/>
+								<group>
+								  
+								  <field name="copy_predio"/>	
+								  <field name="copy_rol"/>
+								  <field name="copy_ruc"/>
+								  <field name="copy_ci"/>
+								  <field name="copy_papeleta"/>
+								  <field name="copy_pago"/>
+								</group>
+								<separator string="Documentos del Garante"/>
+								<group >
+								  
+								  <field name="copy_predio_grt"/>	
+								  <field name="copy_rol_grt"/>
+								  <field name="copy_ruc_grt"/>
+								  <field name="copy_ci_grt"/>
+								  <field name="copy_papeleta_grt"/>
+								  <field name="copy_pago_grt"/>
+								</group>
+							</page>
+	                        <page string="Notas Para Gerencia" groups="base.group_system">
+								<group>
+			        				<field name="note" nolabel="1"/>
+								</group>
+							</page>
+ 		                </notebook>    
+        				<!-- <notebook colspan="4">
+		                    <page string="Adicionales">
+							   	<field colspan="4" name="adicional_ids" nolabel="1" 
+							   	context="{'form_view_ref' : 'view_tres_linea_estado_cuenta_adicional_form', 
+							   	'tree_view_ref' : 'view_tres_linea_estado_cuenta_adicional_tree',
+							   	'partner_id':partner_id}"/>
+ 		                    </page>
+        					<page string="Pagos" attrs="{'invisible': [('state','!=','cartera')]}">
+			                    <button name="%(action_tres_pagar_cuota)d" string="Pagar Cuota" type="action" states="cartera" attrs="{'readonly': [('cuota_ids','=',True)]}"/>  
+					            <field colspan="4" name="cuota_ids" nolabel="1"
+							   	context="{'form_view_ref' : 'view_tres_linea_estado_cuenta_cuota_form', 
+							   	'tree_view_ref' : 'view_tres_linea_estado_cuenta_cuota_tree'}"/>,
+							   	'partner_id':active_id}"/>
+		                    	<group>
+			                        <button name="create_letras"
+			                        string="Crear letras de Pago" 
+			                        type="object" icon="terp-document-new"/>     
+		                    	</group>
+	                        </page>
+	                        
+	                    </notebook> -->
+	                 <group colspan="4" col="7">
+	                 	<field name="monto_financiar"/>
+	                 	<field name="cuota_mes"/>
+	                 	<field name="total_letras"/>
+	                 	<field name="total_pagare"/>
+						<field name="total_pagare_texto"/> 
+                     </group>
+                    </group>   
+                </form>
+            </field>
+     </record>
+        	 
+	<record model="ir.actions.act_window" id="action_tres_cartera_form">
+	    <field name="name">Solicitud de Credito</field>
+	    <field name="type">ir.actions.act_window</field>
+	    <field name="res_model">tres.cartera</field>
+	    <field name="view_type">form</field>
+	    <field name="view_mode">form</field>
+	    <field name="view_id" eval="False"/>
+	    <field name="domain">[]</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="action_tres_cartera_tree">
+	   <field name="name">Solicitud de Credito</field>
+	   <field name="type">ir.actions.act_window</field>
+	   <field name="res_model">tres.cartera</field>
+	   <field name="view_type">form</field>
+	   <field name="view_mode">tree,form</field>
+	   <field name="view_id" ref="view_tres_cartera_tree"/>
+	   <field name="search_view_id" ref="tres_cartera_tree_search"/>
+	   
+	</record>
+	<!-- CR: Accion vista History -->
+	<record model="ir.actions.act_window" id="action_tres_cartera_history_tree">
+	   <field name="name">Historial</field>
+	   <field name="type">ir.actions.act_window</field>
+	   <field name="res_model">tres.cartera.history</field>
+	   <field name="view_type">form</field>
+	   <field name="view_mode">tree,form</field>
+	   <field name="view_id" ref="view_tres_cartera_history_tree"/>
+	</record>
+<!-- 	#ICE REPORTES -->
+	<record model="ir.ui.view" id="tres_cartera_manager_search">
+        <field name="name">Busqueda de Contratos</field>
+        <field name="model">tres.cartera</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+		<search string="Busqueda de Contratos">
+				<filter string="Por Confirmar" icon="gtk-go-forward" domain="[('state','=','confirm')]"/>
+                <filter string="Contrato por Firmar"  icon="terp-camera_test" domain="[('state','=','accepted')]"/>
+                <filter string="Contrato firmados"  icon="terp-purchase" domain="[('state','=','cartera')]"/>
+            </search>
+        </field>
+     </record>
+     <record model="ir.ui.view" id="tres_cartera_manager_search_cont_firmados">
+        <field name="name">Busqueda de Contratos Firmados</field>
+        <field name="model">tres.cartera</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+		<search string="Busqueda de Contratos Firmados">
+				<!-- <filter string="Por Confirmar" icon="gtk-go-forward" domain="[('state','=','confirm')]"/>
+                <filter string="Contrato por Firmar"  icon="terp-camera_test" domain="[('state','=','accepted')]"/>
+                 --><filter string="Contrato firmados"  icon="terp-purchase" domain="[('state','=','cartera')]"/>
+            </search>
+        </field>
+     </record>
+     
+     <record model="ir.ui.view" id="tres_cartera_estado_cuenta_search">
+        <field name="name">view.tres.cartera.search</field>
+        <field name="model">tres.linea.estado.cuenta</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+		<search string="Busqueda de estado de cuenta">              
+                <filter string ="Esperando Pago" icon="terp-dolar_ok!" domain="[('state','=','espera')]"/>
+				<filter string ="Abonado" icon="terp-dolar" domain="[('state','=','abonado')]"/>
+				<filter string ="Pagado" icon="terp-camera_test" domain="[('state','=','pagado')]"/>                
+			<!-- 	<separator orientation="vertical"/>
+				<filter string ="anulados" icon="terp-dolar_ok!" domain="[('state','=','anulado')]"/>
+				<filter string ="embargados" icon="terp-dolar" domain="[('state','=','embarga')]"/>
+				<filter string ="cancelados" icon="terp-camera_test" domain="[('state','=','cancelado')]"/>                
+ -->
+            </search>
+        </field>
+     </record>
+       <record model="ir.ui.view" id="tres_cartera_estado_cuenta_search_mora">
+        <field name="name">view.tres.cartera.search</field>
+        <field name="model">tres.linea.estado.cuenta</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+		<search string="Busqueda de estados">              
+                <filter string ="Esperando Pago" icon="terp-dolar_ok!" domain="[('state','=','espera')]"/>
+				<filter string ="Abonado" icon="terp-dolar" domain="[('abonado','!=',0.0)]"/>
+				<filter string ="Pagado" icon="terp-camera_test" domain="[('state','=','cancelado')]"/>                
+            </search>
+        </field>
+     </record>
+     
+     <record model="ir.ui.view" id="tres_cartera_embargo_search">
+        <field name="name">Busqueda de embargos</field>
+        <field name="model">tres.cartera</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+		<search string="Busqueda de embargos">              
+				<filter string ="anulados" icon="gtk-cancel" domain="[('state','=','refuse')]"/>
+		<separator orientation="vertical"/>
+				<filter string ="embargados" icon="terp-dolar_ok!" domain="[('state','=','embargo')]"/>
+       	<separator orientation="vertical"/>
+				<filter string ="cancelados" icon="terp-camera_test" domain="[('state','=','cancelada')]"/>                
+		</search>
+        </field>
+     </record>
+     
+
+	<!-- #ICE TELEFONO -->
+	 <!-- Scheduled a phonecall search view-->
+    <record id="view_crm_case_scheduled_phonecalls_filter" model="ir.ui.view">
+        <field name="name">CRM - Scheduled Calls Search</field>
+        <field name="model">crm.phonecall</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Scheduled Phonecalls">
+               <filter icon="terp-gtk-go-back-rtl" string="To Do" name="current" domain="[('state','=','open')]"/>    
+               <separator orientation="vertical"/>
+               <filter icon="terp-go-today" string="Today"
+                   domain="[('date','&lt;', time.strftime('%%Y-%%m-%%d 23:59:59')),
+                    ('date','&gt;=',time.strftime('%%Y-%%m-%%d 00:00:00'))]"
+                   name="today"
+                   help="Todays's Phonecalls"
+               />
+               <filter icon="terp-go-week"
+                   string="7 Days"
+                   help="Phonecalls during last 7 days"
+                   domain="[('date','&gt;=',(datetime.date.today()-datetime.timedelta(days=7)).strftime('%%Y-%%m-%%d'))]"
+               />
+
+               <separator orientation="vertical"/>
+               <field name="name"/>
+               <field name="partner_id" string ="Persona"/>
+               <field name="user_id">
+                   <filter icon="terp-personal-"
+                       domain="[('user_id','=',False)]"
+                       help="Unassigned Phonecalls" />
+               </field>
+               <newline/>
+               <group expand="0" string="Group By...">
+                   <filter string="Partner" icon="terp-partner" domain="[]"
+                       context="{'group_by':'partner_id'}" />
+                   <filter string="Responsible" icon="terp-personal"
+                       domain="[]" context="{'group_by':'user_id'}" />
+                   <separator orientation="vertical" />
+                   <filter string="Creation" icon="terp-go-month" help="Creation Date"
+                       domain="[]" context="{'group_by':'create_date'}" />
+                   <filter string="Date" icon="terp-go-month" domain="[]"
+                       context="{'group_by':'date'}" help="Date of Call" />
+               </group>
+           </search>
+        </field>
+    </record>   
+	
+	<record model="ir.actions.act_window" id="crm_case_categ_phone_outgoing0">
+        <field name="name">Llamadas planificadas</field>
+        <field name="res_model">crm.phonecall</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,calendar</field>
+        <field name="view_id" ref="crm.crm_case_phone_tree_view"/>
+        <field name="domain">[('state','!=','done')]</field>
+        <field name="context" eval="'{\'search_default_section_id\':section_id, \'default_state\':\'open\', \'search_default_current\':1}'"/>
+        <field name="search_view_id" ref="view_crm_case_scheduled_phonecalls_filter"/>
+        <field name="help">Scheduled calls list all the calls to be done by your sales team. A salesman can record the information about the call in the form view. This information will be stored in the partner form to trace every contact you have with a customer. You can also import a .CSV file with a list of calls to be done by your sales team.</field>
+    </record>	
+	<record model="ir.actions.act_window.view" id="action_crm_tag_form_phone0">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="crm.crm_case_phone_form_view"/>
+        <field name="act_window_id" ref="crm_case_categ_phone_outgoing0"/>
+    </record>
+    <record model="ir.actions.act_window.view" id="action_crm_tag_tree_phone0">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="crm.crm_case_phone_tree_view"/>
+        <field name="act_window_id" ref="crm_case_categ_phone_outgoing0"/>
+    </record>
+	<record id="view_crm_case_phonecalls_filter" model="ir.ui.view">
+        <field name="name">CRM - Phone Calls Search</field>
+        <field name="model">crm.phonecall</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Search Phonecalls">
+               <filter icon="terp-go-today" string="Today"
+                   domain="[('date','&lt;', time.strftime('%%Y-%%m-%%d 23:59:59')),
+                    ('date','&gt;=',time.strftime('%%Y-%%m-%%d 00:00:00'))]"
+                   name="today"
+                   help="Todays's Phonecalls"
+               />
+               <filter icon="terp-go-week"
+                   string="7 Days"
+                   help="Phonecalls during last 7 days"
+                   domain="[('date','&gt;=',(datetime.date.today()-datetime.timedelta(days=7)).strftime('%%Y-%%m-%%d'))]"
+               />
+
+               <separator orientation="vertical"/>
+               <field name="name"/>
+               <field name="partner_id" string="Persona"/>
+               <field name="user_id">
+                   <filter icon="terp-personal-"
+                       domain="[('user_id','=',False)]"
+                       help="Unassigned Phonecalls" />
+               </field>
+               <newline/>
+               <group expand="0" string="Group By...">
+                   <filter string="Persona" icon="terp-partner" domain="[]"
+                       context="{'group_by':'partner_id'}" />
+                   <filter string="Responsible" icon="terp-personal"
+                       domain="[]" context="{'group_by':'user_id'}" />
+                   <separator orientation="vertical" />
+                   <filter string="Creation" icon="terp-go-month" help="Creation Date"
+                       domain="[]" context="{'group_by':'create_date'}" />
+                   <filter string="Date" icon="terp-go-month" domain="[]"
+                       context="{'group_by':'date'}" help="Date of Call" />
+               </group>
+           </search>
+        </field>
+    </record>
+	
+	 <record model="ir.actions.act_window" id="crm_case_categ_phone_incoming0">
+        <field name="name">Registro de Llamadas</field>
+        <field name="res_model">crm.phonecall</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,calendar</field>
+        <field name="view_id" ref="crm.crm_case_inbound_phone_tree_view"/>
+        <field name="domain">[]</field>
+        <field name="context" eval="'{\'search_default_section_id\':section_id}'"/>
+        <field name="search_view_id" ref="view_crm_case_phonecalls_filter"/>
+        <field name="help">This tool allows you to log your inbound calls on the fly. Each call you get will appear on the partner form to trace every contact you have with a partner. From the phone call form, you can trigger a request for another call, a meeting or an opportunity.</field>
+    </record>
+    
+    
+    
+<!--#ICE Menu  -->	
+	<menuitem name="Venta de autos" parent="menu_tres_cartera" id="menu_ventas" action="action_tres_cartera_form" sequence="1" />	 
+	<menuitem name="Solicitud de Credito" parent="menu_ventas" id="menu_credit"	action="action_tres_cartera_tree" sequence="3" />
+	<menuitem name="Datos de Creditos" parent="menu_tres_cartera" id="menu_conf" action="action_tres_cartera_form" sequence="2" />
+	<menuitem name="Pagos" parent="menu_tres_cartera" id="menu_pagos" sequence="2" groups="group_tres_cartera"/>
+	      
+<!-- CR: Menu vista History -->
+<!-- CONFIGURACION-->
+	<menuitem name="Configuracion" id="menu_config" groups="group_tres_cartera_gere"/>
+ 	<menuitem name="Usuarios" id="menu_usuarios" parent="menu_config" action="base.action_res_users" groups="tres_cartera_autos.group_tres_cartera_gere"/>
+	<menuitem name="Companias" id="menu_companias" parent="menu_config"/>
+	<menuitem action="base.action_res_company_tree" groups="base.group_multi_company,tres_cartera_autos.group_tres_cartera_gere"
+            id="menu_compania_es" parent="menu_companias" sequence="1"/>
+    <menuitem action="base.action_res_company_form" groups="tres_cartera_autos.group_tres_cartera_gere" 
+    id="menu_compania" parent="menu_companias" sequence="2"/>	
+<!--CAJA-->
+	<menuitem name="Caja" id="menu_caja" parent="menu_tres_cartera"/>
+    <menuitem name="Caja" action="point_of_sale.action_new_bank_statement_all_tree" id="menu_caja_registradora" groups="tres_cartera_autos.group_tres_cartera"
+    	parent="menu_caja" sequence="2"/>
+    <menuitem
+            name="Abrir Cajas" parent="menu_caja"
+            string="Abrir Cajas"
+            action="point_of_sale.action_pos_open_statement"
+            id="menu_open_statement1" sequence="1"
+            groups="tres_cartera_autos.group_tres_cartera" />
+	<!-- <menuitem name="Borrar"	parent="menu_tres_cartera" id="menu_borrar"	action="action_tres_cartera_tree" sequence="5" /> --> 
+	<!-- <menuitem name="Historial" parent="menu_borrar"	id="menu_sol_credit" action="action_tres_cartera_history_tree" sequence="4" /> --> 
+	<menuitem name="Egresos" parent="menu_tres_cartera" id="menu_egreso" sequence="6" groups="group_tres_cartera"/>
+	<menuitem name="Realizar Egreso" parent="menu_egreso" id="realizar_egreso" action="action_box_out" sequence="6" groups="group_tres_cartera"/>
+	<menuitem name="Listado de Egresos" parent="menu_egreso" id="listado_egreso" action="action_egreso_view" sequence="6" groups="group_tres_cartera"/>
+
+<!-- #ICE registro de llamadas-->
+	<menuitem name="Llamadas Telefónicas" parent="menu_tres_cartera" id="menu_phone"	action="action_tres_cartera_form" sequence="2" />
+    <menuitem name="Registro de llamadas" id="menu_crm_case_phone_inbound" parent="menu_phone" action="crm_case_categ_phone_incoming0" />
+    <menuitem name="Llamadas Planificadas" id="menu_crm_case_phone_outbound" parent="menu_phone" action="crm_case_categ_phone_outgoing0" />
+
+</data>
+</openerp>
+

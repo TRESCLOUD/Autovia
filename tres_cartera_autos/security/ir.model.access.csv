@@ -1,0 +1,46 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tres_cartera_autos_user,tres.cartera.autos.user,model_tres_cartera,group_tres_cartera_log,1,1,1,1
+access_tres_linea_estado_cuenta_log,tres.linea.estado.cuenta.log,model_tres_linea_estado_cuenta,group_tres_cartera_log,1,1,1,1
+access_product_product_auto_log,product.product.auto.log,tres_cartera_autos.model_product_product_auto,group_tres_cartera_log,1,1,1,1
+access_tres_linea_estado_cuenta_adicional_log,tres.linea.estado.cuenta.adicional.log,model_tres_linea_estado_cuenta_adicional,group_tres_cartera_log,1,1,1,1
+access_stock_warehouse_orderpoint_manager,stock.warehouse.orderpoint,procurement.model_stock_warehouse_orderpoint,group_tres_cartera_log,1,0,0,0
+access_product_product,product.product,product.model_product_product,group_tres_cartera_log,1,1,1,1
+access_product_template,product.template,product.model_product_template,group_tres_cartera_log,1,1,1,1
+access_res_partner_log,res.partner.log,model_res_partner,group_tres_cartera_log,1,1,1,1
+access_res_partner_address_log,res.partner.address log,base.model_res_partner_address,group_tres_cartera_log,1,1,1,1
+access_tres_cartera_cobro_log,tres.cartera.cobro log,model_tres_cartera_cobro,group_tres_cartera,1,1,1,1
+access_tres_linea_estado_cuenta_abono_log,tres.linea.estado.cuenta.abono log,model_tres_linea_estado_cuenta_abono,group_tres_cartera,1,1,1,1
+access_product_product_supplierinfo_cartera,product.supplierinfo cartera,product.model_product_supplierinfo,group_tres_cartera_log,1,0,0,0
+access_product_product_packaging_cartera,product.packaging cartera,product.model_product_packaging,group_tres_cartera_log,1,0,0,0
+access_stock_warehouse_log,stock.warehouse log,stock.model_stock_warehouse,group_tres_cartera_log,1,0,0,0
+access_stock_location_log,stock.location log,stock.model_stock_location,group_tres_cartera_log,1,0,0,0
+access_product_uom_log,product.uom log,product.model_product_uom,group_tres_cartera_log,1,1,1,1
+access_tres_cartera_egreso_cartera,tres.cartera.egreso cartera,model_tres_cartera_egreso,group_tres_cartera,1,1,1,1
+access_account_bank_statement_cartera,account.bank.statement cartera,account.model_account_bank_statement,group_tres_cartera,1,1,1,1
+access_account_cashbox_line_cartera,account.cashbox.line cartera,account.model_account_cashbox_line,group_tres_cartera,1,1,1,0
+access_account_journal_cartera,account.journal cartera,account.model_account_journal,group_tres_cartera,1,1,1,0
+access_account_move_line_cartera,account.move.line cartera,account.model_account_move_line,group_tres_cartera,1,1,1,0
+access_account_move cartera,account.move cartera,account.model_account_move,group_tres_cartera,1,1,1,1
+access_account_bank_statement_line_cartera,account.bank.statement.line cartera,account.model_account_bank_statement_line,group_tres_cartera,1,1,1,0
+access_account_journal_view_cartera,account.journal.view cartera,account.model_account_journal_view,group_tres_cartera,1,1,1,0
+access_account_period_pos_cartera,account.period cartera,account.model_account_period,group_tres_cartera,1,1,1,0
+access_account_journal_column_cartera,account.journal.column cartera,account.model_account_journal_column,group_tres_cartera,1,1,1,0
+access_account_sequence_fiscalyear_cartera,account.sequence.fiscalyear cartera,account.model_account_sequence_fiscalyear,group_tres_cartera_log,1,0,0,0
+access_res_users_gerencia,res.users gerencia,base.model_res_users,group_tres_cartera_gere,1,1,1,1
+access_account_account_gerencia,account.account gerencia,account.model_account_account,group_tres_cartera_gere,1,1,1,1
+access_res_partner_bank_gerencia,res.partner.bank gerencia,account.model_res_partner_bank,group_tres_cartera_gere,1,1,1,1
+access_res_company_gerencia,res.company gerencia,base.model_res_company,group_tres_cartera_gere,1,1,1,1
+access_crm_phonecall_log,crm.phonecall log,crm.model_crm_phonecall,group_tres_cartera_log,1,1,1,1
+access_tres_linea_estado_cuenta_cuota_gere,tres.linea.estado.cuenta.cuota gere,model_tres_linea_estado_cuenta_cuota,group_tres_cartera_log,1,1,1,1
+access_account_journal_period_cartera,account.journal.period cartera,account.model_account_journal_period,group_tres_cartera,1,1,1,1
+access_account_account_analytic_line_cartera,account.analytic.line cartera,account.model_account_analytic_line,group_tres_cartera,1,1,1,1
+access_crm_meeting_log,crm.meeting log,crm.model_crm_meeting,group_tres_cartera_log,1,1,1,1
+access_crm_lead_log,crm.lead log,crm.model_crm_lead,group_tres_cartera_log,1,1,1,1
+access_account_fiscalyear_log,account.fiscalyear log,account.model_account_fiscalyear,group_tres_cartera_log,1,1,1,1
+access_ir_property_log,ir.property log,base.model_ir_property,group_tres_cartera_log,1,1,1,1
+access_referencia_personal_log,referencia.personal log,model_referencia_personal,group_tres_cartera_log,1,1,1,1
+access_referencia_bancos_log,referencia.bancos log,model_referencia_bancos,group_tres_cartera_log,1,1,1,1
+access_account_invoice_line_log,account.invoice.line log,account.model_account_invoice_line,group_tres_cartera_log,1,1,1,1
+access_tres_cartera_history_log,tres.cartera.history log,model_tres_cartera_history,group_tres_cartera_log,1,1,1,1
+access_referencia_bancarias_log,referencia.bancarias log,model_referencia_bancarias,group_tres_cartera_log,1,1,1,1
+access_product_category_log,product.category log,product.model_product_category,group_tres_cartera,1,1,1,1

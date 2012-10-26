@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--  Box Entries -->
+        <record id="view_tres_cartera_egreso" model="ir.ui.view">
+            <field name="name">Egreso</field>
+            <field name="model">tres.cartera.egreso</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Salida de dinero">
+                        <separator string="Describe why you take money from the cash register:" colspan="4"/>
+                       <!--  <field name="name"/> -->
+                        <field name="tipo_egreso"/>
+                  		<group attrs="{'invisible': [('tipo_egreso','!=','cliente')]}">
+                        	<field name="tipo_gasto"/>                  
+                  			<field name="res_partner_id"/>
+                        	<field name="tres_cartera_id" domain ="[('partner_id','=',res_partner_id)]"/>
+                        </group>
+                        <separator string="Caja" colspan="4"/>
+                        
+                        <field name="date"/>
+                        <field name="amount"/>
+                        <field name="journal_id"/>
+                        <field name="detalle" colspan="4"/>                        
+                        <separator colspan="4"/>
+                        <group colspan="4" col="4">
+                            <group col="2" colspan="2"/>
+                             <button icon="gtk-stop" special="cancel"
+                                string="Cancel" />
+                        	<button name="update" string="Aceptar" colspan="1" type="object" context = "{'tipo_gasto':tipo_gasto}"/>
+                            <button name="%(report_tres_cartera_egreso)d" string="Comprobante" type="action" icon="gtk-print"/>
+                       </group>
+                </form>
+            </field>
+        </record>
+<!-- #ICE  -->
+	<record model="ir.ui.view" id="view_egreso_view">
+		    <field name="name">tres.cartera.egreso.view</field>
+		    <field name="model">tres.cartera.egreso</field>
+		    <field name="type">tree</field>
+		    <field name="arch" type="xml">
+		        <tree string="Egresos">
+                    <field name="name" select="1"/>
+                    <field name="res_partner_id" /> 
+                    <field name="tipo_egreso" string="Tipo de Egreso"/>
+	         		<field name="tipo_gasto" string="Tipo de Gasto"/> 
+ 	         		<field name="amount" /> 
+       				<field name="date"/>
+       				<field name="detalle"/>
+		        </tree>
+		    </field>
+		</record>
+		
+		<record id="view_res_egreso_filter" model="ir.ui.view">
+            <field name="name">tres.cartera.egreso.select</field>
+            <field name="model">tres.cartera.egreso</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Busqueda Egreso">
+                   <group col='10' colspan='4'>
+                        <filter string="Gastos de Cliente" name="tipo_egreso" icon="terp-personal" domain="[('tipo_egreso','=','cliente')]"/>
+                        <filter string="Gastos Embargo" name="tipo_gasto" icon="terp-personal" domain="[('tipo_gasto','=','embargo')]"/>
+                        <separator orientation="vertical"/>                     
+                        <filter string="Gastos Empresa" name="tipo_egreso" icon="terp-personal+" domain="[('tipo_egreso','=','empresa')]"/>
+                        <filter string="Otros Gastos" name="tipo_gasto" icon="terp-personal" domain="[('tipo_gasto','=','otro')]"/>
+                        <separator orientation="vertical"/>
+                        <field name="name" select="1"/>
+                        <field name="res_partner_id" select="1"/>
+                        <field name="date" select="1"/>
+						<field name="amount" select="1"/>
+                        <!-- <field name="user_id" select="1">
+                            <filter help="My Partners" icon="terp-personal+" domain="[('user_id','=',uid)]"/>
+                        </field> -->
+                   </group>
+<!--                    <newline />
+                   <group expand="0" string="Group By...">
+                       <filter string="Salesman" icon="terp-personal" domain="[]" context="{'group_by' : 'user_id'}" />
+                   </group> -->
+               </search>
+            </field>
+        </record>
+
+       <record id="action_egreso_view" model="ir.actions.act_window">
+            <field name="name">Personas</field>
+            <field name="view_id" ref="view_egreso_view"/>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tres.cartera.egreso</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="context">{"search_default_customer":1}</field>
+            <field name="search_view_id" ref="view_res_egreso_filter"/>
+            <field name="help">A customer is an entity you do business with, like a company or an organization. A customer can have several contacts or addresses which are the people working for this company. You can use the history tab, to follow all transactions related to a customer: sales order, emails, opportunities, claims, etc. If you use the email gateway, the Outlook or the Thunderbird plugin, don't forget to register emails to each contact so that the gateway will automatically attach incoming emails to the right partner.</field>
+        </record>
+		
+
+        <record id="action_box_out" model="ir.actions.act_window">
+            <field name="name">Take Money Out</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tres.cartera.egreso</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+<!--             <field name="view_id" ref="view_tres_cartera_egreso"/> -->
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

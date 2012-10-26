@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+              
+     <record model="ir.actions.act_window" id="action_view_tres_cartera_tree_board_embargo">
+        <field name="name">view.tres.cartera.tree.board.embargo</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">tres.cartera</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','=','embargo')]</field>
+        <field name="view_id" ref="view_tres_cartera_tree"/>
+        <field name="search_view_id" ref="tres_cartera_embargo_search"/>
+        
+    </record>
+
+    <record model="ir.actions.act_window" id="action_tres_linea_estado_cuenta_tree_view_board">
+        <field name="name">tres.linea.estado.cuenta.tree</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">tres.linea.estado.cuenta</field>
+        <!-- Cambio del nombre del campo date_pago -->
+		<field name="domain">[('date_vencimiento','&lt;',time.strftime('%Y-%m-%d')),('state','in',('espera','pagado'))]</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="tres_linea_estado_cuenta_tree_view_board"/>
+        <field name="search_view_id" ref="tres_cartera_estado_cuenta_search"/>
+    </record>
+    
+    <record model="ir.actions.act_window" id="action_tres_linea_estado_cuenta_tree_view_board_mora">
+        <field name="name">tres.linea.estado.cuenta.tree</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">tres.linea.estado.cuenta</field>
+        <!-- Cambio del nombre del campo date_pago -->
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="tres_linea_estado_cuenta_tree_view_board"/>
+        <field name="search_view_id" ref="tres_cartera_estado_cuenta_search_mora"/>
+    </record>
+
+      <record model="ir.actions.act_window" id="action_view_tres_cartera_tree_board_pendiente">
+        <field name="name">view.tres.cartera.tree.board.pendiente</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">tres.cartera</field>
+		<field name="domain">[('state','in',('draft','confirm','accepted'))]</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tres_cartera_tree"/>
+        <field name="search_view_id" ref="tres_cartera_manager_search"/>
+    </record>
+    
+   <record model="ir.actions.act_window" id="action_view_tres_cartera_tree_contratos">
+        <field name="name">view.tres.cartera.tree.contratos</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">tres.cartera</field>
+		<field name="domain">[('state','in',('confirm','accepted','cartera'))]</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tres_cartera_tree"/>
+        <field name="search_view_id" ref="tres_cartera_manager_search"/>
+    </record>
+    
+    
+     <record model="ir.actions.act_window" id="action_view_tres_cartera_tree_board_firmado">
+        <field name="name">view.tres.cartera.tree.board.firmados</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">tres.cartera</field>
+		<field name="domain">[('state','=',('cartera'))]</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tres_cartera_tree"/>
+        <field name="search_view_id" ref="tres_cartera_manager_search_cont_firmados"/>
+    </record>
+    
+    
+ <!-- Dashboard para cartera: se debe crear el dashboard, la accion y relacionar al menu -->
+
+        <record id="board_cartera_form" model="ir.ui.view">
+            <field name="name">board.cartera.form</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Tablero Cartera Autos">
+                    <board style="1-1">
+                        <column>
+                            <action name="%(tres_cartera_autos.action_view_tres_cartera_tree_board_pendiente)d" string="Solicitudes Pendientes" creatable="true"/> 
+							<action name="%(tres_cartera_autos.action_tres_linea_estado_cuenta_tree_view_board)d" string="Pagos pendientes"/>
+                            <action name="%(tres_cartera_autos.action_view_tres_cartera_tree_board_embargo)d" string="Contratos Embargados"/> 
+                        </column>
+                        <column>
+                            <action name="%(tres_cartera_autos.action_tres_cartera_cliente_tree_view)d" string="Contratos con Pagos pendientes"/>
+                        </column>
+                   </board>
+                </form>
+            </field>
+        </record>
+<menuitem name="Reportes" parent="menu_tres_cartera" id="menu_reportes"	action="action_tres_cartera_form" sequence="2" groups="group_tres_cartera_gere,group_tres_cartera_admin"/>
+	
+	<menuitem name="Contratos activos" parent="menu_reportes" id="reportes_activos"	action="action_view_tres_cartera_tree_contratos" sequence="2" />	
+	<!-- <menuitem name="Contratos Firmados" parent="menu_reportes" id="reportes_firmados"	action="action_view_tres_cartera_tree_board_firmado" sequence="1" /> -->
+	<!-- <menuitem name="Estado de Cuotas" parent="menu_reportes" id="reportes_estado_cuenta"	action="action_tres_linea_estado_cuenta_tree_view_board" sequence="3" /> -->
+	<menuitem name="Estado de Cuotas" parent="menu_reportes" id="reportes_estado_cuenta_mora"	action="action_tres_linea_estado_cuenta_tree_view_board_mora" sequence="3" />
+	<menuitem name="Embargos" parent="menu_reportes" id="reportes_embargos"	action="action_view_tres_cartera_tree_board_embargo" sequence="4" />
+ 
+        <record id="open_board_cartera" model="ir.actions.act_window">
+            <field name="name">Tablero Cartera Autos</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="board_cartera_form"/>
+        </record>
+
+<!-- Menu separado que mostraba el dashboard, ahora se acopla almenu principal de autos
+ 		<menuitem id="tres_cartera_cobro_menu" name="tres_cartera_cobro" parent="" action="open_board_cartera"/>
+ -->
+ <!--#ICE Menu  -->	
+ 		<menuitem id="menu_tres_cartera" 
+ 		name="CREDITO DE AUTOS" 
+ 		action="open_board_cartera"
+ 		groups="group_tres_cartera"/>
+ 
+<!--          
+		<menuitem id="menu_dashboard_acc" name="Dashboard" sequence="2" parent="account.menu_finance_reporting" groups="group_account_user,group_account_manager"/>
+        <menuitem action="open_board_account" icon="terp-graph" id="menu_board_account" parent="menu_dashboard_acc" sequence="1"/>
+        <menuitem icon="terp-account" id="account.menu_finance" name="Accounting" sequence="14" action="open_board_account"/>
+		
+		<menuitem icon="terp-account" id="menu_finance" name="Accounting" sequence="13"
+	        groups="group_account_user,group_account_manager,group_account_invoice"
+	        web_icon="images/accounting.png"
+	        web_icon_hover="images/accounting-hover.png"/>
+-->	
+
+    <record model="ir.actions.act_window" id="open_adicional">
+        <field name="name">open.adicional</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">tres.linea.estado.cuenta</field>
+<!-- 		<field name="domain">[('state','in',('draft','confirm','accepted'))]</field> -->
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tres_linea_estado_cuenta_adicional_form"/>
+    </record>
+
+	<!-- <menuitem id="menu_tres_cartera_test_adicional" name="Adicional" action="open_adicional" parent="menu_borrar"/> -->
+
+	         
+	</data>
+</openerp>

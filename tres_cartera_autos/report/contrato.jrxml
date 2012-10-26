@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contratoCuotas" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="396"/>
+	<style name="Heading 1" fontSize="16" isBold="true"/>
+	<style name="Text Body" hAlign="Justified"/>
+	<queryString language="xPath">
+		<![CDATA[/data/record/]]>
+	</queryString>
+	<field name="Calle-street2" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Contactos-address/Calle-street]]></fieldDescription>
+	</field>
+	<field name="Calle2-street2" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Contactos-address/Calle2-street2]]></fieldDescription>
+	</field>
+	<field name="Nombre_del_contacto-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Contactos-address/Nombre_del_contacto-name]]></fieldDescription>
+	</field>
+	<field name="Cargo-cargo" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Cargo-cargo]]></fieldDescription>
+	</field>
+	<field name="No._Motor-motor2" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/No._Motor-motor]]></fieldDescription>
+	</field>
+	<field name="Matriculado-matriculado" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/Matriculado-matriculado]]></fieldDescription>
+	</field>
+	<field name="CAE__Placa-cae" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/CAE__Placa-cae]]></fieldDescription>
+	</field>
+	<field name="Name-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/Name-name]]></fieldDescription>
+	</field>
+	<field name="No._Chasis-chasis" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/No._Chasis-chasis]]></fieldDescription>
+	</field>
+	<field name="Propietario-propietario" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/Propietario-propietario]]></fieldDescription>
+	</field>
+	<field name="Calle-street" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Contactos-address/Calle-street]]></fieldDescription>
+	</field>
+	<field name="Cedula-cedula" class="java.lang.String">
+		<fieldDescription><![CDATA[child::text()]]></fieldDescription>
+	</field>
+	<field name="Modelo-modelo" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/Modelo-modelo]]></fieldDescription>
+	</field>
+	<field name="Telefono-phone" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Contactos-address/Telefono-phone]]></fieldDescription>
+	</field>
+	<field name="No._Motor-motor" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/No._Motor-motor]]></fieldDescription>
+	</field>
+	<field name="Year-anio" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/Year-anio]]></fieldDescription>
+	</field>
+	<field name="Telefono-flia_telf" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Contactos-address/Telefono-flia_telf]]></fieldDescription>
+	</field>
+	<field name="Numero-numero" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/Numero-numero]]></fieldDescription>
+	</field>
+	<field name="Clase-clase" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/Clase-clase]]></fieldDescription>
+	</field>
+	<field name="Movil-mobile" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Contactos-address/Movil-mobile]]></fieldDescription>
+	</field>
+	<field name="Profesion-profesion" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Profesion-profesion]]></fieldDescription>
+	</field>
+	<field name="Color-color" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/Color-color]]></fieldDescription>
+	</field>
+	<field name="Cedula-cedula2" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Cedula-cedula]]></fieldDescription>
+	</field>
+	<field name="Nombre-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="No._Motor-motor3" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/No._Motor-motor]]></fieldDescription>
+	</field>
+	<field name="Total_Pagare-total_pagare" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Total_Pagare-total_pagare]]></fieldDescription>
+	</field>
+	<field name="Total_Pagare__Texto-total_pagare_texto" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Total_Pagare__Texto-total_pagare_texto]]></fieldDescription>
+	</field>
+	<field name="Financiamiento__En_meses-financiamiento" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Financiamiento__En_meses-financiamiento]]></fieldDescription>
+	</field>
+	<field name="Valor_Letra-cuota_mes" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Valor_Letra-cuota_mes]]></fieldDescription>
+	</field>
+	<field name="Fecha_de_pago-date_order" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Fecha_de_pago-date_order]]></fieldDescription>
+	</field>
+	<field name="Fecha_de_Vencimiento-date_vencimiento" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Adicionales-adicional_ids/Fecha_de_Vencimiento-date_vencimiento]]></fieldDescription>
+	</field>
+	<field name="Valor-valor" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Adicionales-adicional_ids/Valor-valor]]></fieldDescription>
+	</field>
+	<field name="Valor_con_Interes-valor_interes" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Adicionales-adicional_ids/Valor_con_Interes-valor_interes]]></fieldDescription>
+	</field>
+	<field name="Nombre-name2" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Conyuge_Cliente-cyg_partner_id/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="Nombre-name3" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Garante-garante_id/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="Nombre-name4" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Conyuge_Garante-cyg_garante_id/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="Entrada-entrada" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Entrada-entrada]]></fieldDescription>
+	</field>
+	<field name="Ciudad-city" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Company-company_id/Ciudad-city]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement style="Heading 1" x="123" y="16" width="309" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[CONTRATO DE COMPRA  - VENTA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="678" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="289" height="15"/>
+				<textElement textAlignment="Justified"/>
+				<text><![CDATA[El señor  PAUL ZEA VELASCO   por una parte Y el señor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="93" width="46" height="20"/>
+				<textElement/>
+				<text><![CDATA[Marca:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="47" y="93" width="170" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Name-name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="113" width="67" height="20"/>
+				<textElement/>
+				<text><![CDATA[No. Motor:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="217" y="113" width="72" height="20"/>
+				<textElement/>
+				<text><![CDATA[No. Chasis:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="289" y="113" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{No._Chasis-chasis}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="379" y="93" width="42" height="20"/>
+				<textElement/>
+				<text><![CDATA[Clase:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="422" y="93" width="132" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Clase-clase}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="217" y="93" width="45" height="20"/>
+				<textElement/>
+				<text><![CDATA[Color:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="262" y="93" width="117" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Color-color}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="389" y="113" width="51" height="20"/>
+				<textElement/>
+				<text><![CDATA[Modelo:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="440" y="113" width="114" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Modelo-modelo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="389" y="133" width="43" height="20"/>
+				<textElement/>
+				<text><![CDATA[Placa:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="432" y="133" width="122" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CAE__Placa-cae}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="163" width="555" height="37"/>
+				<textElement/>
+				<text><![CDATA[El comprador declara haber recibido el vehículo ya descrito, con pleno conocimiento de causa a su entera satisfacción, es decir, que lo adquiere en el estado en que se encuentra, por lo cual renuncia a evicción por vicios redhibitorios, así como cualquier reclamo posterior en relación a su estado mecánico.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="289" y="0" width="263" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Nombre-name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="113" width="149" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{No._Motor-motor3}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-1" y="353" width="203" height="20"/>
+				<textElement/>
+				<text><![CDATA[Para constancia firma por duplicado en ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="256" y="200" width="54" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Total_Pagare-total_pagare}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="22" y="213" width="240" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Total_Pagare__Texto-total_pagare_texto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="227" width="214" height="13"/>
+				<textElement/>
+				<text><![CDATA[que se cancelan de la siguiente manera: $]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="15" width="553" height="25"/>
+				<textElement/>
+				<text><![CDATA[por otra, por sus propios derechos y legalmente capaces para contraer, convienen en celebrar el siguiente Contrato de Compra  - Venta  de conformidad a las estipulaciones que se indican a continuacion:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="40" width="390" height="17"/>
+				<textElement/>
+				<text><![CDATA[El señor  PAUL ZEA VELASCO   vende y da en perpétua enajenación al señor ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="389" y="40" width="165" height="17"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Nombre-name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="57" width="134" height="20"/>
+				<textElement/>
+				<text><![CDATA[el vehículo que se detalla:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="133" width="85" height="20"/>
+				<textElement/>
+				<text><![CDATA[Matriculado en:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="86" y="133" width="91" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Matriculado-matriculado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="177" y="133" width="56" height="20"/>
+				<textElement/>
+				<text><![CDATA[Bajo el No:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="233" y="133" width="88" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Numero-numero}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="321" y="133" width="28" height="20"/>
+				<textElement/>
+				<text><![CDATA[Año:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="349" y="133" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Year-anio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="200" width="254" height="13"/>
+				<textElement/>
+				<text><![CDATA[El comprador paga por este vehículo la suma de $]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="200" width="246" height="13"/>
+				<textElement/>
+				<text><![CDATA[ Dólares de los Estados Unidos de Norte America
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="213" width="23" height="13"/>
+				<textElement/>
+				<text><![CDATA[Son ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="256" y="214" width="298" height="13"/>
+				<textElement/>
+				<text><![CDATA[DOLARES DE LOS ESTADOS UNIDOS DE NORTEAMERICA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="214" y="227" width="100" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Entrada-entrada}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="314" y="227" width="240" height="13"/>
+				<textElement/>
+				<text><![CDATA[Dolares de contado a la firma del presente ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="240" width="553" height="27"/>
+				<textElement/>
+				<text><![CDATA[Documento y entrega del vehículo y por el saldo restante el comprador decide acojerse al financiamiento otorgado para  su adquisición.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="278" width="84" height="15"/>
+				<textElement/>
+				<text><![CDATA[Observaciones:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="307" width="549" height="34"/>
+				<textElement/>
+				<text><![CDATA[El vendedor declara también, que sobre el vehiculo ya descrito no pesa impedimento ni gravamen de ninguna especie que se oponga a la ejecución de este presente Contrato. ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="202" y="353" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Ciudad-city}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="321" y="352" width="177" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Fecha_de_pago-date_order}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="349" y="470" width="113" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Nombre-name}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="61" y="447" width="167" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="83" y="470" width="129" height="20"/>
+				<textElement/>
+				<text><![CDATA[PAUL ZEA VELASCO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="321" y="446" width="167" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="357" y="490" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Cedula-cedula2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="333" y="530" width="166" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Calle2-street2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="332" y="510" width="125" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Calle-street}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="458" y="510" width="15" height="20"/>
+				<textElement/>
+				<text><![CDATA[Y]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="492" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[180207725-3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="54" y="492" width="57" height="20"/>
+				<textElement/>
+				<text><![CDATA[Céd. No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="99" y="450" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[VENDEDOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="450" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[COMPRADOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="54" y="512" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="25"/>
+	</columnFooter>
+	<noData>
+		<band height="50">
+			<staticText>
+				<reportElement x="22" y="17" width="267" height="20" forecolor="#FF0000"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No existen datos o están incompletos]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

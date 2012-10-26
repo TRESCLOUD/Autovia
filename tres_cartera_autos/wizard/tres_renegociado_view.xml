@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_tres_renegociado" model="ir.ui.view">
+            <field name="name">Add payment :</field>
+            <field name="model">tres.renegociado</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            <form string="Add payment :">
+                <group colspan="4" col="4" >
+                    <label nolabel="1" colspan="4" string="Está seguro que desea renegociar"/>
+                    <newline/>
+                    <separator colspan="4"/>
+                    <group colspan="2"/>
+                    <group colspan="2">
+                    
+                        <button special="cancel" string="Cancel"/>
+                        <button name="copy" string="Aceptar" colspan="1" type="object"/>
+                        
+                    </group>
+                </group>
+            </form>
+            </field>
+        </record>
+        
+        <record id="action_tres_renegociado" model="ir.actions.act_window">
+            <field name="name">Renegociar</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tres.renegociado</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_tres_renegociado"/>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>

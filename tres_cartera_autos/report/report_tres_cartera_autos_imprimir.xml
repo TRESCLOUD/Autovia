@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+	<report id="report_tres_cartera_autos_cuotas_c"
+           	  string="Contrato Compra-Venta"
+      		  model="tres.cartera"
+      		  name="report.tres.cartera.autos.cuotas.c"
+      		  rml="tres_cartera_autos/report/contratoVenta.jrxml"
+      		  menu="False"/>
+    <report id="report_tres_cartera_autos_cuotas_cv"
+           	  string="Contrato de Venta con Reserva de Dominio"
+      		  model="tres.cartera"
+      		  name="report.tres.cartera.autos.cuotas.cv"
+      		  rml="tres_cartera_autos/report/prueba.jrxml"
+      		  menu="False"/>
+    <report id="report_tres_cartera_autos_cuotas_m"
+           	  string="Contrato de Mutuo"
+      		  model="tres.cartera"
+      		  name="report.tres.cartera.autos.cuotas.m"
+      		  rml="tres_cartera_autos/report/mutuo.jrxml"
+      		  menu="False"/>
+    <report id="report_tres_cartera_autos_cuotas_p"
+           	  string="Pagare a la Orden con Vencimientos Sucesivos"
+      		  model="tres.cartera"
+      		  name="report.tres.cartera.autos.cuotas.p"
+      		  rml="tres_cartera_autos/report/pagare.jrxml"
+      		  menu="False"/>
+    <report id="report_tres_cartera_comprobante"
+           	  string="Prueba"
+      		  model="tres.cartera"
+      		  name="report_tres_cartera_comprobante"
+      		  rml="tres_cartera_autos/report/comprobanteCobro.jrxml"
+      		  menu="False"/>
+    <report id="report_tres_cartera_egreso"
+           	  string="Prueba"
+      		  model="tres.cartera"
+      		  name="report_tres_cartera_comprobante"
+      		  rml="tres_cartera_autos/report/comprobanteIngreso.jrxml"
+      		  menu="False"/>
+    <report id="report_tres_cartera_autos_cuotas_cv2"
+           	  string="Prueba"
+      		  model="tres.cartera"
+      		  name="report.prueba"
+      		  rml="tres_cartera_autos/report/Contrato_parte2.jrxml"
+      		  menu="False"/>
+
+     </data>
+</openerp>

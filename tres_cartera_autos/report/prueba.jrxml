@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="prueba" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="192"/>
+	<property name="OPENERP_RELATIONS" value="[&apos;adicional_ids&apos;]"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Heading 1" fontSize="16" isBold="true"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/ruth/Reporte/Templates/"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="xPath">
+		<![CDATA[]]>
+	</queryString>
+	<field name="Nombre-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="Cedula-cedula" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Cedula-cedula]]></fieldDescription>
+	</field>
+	<field name="Ciudad-city" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Ciudad-city]]></fieldDescription>
+	</field>
+	<field name="Meses-meses" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Adicionales-adicional_ids/Meses-meses]]></fieldDescription>
+	</field>
+	<field name="Valor_con_Interes-valor_interes" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Adicionales-adicional_ids/Valor_con_Interes-valor_interes]]></fieldDescription>
+	</field>
+	<field name="Fecha_de_Vencimiento-date_vencimiento" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Adicionales-adicional_ids/Fecha_de_Vencimiento-date_vencimiento]]></fieldDescription>
+	</field>
+	<field name="Total_Pagare-total_pagare" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Total_Pagare-total_pagare]]></fieldDescription>
+	</field>
+	<field name="Fecha_de_pago-date_order" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Fecha_de_pago-date_order]]></fieldDescription>
+	</field>
+	<field name="Valor_Letra-cuota_mes" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Valor_Letra-cuota_mes]]></fieldDescription>
+	</field>
+	<field name="Financiamiento__En_meses-financiamiento" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Financiamiento__En_meses-financiamiento]]></fieldDescription>
+	</field>
+	<field name="Total_Pagare__Texto-total_pagare_texto" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Total_Pagare__Texto-total_pagare_texto]]></fieldDescription>
+	</field>
+	<field name="Telefono-phone" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Telefono-phone]]></fieldDescription>
+	</field>
+	<field name="No._Chasis-chasis" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/No._Chasis-chasis]]></fieldDescription>
+	</field>
+	<field name="CAE__Placa-cae" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/CAE__Placa-cae]]></fieldDescription>
+	</field>
+	<field name="Clase-clase" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/Clase-clase]]></fieldDescription>
+	</field>
+	<field name="Clase-clase2" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/Clase-clase]]></fieldDescription>
+	</field>
+	<field name="Modelo-modelo" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/Modelo-modelo]]></fieldDescription>
+	</field>
+	<field name="Name-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/Name-name]]></fieldDescription>
+	</field>
+	<field name="Movil-mobile" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Movil-mobile]]></fieldDescription>
+	</field>
+	<field name="Color-color" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/Color-color]]></fieldDescription>
+	</field>
+	<field name="No._Motor-motor" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Product-product_id/No._Motor-motor]]></fieldDescription>
+	</field>
+	<field name="Calle-street_e" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Calle-street_e]]></fieldDescription>
+	</field>
+	<field name="Cedula-cedula2" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Cedula-cedula]]></fieldDescription>
+	</field>
+	<field name="Calle-street" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Contactos-address/Calle-street]]></fieldDescription>
+	</field>
+	<field name="Calle2-street2" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Contactos-address/Calle2-street2]]></fieldDescription>
+	</field>
+	<field name="Profesion-prof_cnyg" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Contactos-address/Profesion-prof_cnyg]]></fieldDescription>
+	</field>
+	<field name="Profesion-profesion" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Profesion-profesion]]></fieldDescription>
+	</field>
+	<field name="Nombre-name2" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Conyuge_Cliente-cyg_partner_id/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="Cedula-cedula3" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Conyuge_Cliente-cyg_partner_id/Cedula-cedula]]></fieldDescription>
+	</field>
+	<field name="Interes_Anual-interes" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Interes_Anual-interes]]></fieldDescription>
+	</field>
+	<title>
+		<band height="512">
+			<staticText>
+				<reportElement x="1" y="21" width="555" height="40"/>
+				<textElement textAlignment="Justified"/>
+				<text><![CDATA[Los suscritos, por una parte PAUL ZEA VELASCO con registro único de contribuyentes 1802077253 representado por el señor domiciliado en Av. Indoamérica entrada a las Viñas, y que en adelante se le mencionará  llamándolo VENDEDOR PROPIETARIO O ACREEDEOR, y por otra parte el/los Sr(a).]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Heading 1" x="101" y="0" width="368" height="21"/>
+				<textElement/>
+				<text><![CDATA[Contra de venta con reserva de dominio]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="21" y="61" width="273" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Nombre-name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="309" y="62" width="27" height="15"/>
+				<textElement/>
+				<text><![CDATA[C.I. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="502" y="62" width="27" height="15">
+					<printWhenExpression><![CDATA[!$F{Nombre-name2}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Y]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="374" y="61" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Cedula-cedula2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="84" width="273" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Nombre-name2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="84" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Cedula-cedula3}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="311" y="85" width="27" height="20">
+					<printWhenExpression><![CDATA[!$F{Cedula-cedula3}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[C.I.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="233" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[No. MOTOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="293" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[CLASE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="472" width="47" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Financiamiento__En_meses-financiamiento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="162" y="273" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[COLOR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="111" width="66" height="20"/>
+				<textElement/>
+				<text><![CDATA[de profesión                                   ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="262" y="293" width="117" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Clase-clase}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="162" y="333" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[PLACA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="452" width="304" height="20"/>
+				<textElement/>
+				<text><![CDATA[que el comprador se obliga a pagar en la siguiente forma:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="253" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[No. CHASIS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="47" y="131" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Telefono-phone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="111" width="94" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Profesion-profesion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="262" y="213" width="170" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Name-name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="47" y="492" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Fecha_de_pago-date_order}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="389" y="111" width="166" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Calle2-street2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="151" width="555" height="26"/>
+				<textElement/>
+				<text><![CDATA[Celebran el siguiente Contrato de Venta con Reserva de Dominio, de conformidad con las disposiciones  legales sobre la materia y las cláusulas que siguen: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="432" width="257" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Total_Pagare__Texto-total_pagare_texto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="262" y="273" width="117" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Color-color}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="360" width="555" height="26"/>
+				<textElement/>
+				<text><![CDATA[Mercadería  que el comprador declara haberla recibido a su entera satisfacción y sin tener reclamo posterior alguno.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="492" width="47" height="20"/>
+				<textElement/>
+				<text><![CDATA[partir del]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="213" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[MARCA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="314" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[MODELO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="131" width="45" height="20"/>
+				<textElement/>
+				<text><![CDATA[teléfono]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="244" y="111" width="125" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Calle-street}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="257" y="432" width="298" height="20"/>
+				<textElement/>
+				<text><![CDATA[DOLARES DE LOS ESTADOS UNIDOS DE NORTEAMÉRICA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="214" width="60" height="20"/>
+				<textElement/>
+				<text><![CDATA[VEHICULO]]></text>
+			</staticText>
+			<textField pattern="###0.00">
+				<reportElement x="262" y="472" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Valor_Letra-cuota_mes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="262" y="314" width="117" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Modelo-modelo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="370" y="111" width="15" height="20">
+					<printWhenExpression><![CDATA[!$F{Calle2-street2}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Y]]></text>
+			</staticText>
+			<textField pattern="###0.00">
+				<reportElement x="389" y="398" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Total_Pagare-total_pagare}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="147" y="131" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Movil-mobile}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="262" y="253" width="117" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{No._Chasis-chasis}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="247" y="131" width="308" height="20"/>
+				<textElement/>
+				<text><![CDATA[que en adelante se le denominará el COMPRADOR. ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="262" y="333" width="117" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CAE__Placa-cae}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="262" y="232" width="170" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{No._Motor-motor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="162" y="111" width="82" height="20"/>
+				<textElement/>
+				<text><![CDATA[domiciliado en]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="189" width="553" height="24"/>
+				<textElement/>
+				<text><![CDATA[PRIMERA: Paúl Zea V., vende con reserva de dominio, al comprador, el/los objeto(s) que se describen a continuación:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="362" y="472" width="193" height="20"/>
+				<textElement/>
+				<text><![CDATA[c/una a cancelar mensualmente  a ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="47" y="472" width="215" height="20"/>
+				<textElement/>
+				<text><![CDATA[LETRAS DE CAMBIO POR EL VALOR DE $]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="398" width="389" height="20"/>
+				<textElement/>
+				<text><![CDATA[SEGUNDA.- El precio de el /los objeto(s) descritos en la cláusula anterior es $]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="154" y="492" width="171" height="20">
+					<printWhenExpression><![CDATA[!$F{Valor_con_Interes-valor_interes}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[más los siguientes adicionales:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="1" width="208" height="20">
+					<printWhenExpression><![CDATA[!$F{Valor_con_Interes-valor_interes}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[1 LETRA DE CAMBIO POR EL VALOR DE VA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="328" y="1" width="95" height="20">
+					<printWhenExpression><![CDATA[!$F{Valor_con_Interes-valor_interes}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[A CANCELAR EL]]></text>
+			</staticText>
+			<textField pattern="###0.00">
+				<reportElement x="209" y="1" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Valor_con_Interes-valor_interes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="426" y="2" width="128" height="17"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Fecha_de_Vencimiento-date_vencimiento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="198">
+			<staticText>
+				<reportElement x="256" y="7" width="298" height="19"/>
+				<textElement/>
+				<text><![CDATA[% anual a partir de los correspondientes vencimientos]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="234" y="6" width="22" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Interes_Anual-interes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="7" width="234" height="19"/>
+				<textElement/>
+				<text><![CDATA[Además el comprador reconoce el interés del]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="87" width="553" height="107"/>
+				<textElement textAlignment="Justified"/>
+				<text><![CDATA[TERCERA.- sin embargo, y por así convenir las partes, habrá un reajuste del precio siempre y cuando sobrevengan dentro de la vigencia del contrato, medidas de carácter económico, tributario legales o de cualquier  otra índole que afecten al precio inicialmente pactado.
+El vendedor queda facultado para, por su sola cuenta, efectuar el reajuste sobre el saldo deudor;  y la diferencia que se establezca, la pagara el comprador al vendedor con la sola notificación por escrito.
+El comprador deberá efectuar el pago sobre el reajuste en el plazo de treinta días, después de que el vendedor le haya hecho conocer por escrito, cancelación que podrá hacerlo ya sea en efectivo o suscribiendo nuevas obligaciones; de no hacerlo será causa suficiente para que el comprador incurra en mora , se declare vencido el plazo y exigibles todas las obligaciones.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="554" height="47"/>
+				<textElement textAlignment="Justified"/>
+				<text><![CDATA[mensuales  en el domicilio del vendedor.En el precio total de la negociación están incluidos, a mas del valor de la mercadería, los intereses convencionales por el plazo pactado aclarándose además  que el comprador ha pagado el impuesto legal sobre las transacciones mercantiles que grava a este contrato.]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

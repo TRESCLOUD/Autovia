@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+    
+        <record model="ir.module.category" id="module_category_tres_cartera_autos">
+            <field name="name">Credito Autos</field>
+            <field name="description">Helps you handle your Credit Car.</field>
+            <field name="sequence">16</field>
+        </record>
+
+		<record model="res.groups" id="group_tres_cartera_log" context="{'noadmin':True}">
+        <field name="name">Logistica</field>
+            <field name="category_id" ref="module_category_tres_cartera_autos"/>
+        </record>
+        
+		<record model="res.groups" id="group_tres_cartera" context="{'noadmin':True}">
+		 <field name="name">Cajero</field>
+            <field name="category_id" ref="module_category_tres_cartera_autos"/>
+      		<field name="implied_ids" eval="[(4, ref('group_tres_cartera_log'))]"/>
+        </record>
+        
+        <record model="res.groups" id="group_tres_cartera_gere" context="{'noadmin':True}">
+        <field name="name">Gerencia</field>
+            <field name="category_id" ref="module_category_tres_cartera_autos"/>
+            <field name="implied_ids" eval="[(4, ref('group_tres_cartera'))]"/>
+        </record>
+        <record model="res.groups" id="group_tres_cartera_admin">
+        <field name="name">Administrador</field>
+            <field name="category_id" ref="module_category_tres_cartera_autos"/>
+            <field name="implied_ids" eval="[(4, ref('group_tres_cartera_gere'))]"/>
+        </record>
+    </data>
+</openerp>
+

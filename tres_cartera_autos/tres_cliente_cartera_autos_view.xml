@@ -1,0 +1,298 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<!-- CLIENTES -->
+		<record model="ir.ui.view" id="view_partner_view">
+		    <field name="name">res.partner.view</field>
+		    <field name="model">res.partner</field>
+		    <field name="type">tree</field>
+		    <field name="arch" type="xml">
+		        <tree string="Partners">
+                    <field name="name" select="1"/>
+                    <field name="cedula" string="Cedula/RUC" required="1"/>
+	         		<field name="profesion" string="Profesion"/> 
+	         		<field name="estcivil" string="Estado Civil" />
+       				<field name="city"/>
+       				<field name="phone"/>
+                    <field name="mobile"/>
+		        </tree>
+		    </field>
+		</record>
+          
+       <record id="view_partner_formR" model="ir.ui.view">
+            <field name="name">res.partner.formR</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Partners" col='1'>
+                    <group col="6" colspan="4">
+                        <group colspan="5" col="6">
+                            <field name="name" select="1"/>
+                            <field name="cedula" string="Cedula/RUC" required="1"/>
+	         				<field name="profesion" string="Profesion"/> 
+	         				<field name="estcivil" string="Estado Civil" />
+                        </group>
+                        <group colspan="1" col="6">
+                            <field name="cliente_check"/>
+                            <field name="garante_check"/>
+	         				<field name="conyuge_check"/>
+                        </group>
+                    </group>
+                    
+                    <notebook colspan="4">
+                        <page string="General">
+                            <field colspan="4" mode="form,tree" name="address" nolabel="1" select="1" height="260">
+                                <form string="Partner Contacts">
+                                      <group colspan="2" col="4">
+                                        <separator string="Dirección" colspan="4" col="4" />
+                                        <field name="type" string="Type" colspan="2"/>
+                                        <field name="street" colspan="4"/>
+                                        <field name="street2" colspan="4"/>
+                                        <newline/>
+						            	<!-- <field name="residencia_aux"/>
+						            	<field name="otros" attrs="{'invisible':[('residencia_aux', '!=', 'Otros')]}"/>                                        <field name="city"/>
+                                         --><field name="country_id" completion="1"/>
+                                        <field name="state_id"/>
+                                     </group>
+                                     <group colspan="2" col="2">
+                                        <separator string="Communication" colspan="2" col="2" />
+                                        <field name="phone"/>
+                                        <field name="mobile"/>
+                                        <field name="fax"/>
+                                        <field name="email" widget="email"/>
+                                     </group>
+                                </form>
+                                <tree string="Partner Contacts">
+                                    <field name="name"/>
+                                    <field name="zip"/>
+                                    <field name="city"/>
+                                    <field name="country_id"/>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                </tree>
+                            </field>
+                        </page>
+                        
+	            	<page string="Actividad">
+		                    <group>
+		                    <field name="tipo"/> 
+		                    <newline/>
+			                <field name="empresa"/>
+			                <field name="street_e"/>
+			                <field name="telf_e"/>  
+			                <field name="cargo"/>
+						    <field name="anti"/>
+						    <field name="s_mes"/>      
+						    <field name="otrs_ingr"/>
+			        		<field name="origen" attrs="{'required':[('otrs_ingr', '!=', '0')]}"/>
+			        		</group>	        	
+	                </page>
+
+	            	<page string="Referencias Personales">
+ 						<newline/>
+ 						<separator string="Familiar Cercano">
+ 						<newline/>  
+ 						</separator>
+ 						<newline/>
+		                    <group colspan="4" col="4">
+        						<field name="nombre_familiar"/>
+        						<field name="parentezco_familiar"/>
+        						<field name="telefono_familiar"/>   
+        						<field name="direccion_familiar"/>
+			        		</group>	        	
+ 						<newline/>
+ 						<separator string="Referencias Personales">
+ 						<newline/>  
+ 						</separator>
+ 					   <field colspan="4" name="pers_ids" nolabel="1">
+ 						<newline/>
+ 							<form string="Referencias Personales">
+	                            <group name="owner" colspan="2" col="2">
+	                                <field name="pers_nmbr"/>
+	                                <field name="pers_telf"/>
+	                            </group>
+			                </form>
+			                <tree string="Referencias Personales">
+	                            <field name="pers_nmbr"/>
+	                            <field name="pers_telf"/>
+	                        </tree>
+ 						</field>
+	                </page>
+	                
+	                <page string="Referencias Bancarias">
+                    
+		            <separator string="Bancos">
+ 						<newline/>  
+ 					</separator>
+ 								 			
+		 			<field colspan = "4" name="bancos_ids" nolabel="1">
+		 				<form string="Cuentas Bancarias">
+                            <field name="banco_name"/>
+                            <newline/>			                            
+                            <field name="banco_class" />
+                            <field name="banco_number"/>			                        
+                        </form>
+                        <tree string="Cuentas Bancarias">
+                        	<field name="banco_name"/>
+                            <field name="banco_class" />
+                            <field name="banco_number"/>
+                        </tree>
+ 					</field>
+ 					<newline/>  
+ 					<separator string="Referencias Bancarias">
+ 					<newline/>  
+ 					</separator>
+ 					<field colspan="4" name="inst_ids" nolabel="1">
+ 					<newline/>
+					<form string="Banco o Instituciones donde obtuvo credito">
+	                    <field name="inst"/>
+	                	<newline/>
+						<group name="owner" colspan="2" col="2">
+	                		<separator colspan="4" string="Bank Account Owner"/>
+	                    	<field name="inst_monto" />
+	                    	<field name="inst_class"/>
+	                    	<field name="inst_plazo"/>
+	                	</group>
+	                </form>
+	                 	<tree string="Banco o Instituciones donde obtuvo credito">
+	                       	<field name="inst"/>
+	                        <field name="inst_monto" />
+	                        <field name="inst_class"/>
+	                        <field name="inst_plazo"/>
+	                    </tree>
+ 					</field>
+                </page> 
+                
+	                <page string="History">
+                    <field name="phonecall_ids" colspan="4" nolabel="1">
+                        <tree string="Phone Calls" colors="gray:state in ('draft', 'cancel','done','pending')">
+                            <field name="date" string="Date"/>
+                            <field name="name" string="Call Summary"/>
+                            <field name="categ_id" widget="selection"/>
+                            <field name="user_id"/>
+                            <field name="state"/>
+                            <button name="case_cancel" string="Cancel" states="draft,open,pending" type="object" icon="gtk-cancel"/>
+                            <button name="case_open" string="Todo" states="draft,pending" type="object" icon="gtk-go-forward"/>
+                            <button name="case_close" string="Held" states="open,draft,pending" type="object" icon="gtk-jump-to"/>
+                            <button name="case_pending" string="Not Held" states="open" type="object" icon="gtk-media-pause"/>
+                        </tree>
+                    </field>
+                    </page>
+                    <page string="Notes">
+                       <field colspan="4" name="comment" nolabel="1"/>
+                    </page>         
+                    <page string="Contratos">
+                     
+                     		<field colspan="4" name="contratos_ids" nolabel="1">
+				               <tree string="Contratos">
+				                    <field name="name" string="Codigo"/>
+				                    <field name="product_id"/>
+				                    <field name="price"/> 
+				                </tree>
+							</field>
+                     
+                            <field colspan="4" name="history_ids" nolabel="1" domain="[('state','=','renegociado')]" >
+				                <tree string="Historial">
+				                    <field name="name" string="Codigo"/>
+<!-- 				                    <field name="partner_id"/> -->
+				                    <field name="product_id"/>
+				                    <field name="price"/>
+				                    <field name="date_history"/>
+				                </tree>
+							</field>
+ 		            </page>
+ 		            
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+    <record id="view_res_partner_filter" model="ir.ui.view">
+            <field name="name">res.partner.select</field>
+            <field name="model">res.partner</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Partner">
+                   <group col='10' colspan='4'>
+                        <filter string="Cliente" name="cliente_check" icon="terp-personal" domain="[('cliente_check','=',1)]"/>
+                        <filter string="Conyuge" name="conyuge_check" icon="terp-personal+" domain="[('conyuge_check','=',1)]"/>
+                        <filter string="Garante" name="garante_check" icon="terp-personal" domain="[('garante_check','=',1)]"/>
+                        <separator orientation="vertical"/>
+                        <field name="name" string ="Nombre" select="1"/>
+                        <field name="cedula" select="1"/>
+                        <field name="phone" string ="Teléfono" select="1"/>
+                        <!-- <field name="user_id" select="1">
+                            <filter help="My Partners" icon="terp-personal+" domain="[('user_id','=',uid)]"/>
+                        </field> -->
+                   </group>
+<!--                    <newline />
+                   <group expand="0" string="Group By...">
+                       <filter string="Salesman" icon="terp-personal" domain="[]" context="{'group_by' : 'user_id'}" />
+                   </group> -->
+               </search>
+            </field>
+        </record>
+
+       
+	<record id="action_partner_form" model="ir.actions.act_window">
+            <field name="name">Personas</field>
+            <field name="view_id" ref="view_partner_formR"/>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="context">{"search_default_customer":1}</field>
+            <field name="search_view_id" ref="view_res_partner_filter"/>
+            <field name="help">A customer is an entity you do business with, like a company or an organization. A customer can have several contacts or addresses which are the people working for this company. You can use the history tab, to follow all transactions related to a customer: sales order, emails, opportunities, claims, etc. If you use the email gateway, the Outlook or the Thunderbird plugin, don't forget to register emails to each contact so that the gateway will automatically attach incoming emails to the right partner.</field>
+        </record>
+        
+     <record model="ir.actions.act_window.view" id="action_autos_tag_form">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_partner_formR"/>
+        <field name="act_window_id" ref="action_partner_form"/>
+    </record>
+    <record model="ir.actions.act_window.view" id="action_autos_tag_tree">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_partner_view"/>
+        <field name="act_window_id" ref="action_partner_form"/>
+    </record>
+        
+        <record id="action_partner_form_mora" model="ir.actions.act_window">
+            <field name="name">Personas</field>
+            <field name="view_id" ref="view_partner_formR"/>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="context">{"search_default_customer":1}</field>
+            <field name="search_view_id" ref="view_res_partner_filter"/>
+            <field name="help">A customer is an entity you do business with, like a company or an organization. A customer can have several contacts or addresses which are the people working for this company. You can use the history tab, to follow all transactions related to a customer: sales order, emails, opportunities, claims, etc. If you use the email gateway, the Outlook or the Thunderbird plugin, don't forget to register emails to each contact so that the gateway will automatically attach incoming emails to the right partner.</field>
+        </record>
+         <record id="action_partner_form_new" model="ir.actions.act_window">
+            <field name="name">Personas</field>
+            <field name="view_id" ref="view_partner_formR"/>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban</field>
+			<field name="target">new</field>
+            <field name="context">{"search_default_customer":1}</field>
+            <field name="search_view_id" ref="view_res_partner_filter"/>
+            <field name="help">A customer is an entity you do business with, like a company or an organization. A customer can have several contacts or addresses which are the people working for this company. You can use the history tab, to follow all transactions related to a customer: sales order, emails, opportunities, claims, etc. If you use the email gateway, the Outlook or the Thunderbird plugin, don't forget to register emails to each contact so that the gateway will automatically attach incoming emails to the right partner.</field>
+        </record>
+        
+
+    <!--#ICE Menu  -->	
+     <menuitem name="Personas" 
+        parent="menu_conf" 
+        id="menu_list_fact_point_of_sale2" 
+        action="action_partner_form" 
+        sequence="4"
+        groups="group_tres_cartera_log"/> 
+
+</data>
+</openerp>
+

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<openerp>
+<data noupdate="1">
+#A.G
+    #
+    # Sequences for pos.order
+    #
+
+    <record model="ir.sequence.type" id="seq_type_tres_cartera">
+        <field name="name">TRES Order</field>
+        <field name="code">tres.cartera</field>
+    </record>
+    <record model="ir.sequence" id="seq_pos_order">
+        <field name="name">TRES Order</field>
+        <field name="code">tres.cartera</field>
+        <field name="prefix">C14</field>
+        <field name="padding">4</field>
+    </record>
+</data>
+</openerp>

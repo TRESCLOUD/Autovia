@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <record id="tres_view_company_form" model="ir.ui.view">
+            <field name="name">tres.res.company.form</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="model">res.company</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+					 <xpath
+                expr="/form/group/group/field[@name='parent_id']"
+                position="after">
+                <field name="ceo"/>
+                <field name="cedula"/>
+            </xpath>
+			</field>
+		</record>
+		
+</data>
+</openerp>

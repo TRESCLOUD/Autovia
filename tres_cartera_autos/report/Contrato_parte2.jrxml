@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contrato_parte2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="1057"/>
+	<style name="Text Body" hAlign="Justified"/>
+	<queryString language="xPath">
+		<![CDATA[]]>
+	</queryString>
+	<field name="Fecha_de_pago-date_order" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Fecha_de_pago-date_order]]></fieldDescription>
+	</field>
+	<field name="Nombre_del_contacto-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Contactos-address/Nombre_del_contacto-name]]></fieldDescription>
+	</field>
+	<field name="Nombre_Conyuge-nmbr_cnyg" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Contactos-address/Nombre_Conyuge-nmbr_cnyg]]></fieldDescription>
+	</field>
+	<field name="Nombre_del_contacto-name2" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Garante-garante_id/Contactos-address/Nombre_del_contacto-name]]></fieldDescription>
+	</field>
+	<field name="Nombre_del_contacto-name3" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Conyuge_Garante-cyg_garante_id/Contactos-address/Nombre_del_contacto-name]]></fieldDescription>
+	</field>
+	<field name="Nombre_del_contacto-name4" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Conyuge_Cliente-cyg_partner_id/Contactos-address/Nombre_del_contacto-name]]></fieldDescription>
+	</field>
+	<field name="Nombre-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="Nombre_del_contacto-name5" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Contactos-address/Nombre_del_contacto-name]]></fieldDescription>
+	</field>
+	<field name="Nombre-name2" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Customer-partner_id/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="Nombre-name3" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Conyuge_Cliente-cyg_partner_id/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="Nombre-name4" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Garante-garante_id/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="Nombre-name5" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Conyuge_Garante-cyg_garante_id/Nombre-name]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="680" splitType="Stretch">
+			<staticText>
+				<reportElement style="Text Body" x="0" y="119" width="555" height="205"/>
+				<textElement/>
+				<text><![CDATA[QUINTA.- El vendedor se reserva el domicilio de el/los objetos vendido(s) hasta cuando el comprador haya pagado la totalidad del precio a entera satisfacción, de manera que el comprador adquirirá dominio de la cosa vendida tan solo cuando haya pagado la totalidad del precio, sin embargo de lo cual asume la responsabilidad por todos los riesgos, aún los de fuerza mayor o caso fortuito que corran el/los  objeto(s) vendido(s)  desde esta fecha en que recibe dicho(s) objeto(s) de poder del vendedor.
+En consecuencia,  el comprador no podrá verificar contratos de venta, permuta, arrendamiento, prenda de cualquier  clase ni disponer en forma alguna del/los objeto(s) recibido(s), mientras no haya pagado la totalidad del precio, debiendo exhibirlos cuantas veces lo solicite el vendedor  por la vía legal y siendo de cuenta y riesgo del comprador todos los gastos que ocasione dicha exhibición.
+Además el comprador deberá notificar  al vendedor, inmediatamente, cualquier secuestro, retención o medida preventiva o de ejecución que judicialmente se intentare sobre el/los objeto(s) vendido(s) o cualquier hecho relativo a su daño, pérdida o desaparición, y si así no lo hiciera será responsable de los daños y perjuicios que ocasionara esta omisión.
+Al igual que la cláusula anterior, si el comprador incumpliere con alguno de los compromisos antes señalados, el vendedor podrá pedir la devolución de la especie vendida y recuperada aún cuando se hallare en poder de terceros o demandar la cancelación total del crédito el cual quedará íntegramente vencido por este motivo , sin perjuicio de iniciar la acción penal respectiva.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Text Body" x="0" y="0" width="555" height="105"/>
+				<textElement/>
+				<text><![CDATA[CUARTA.- El comprador declara haber recibido a su entera satisfacción el/los objetos(s)  en la cláusula primera  y se compromete ha conservarlo (s) y  mantenerlo (s) durante la vigencia de este contrato en su domicilio y destinarlo al uso PERSONAL debiendo notificar al vendedor cualquier cambio que se efectúe respecto a los bienes o a su domicilio, en un plazo máximo de ocho días contados a partir de dicho cambio. En ningún caso, el comprador podrá sacar fuera del país el/los objeto(s) vendido(s)  ni entregar (los) a otra persona  natural o jurídica, sin autorización concedida previamente, y por escrito por parte del vendedor. La violación de cualquiera de éstos compromisos dará derecho al vendedor para pedir la restitución de la especie vendida  o demandar la cancelación total del crédito, declarándose por esta causa vencida la totalidad de la obligación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="338" width="555" height="171"/>
+				<textElement/>
+				<text><![CDATA[SEXTA.- Si el comprador no pagare a su vencimiento aunque fuera una sola de las letras de cambio a las que refiere este contrato, el vendedor tendrá derecho para dar por vencidas las demás, sirviendo de suficiente prueba sobre la falta de pago, la sola afirmación del vendedor, quien podrá acudir a uno de los jueces competentes para solicitar la aprehensión de la materia del contrato donde quiera que se encuentre y su entrega a dicho vendedor, o pedir el remate del/los objetos(s) vendido(s) de acuerdo a lo que establece el Código de Comercio.
+Para el caso de la aprehensión judicial solicitada por el vendedor, es una condición expresa de este contrato que lo pagado en concepto de abonos parciales del precio, quedarán en beneficio del vendedor, a título de indemnización, incluída la cuota de contado, hasta por el máximo del monto autorizado por la ley . Así mismo, quedarán en beneficio del vendedor el aumento del valor de la cosa vendida o lo que se adhiere o incorporare a ella por cualquier concepto, en caso de que dichas cosas volvieren a poder del vendedor  por incumplimiento del comprador , o por quiebra o concurso de acreedores de este último, pues este evento es también causal  suficiente para que el vendedor, con su sola afirmación  de por vencida la totalidad  la totalidad del crédito y proceda en forma prevista anteriormente y en la Ley.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="512" width="555" height="40"/>
+				<textElement/>
+				<text><![CDATA[SÉPTIMA.- Los endosos que hiciere el vendedor de una o más letras de cambio a terceras personas  o a instituciones bancarias, en nada afectan la vigencia del presente contrato de venta con reserva de dominio el cual subsiste en todos sus efectos, hasta la cancelación total del crédito.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="585" width="555" height="59"/>
+				<textElement/>
+				<text><![CDATA[OCTAVA.- Sin que en forma alguna se entienda adulterado , modificado o renovado el presente contrato, las partes convienen en cualquier  momento y de mutuo acuerdo podrán renovar las obligaciones  a que se refiere la cláusula primera, dejando constancia por escrito de este hecho, en cuyo caso el contrato subsistirá amparando las nuevas obligaciones  y garantizando hasta la total cancelación  del capital , intereses y todos los demás gastos que se presenten por cualquier concepto.]]></text>
+			</staticText>
+			<break>
+				<reportElement x="0" y="666" width="100" height="1"/>
+			</break>
+		</band>
+		<band height="675">
+			<staticText>
+				<reportElement style="Text Body" x="1" y="5" width="554" height="268"/>
+				<textElement/>
+				<text><![CDATA[NOVENA.- El comprador se obliga a contratar y entregar al vendedor una póliza de seguro contra todo riesgo sobre la cosa objeto de este contrato, por el monto igual al del valor adeudado  y por el mismo plazo, a fin de que en caso de siniestro, este cobre directamente dicho seguro, aclarándose que en el evento de que el valor pagado por la aseguradora sea inferior al del valor adeudado por el comprador en el momento de siniestro, éste queda obligado al pago  de la diferencia, facultando al vendedor para que exija dicho pago  en base a las letras de cambio que se encuentren impagadas  y que consideran como vencidas por la sola afirmación del vendedor.
+En caso de que el comprador no contrate el seguro a la fecha de suscripción de este contrato, o si no lo renovare oportunamente , el vendedor podrá exigir en cualquier tiempo el pago del valor total  del crédito, considerando vencido el plazo estipulado  en las respectivas letras de cambio y recurriendo al juez  competente  paras solicitar la restitución o remate de los objetos vendidos con la independencia del pago de crédito.
+Aparte de lo antes acordado y tan solo si el vendedor lo quisiere, este queda facultado para contratar , tomar y renovar la póliza de seguros a la que se refiere ésta cláusula, cuantas veces sean necesarias y acogiendo libremente la Compañía Aseguradora , siempre y cuando el comprador no haya cumplido con la obligación que en este sentido adquiere; aclarándose que si el vendedor decide dejar de ejercitar  esta facultad , la contratación del seguro la realiza por cuenta y riesgo del comprador, quien reembolsará  inmediatamente  el valor de la prima o primas pagadas y para ello se autoriza al vendedor para que impute a este concepto el primer pago o abono que efectuare por causa de este contrato.
+Si por cualquier circunstancia se impidiere o dificultare  el tomar el seguro o el cobro íntegro o parcial de la póliza, el vendedor no tendrá ninguna responsabilidad por ello, siendo todos los riesgos por cuenta y cargo del comprador, aún cuando la contratación del seguro se hubiere hecho por intermedio del vendedor en la forma prevista en este contrato.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Text Body" x="1" y="273" width="554" height="41"/>
+				<textElement/>
+				<text><![CDATA[DECIMA.- El comprador declara conocer las disposiciones legales que rigen la venta a crédito con reserva de dominio y se somete a todas y cada una de ellas, así como a las estipulaciones contractuales constantes en el presente instrumento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Text Body" x="1" y="325" width="554" height="53"/>
+				<textElement/>
+				<text><![CDATA[DECIMA PRIMERA.- Para seguridad de este contrato el comprador renuncia fuero y domicilio y se sujeta expresamente  a los Jueces de lo Civil de AMBATO obligándose a todos los gastos judiciales  y extrajudiciales n que se efectuaran para la plena vigencia de este contrato así como también hacer efectivas  en él contenidas. en él contenidas.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="378" width="555" height="15"/>
+				<textElement/>
+				<text><![CDATA[Para constancia, las partes firman el presente contrato en tres ejemplares auténticos, en ciudad de Ambato al]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="393" width="172" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Fecha_de_pago-date_order}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="367" y="455" width="115" height="14"/>
+				<textElement/>
+				<text><![CDATA[PAUL ZEA VELASCO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="357" y="450" width="132" height="1"/>
+			</line>
+			<line>
+				<reportElement x="65" y="450" width="132" height="1"/>
+			</line>
+			<line>
+				<reportElement x="66" y="516" width="132" height="1">
+					<printWhenExpression><![CDATA[!$F{Nombre-name3}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="66" y="583" width="132" height="1">
+					<printWhenExpression><![CDATA[!$F{Nombre-name4}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="67" y="643" width="132" height="1">
+					<printWhenExpression><![CDATA[!$F{Nombre-name5}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement x="65" y="451" width="134" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Nombre-name2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="519" width="134" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Nombre-name3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="67" y="584" width="132" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Nombre-name4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="644" width="134" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Nombre-name5}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

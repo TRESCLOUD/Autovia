@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_tres_pagar_cuota" model="ir.ui.view">
+            <field name="name">Add payment :</field>
+            <field name="model">tres.pagar.cuota</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            <form string="Add payment :">
+                <group colspan="4" col="4" >
+                    <group colspan="4">
+                        <field name="amount"/>
+                        <field name="payment_name"/>
+                    </group>
+                    <newline/>
+                    <separator colspan="4"/>
+                    <group colspan="2"/>
+                    <group colspan="2">
+                        <button special="cancel" string="Cancel"/>
+                        <button name="check_tres" string="Hacer Pago" colspan="1" type="object"/>
+                    </group>
+                </group>
+            </form>
+            </field>
+        </record>
+        
+        <record id="action_tres_pagar_cuota" model="ir.actions.act_window">
+            <field name="name">Pagar Cuota</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tres.pagar.cuota</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_tres_pagar_cuota"/>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>
+

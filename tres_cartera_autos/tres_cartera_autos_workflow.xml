@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <!-- Workflow definition -->
+
+        <record id="wkf_autopolo" model="workflow">
+            <field name="name">Autopolo Workflow</field>
+            <field name="osv">tres.cartera</field>
+            <field name="on_create">True</field>
+        </record>
+        
+<!-- ACTIVITY -->
+        <record id="act_draft" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_autopolo"/>
+            <field name="name">draft</field>
+            <field name="flow_start">True</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state': 'draft'})</field>
+        </record>
+		
+		<record id="act_revision" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_autopolo"/>
+            <field name="name">revision</field>
+            <field name="kind">function</field>
+            <field name="action">revision()</field>
+        </record>
+		
+        <record id="act_confirm" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_autopolo"/>
+            <field name="name">confirm</field>
+            <field name="kind">function</field>
+            <field name="action">confirm()</field>
+        </record>
+
+        <record id="act_accepted" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_autopolo"/>
+            <field name="name">accepted</field>
+            <field name="kind">function</field>
+            <field name="action">accept()</field>
+        </record>
+
+        <record id="act_refused" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_autopolo"/>
+            <field name="name">refused</field>
+            <field name="flow_stop">True</field>
+            <field name="kind">function</field>
+            <field name="action">refused()</field>
+        </record>
+        
+        <record model="workflow.activity" id="act_contract">
+		      <field name="wkf_id" ref="wkf_autopolo"/>
+		      <field name="name">contract</field>
+		      <field name="kind">function</field>
+		      <field name="action">contract()</field>	      
+  		</record>
+  		  
+  		<record model="workflow.activity" id="act_cartera">
+		      <field name="wkf_id" ref="wkf_autopolo"/>
+		      <field name="name">cartera</field>
+		      <field name="kind">function</field>
+		      <field name="action">create_letras()</field>	      
+  		</record>
+  		<record model="workflow.activity" id="act_pagado">
+		      <field name="wkf_id" ref="wkf_autopolo"/>
+		      <field name="name">Pagado</field>
+		      <field name="kind">function</field>
+		      <field name="action">pagado()</field>	      
+  		</record>
+  		<record model="workflow.activity" id="act_renegociar">
+		      <field name="wkf_id" ref="wkf_autopolo"/>
+		      <field name="name">renegociar</field>
+		      <field name="kind">function</field>
+		      <field name="action">respaldo()</field>	      
+  		</record>
+  		<record model="workflow.activity" id="act_pre_embargo">
+		      <field name="wkf_id" ref="wkf_autopolo"/>
+		      <field name="name">pre_embargo</field>
+		      <field name="kind">function</field>
+		      <field name="action">pre_embargo()</field>	      
+  		</record>
+  		
+  		<record model="workflow.activity" id="act_embargo">
+		      <field name="wkf_id" ref="wkf_autopolo"/>
+		      <field name="name">embargo</field>
+		      <field name="kind">function</field>
+		      <field name="action">embargo_haberes()</field>	      
+  		</record>
+  		
+  		<record model="workflow.activity" id="act_cancelada">
+		      <field name="wkf_id" ref="wkf_autopolo"/>
+		      <field name="name">cancelada</field>
+		      <field name="flow_stop">True</field>
+		      <field name="kind">function</field>
+		      <field name="action">cancelada()</field>	      
+  		</record>
+  		  
+<!-- TRANSITION -->
+          
+        <record id="t_confirm" model="workflow.transition">
+            <field name="act_from" ref="act_draft"/>
+            <field name="act_to" ref="act_confirm"/>
+            <field name="signal">confirm</field>
+        </record>
+
+  		<record id="t_draft" model="workflow.transition">
+            <field name="act_from" ref="act_accepted"/>
+            <field name="act_to" ref="act_draft"/>
+            <field name="signal">draft</field>
+        </record>
+        <record id="t_draftc" model="workflow.transition">
+            <field name="act_from" ref="act_confirm"/>
+            <field name="act_to" ref="act_draft"/>
+            <field name="signal">draft</field>
+        </record>
+
+
+        <record id="t_accepted" model="workflow.transition">
+            <field name="act_from" ref="act_confirm"/>
+            <field name="act_to" ref="act_accepted"/>
+            <field name="signal">aceptar</field>
+        </record>
+        
+		 <record id="t_refusedraft" model="workflow.transition">
+            <field name="act_from" ref="act_draft"/>
+            <field name="act_to" ref="act_refused"/>
+            <field name="signal">refuse</field>
+        </record>
+		
+        <record id="t_refuse" model="workflow.transition">
+            <field name="act_from" ref="act_confirm"/>
+            <field name="act_to" ref="act_refused"/>
+            <field name="signal">refuse</field>
+        </record>
+
+        <record id="t_refuse_accept" model="workflow.transition">
+            <field name="act_from" ref="act_accepted"/>
+            <field name="act_to" ref="act_refused"/>
+            <field name="signal">refuse</field>
+        </record>
+        
+		
+		<record model="workflow.transition" id="trans_cartera">
+		      <field name="act_from" ref="act_accepted"/>
+		      <field name="act_to" ref="act_cartera"/>
+		      <field name="signal">cartera</field>
+		</record>
+		
+		<record model="workflow.transition" id="trans_cartera_pagado">
+		      <field name="act_from" ref="act_cartera"/>
+		      <field name="act_to" ref="act_pagado"/>
+		      <field name="signal">pagado</field>
+		</record>
+		
+		<record model="workflow.transition" id="trans_cartera_pre_embargo">
+		      <field name="act_from" ref="act_cartera"/>
+		      <field name="act_to" ref="act_pre_embargo"/>
+		      <field name="signal">pre_embargo</field>
+		</record>
+		
+		<record model="workflow.transition" id="trans_cartera_renegociado">
+		      <field name="act_from" ref="act_cartera"/>
+		      <field name="act_to" ref="act_renegociar"/>
+		      <field name="signal">renegociar</field>
+		</record>
+		
+		<record model="workflow.transition" id="trans_pagado">
+		      <field name="act_from" ref="act_pagado"/>
+		      <field name="act_to" ref="act_cancelada"/>
+		      <field name="signal">cancelada</field>
+		</record>
+		<record model="workflow.transition" id="trans_renegociar">
+		      <field name="act_from" ref="act_renegociar"/>
+		      <field name="act_to" ref="act_cartera"/>
+		      <field name="signal">cartera_reneg</field>
+		</record>
+		<record model="workflow.transition" id="trans_pre_embargo_renegociar">
+		      <field name="act_from" ref="act_pre_embargo"/>
+		      <field name="act_to" ref="act_renegociar"/>
+		      <field name="signal">renegociar</field>
+		</record>	
+			
+		<record model="workflow.transition" id="trans_pre_embargo_embargo">
+		      <field name="act_from" ref="act_pre_embargo"/>
+		      <field name="act_to" ref="act_embargo"/>
+		      <field name="signal">embargo</field>
+		</record>	
+
+<!-- 		<record model="workflow.transition" id="trans_confiscar">
+		      <field name="act_from" ref="act_confiscar"/>
+		      <field name="act_to" ref="act_cancelada"/>
+		      <field name="signal">cancelada</field>
+		</record>	 -->
+		
+		<record model="workflow.transition" id="trans_embargo_renegociar">
+		      <field name="act_from" ref="act_embargo"/>
+		      <field name="act_to" ref="act_renegociar"/>
+		      <field name="signal">renegociar</field>
+		</record>	
+		
+		<record model="workflow.transition" id="trans_draft_cancelada">
+      		   <field name="act_from" ref="act_cartera"/>
+      		   <field name="act_to" ref="act_cancelada"/>
+      		   <field name="condition">test_paid()</field>
+      		   <field name="signal">cancelada</field>
+    	</record>
+    	
+    </data>
+</openerp>

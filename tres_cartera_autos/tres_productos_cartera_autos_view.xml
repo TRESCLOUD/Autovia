@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+           
+       <record model="ir.ui.view" id="product_auto_tree_view">
+           <field name="name">product.product.auto.tree</field>
+           <field name="model">product.product.auto</field>
+           <field name="type">tree</field>
+           <field name="arch" type="xml">
+               <tree string="tree auto">
+				<field name="name" string="Marca"/>
+				<field name="cae"/>
+				<field name="list_price"/>
+				<field name="standard_price"/>
+				<field name="color"/>
+				<field name="clase"/>
+				<field name="modelo"/>
+				<field name="matriculado"/>
+				<field name="numero"/>
+				<field name="year"/>
+				<field name="propietario"/>
+               </tree>
+           </field>
+       </record>
+
+       <record model="ir.ui.view" id="product_auto_form_view">
+           <field name="name">product.product.auto.form</field>
+           <field name="model">product.product.auto</field>
+           <field name="type">form</field>
+           <field name="arch" type="xml">
+               <form string="form auto" col="6">
+		        	<group colspan="4" col="6" groups="tres_cartera_autos.group_tres_cartera_log">        		 
+               	<separator string ="Detalle del Auto"/>
+					<newline/>	
+						<field name="cae" select="1" on_change="onchange_cae(cae)"/>
+						<field name ="name" select="1" string="Marca" on_change="onchange_name(name)"/>
+						<field name="clase" select="1" on_change="onchange_clase(clase)"/>
+						<field name="year" select="1"/>												
+						<field name="modelo" select="1" on_change="onchange_modelo(modelo)"/>
+						<field name="motor" select="1" on_change="onchange_motor(motor)"/>
+						<field name="color" select="1" on_change="onchange_color(color)"/>
+						<field name="chasis" select="1" on_change="onchange_chasis(chasis)"/>
+						<newline/>
+						<separator string ="Detalle Matricula"/>
+						<newline/>
+						<field name="matriculado" string="Matriculado En" select="1" on_change="onchange_matriculado(matriculado)"/>
+						<field name="year_matricula" select="1"/>
+						<field name="propietario" select="1" on_change="onchange_propietario(propietario)"/>
+						<field name="numero" on_change="onchange_numero(numero)"/>
+					<newline/>
+					<separator string ="Costos"/>
+					<newline/>						
+						<field name="standard_price"/>
+						<field name="list_price"/>
+						<field name="vendido"/>
+					</group>
+				   	<group colspan="2" col="6">        		 
+						<field name="product_image" widget='image' nolabel ="1"/>
+					</group>					
+	            </form>  
+           </field>
+       </record>
+
+        <record id="view_product_filter" model="ir.ui.view">
+            <field name="name">product.product.auto.select</field>
+            <field name="model">product.product.auto</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Product">
+                   <group col='10' colspan='4'>
+                        <filter string="Vendidos" name="vendido" icon="terp-purchase" domain="[('vendido','=',1)]"/>
+                        <separator orientation="vertical"/>
+                        <field name="name" string ="Marca" select="1"/>
+                        <field name="cae" select="1"/>
+						<field name="year" select="1"/>
+                        <field name="color" select="1"/>
+						<field name="modelo" select="1"/>
+                        <field name="clase" select="1"/>
+                        <!-- <field name="user_id" select="1">
+                            <filter help="My Partners" icon="terp-personal+" domain="[('user_id','=',uid)]"/>
+                        </field> -->
+                   </group>
+<!--                    <newline />
+                   <group expand="0" string="Group By...">
+                       <filter string="Salesman" icon="terp-personal" domain="[]" context="{'group_by' : 'user_id'}" />
+                   </group> -->
+               </search>
+            </field>
+        </record>
+
+
+
+       <!-- <record model="ir.ui.view" id="product_auto_form_view">
+           <field name="name">product.product.auto.form</field>
+           <field name="model">product.product.auto</field>
+           <field name="type">form</field>
+           <field name="arch" type="xml">
+               <form string="form auto" col="6">
+		        	<group colspan="4" col="6">        		 
+						<field name ="name" select="1" string="Marca"/>
+						<field name="standard_price"/>
+						<field name="list_price"/>
+					</group>
+					<group colspan="2">
+						<field name="product_image" widget='image' nolabel ="1"/>					
+					</group>
+					<separator string ="Detalle del Auto"/>
+					<newline/>
+					<group colspan="6" col="6"> 
+						<field name="motor" select="1"/>
+						<field name="chasis" select="1"/>
+						<field name="color" select="1"/>
+						<field name="clase" select="1"/>
+						<field name="modelo" select="1"/>
+						<field name="year" select="1"/>
+					</group>
+					<newline/>
+					<separator string ="Detalle Matricula"/>
+					<newline/>
+					<group colspan="6" col="4"> 
+						<field name="cae" select="1"/>
+						<field name="matriculado" string="Matriculado En" select="1"/>
+						<field name="numero"/>
+						<field name="propietario" select="1"/>
+					</group>
+            </form>  
+           </field>
+       </record> -->
+       
+       <record model="ir.actions.act_window" id="action_product_auto_tree_view">
+           <field name="name">product.product.auto</field>
+           <field name="type">ir.actions.act_window</field>
+           <field name="res_model">product.product.auto</field>
+<!-- <field name="domain">[('field_name','condition',criteria)]</field>-->
+           <field name="view_type">form</field>
+           <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="product_auto_tree_view"/>
+           <field name="search_view_id" ref="view_product_filter"/>
+       </record>
+
+	<menuitem id="product_auto_menu" 
+	name="Autos" 
+	parent="menu_conf" 
+	action="action_product_auto_tree_view" 
+	groups="group_tres_cartera_log"/>
+
+</data>
+</openerp>
