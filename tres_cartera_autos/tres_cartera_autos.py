@@ -96,23 +96,6 @@ class tres_linea_estado_cuenta(osv.osv):
         #esta funcion instancia de acuerdo al objeto, es decir si es cobro o si es cuota
         #for r in self.browse(cr, uid, ids):
         for i in ids:       
-            
-            #result[i]=''
-            #id_solicitud = None
-            #nombre = None
-            #id_cliente = None
-            
-            #modificado en esta funcion: se usa el campo name que identifica el tipo de haber
-            #de esta manera se conoce cual objeto debe instanciarse
-            #solicitud_read = self.read(cr,uid,i,['lineaestado_id'])
-            #id_solicitud = solicitud_read['lineaestado_id']            
-
-            #if id_solicitud:
-                #instancio el objeto basado en la solicitud
-                #obj_cartera = self.pool.get('tres.cartera').browse(cr, uid, id_solicitud)
-                
-                #nombre = obj_cartera.partner_id.name
-                #id_cliente = obj_cartera.partner_id.id
 
             # Agrego el calculo de los dias en mora, para mejorar la eficiencia del sistema
             # se modifica el nombre date_pago por date_vencimiento
@@ -166,9 +149,6 @@ class tres_linea_estado_cuenta(osv.osv):
                 'company_id': r.company_id.id,                             
                 }
             saldo = r.total_pagare-r.abono
-            print r.total_pagare
-            print r.abono
-            print saldo
             self.write(cr, uid, ids, {'price':saldo}, context=context)
             datos_id = obj_repo.create(cr, uid, result, context)            
             obj_repo1 = self.pool.get('tres.linea.estado.cuenta')            
@@ -188,13 +168,15 @@ class tres_linea_estado_cuenta(osv.osv):
         'valor': fields.float('Valor'), 
         'meses':fields.integer('Meses'),
         'interes':fields.float('Interes'),
-        'valor_interes': fields.float('Valor con Interes'), 
+        'valor_interes': fields.float('Valor con Interes', digits=(5,2)), 
         'date_inicio': fields.date('Fecha Inicial'),
+        'date_pago': fields.date('Fecha de Cobro'),
+        'metodo_pago': fields.char('Metodo de Pago',size=20),
         # modificado date_pago para una mejor comprension del campo
         'date_vencimiento': fields.date('Fecha de Vencimiento'),
         #'dias_mora': fields.function(_dias_mora, method=True, type='integer', string='Dias en Mora'),
         # se modifica el abonado para que se calcule en base alos pagos encontrados y realizados por el cliente
-        'abonado': fields.float('Abono', digits=(5,2)),
+        'abonado': fields.float('Monto Cobrado', digits=(5,2)),
         #'abonado': fields.function(_id_nombre_cliente_mora, method=True, type='float', string='Abonado', multi=True),
         #'saldo': fields.float('Saldo', digits=(5,2)),
         'dias_mora': fields.function(_dias_interes_mora, method=True, type='integer', string='Dias en Mora', multi=True),
@@ -612,23 +594,20 @@ class tres_cartera(osv.osv):
             result[r.id]['total_letras']=total_letras
             result[r.id]['total_pagare']=total_pagare
             result[r.id]['total_pagare_texto']= self.NumeroTextoCompleto(total_pagare)
-            self._estado_mora(cr, uid, ids,field_name, arg,context)    
+         #   self._estado_mora(cr, uid, ids,field_name, arg,context)    
             return result
         
     def _estado_mora(self,cr,uid,ids,field_name,arg,context):       
         result = {}
         for r in ids:       
-            result[r] = {
-                'mora':False,
-                }
             tres_line_obj=self.pool.get('tres.linea.estado.cuenta')
             tres_line=tres_line_obj.search(cr,uid,[('lineaestado_id','=',r),
                                                    ('state','=','espera'),
                                                    ('date_vencimiento','>',time.strftime('%Y-%m-%d'))])   
             if len(tres_line) != 0:
-                result[r]['mora'] = True
+                result[r]=1
             else:
-                result[r]['mora'] = False
+                result[r]=0
         return result
           
     def onchange_partner_id(self, cr, uid, ids, part=False, context=None):
@@ -700,7 +679,7 @@ class tres_cartera(osv.osv):
             'State', readonly=True),
         'amount_paid': fields.function(tres_amount_all, digits=(5,2),string='Paid', states={'draft': [('readonly', False)]}, readonly=True,multi='precio1'),
         'amount_paid_adic': fields.function(tres_amount_all, digits=(5,2),string='Paid', states={'draft': [('readonly', False)]}, readonly=True,multi='precio1'),
-        'mora':fields.boolean('Mora'),
+        'mora': fields.function(_estado_mora, string='Mora',method=True,type='integer',store=True),
 #        'mora':fields.function(_estado_mora,type="boolean",multi=False,string="Mora"),
 #ICE inicio de bloque a Comentar
         #relacion a trescartera
@@ -740,7 +719,6 @@ class tres_cartera(osv.osv):
         'financiamiento': 3,
         'date_creacion': lambda self,cr,uid,context: time.strftime('%Y-%m-%d %H:%M:%S'),
         'date_order': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
-        'mora':False,
     }
        
     

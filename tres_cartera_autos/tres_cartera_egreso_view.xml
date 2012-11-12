@@ -8,7 +8,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Salida de dinero">
-                        <separator string="Describe why you take money from the cash register:" colspan="4"/>
+                        <separator string="Describe porque realizas el egres:" colspan="4"/>
                        <!--  <field name="name"/> -->
                         <field name="tipo_egreso"/>
                   		<group attrs="{'invisible': [('tipo_egreso','!=','cliente')]}">
@@ -17,7 +17,7 @@
                         	<field name="tres_cartera_id" domain ="[('partner_id','=',res_partner_id)]"/>
                         </group>
                         <separator string="Caja" colspan="4"/>
-                        
+                        <field name="state"/>
                         <field name="date"/>
                         <field name="amount"/>
                         <field name="journal_id"/>
@@ -27,8 +27,8 @@
                             <group col="2" colspan="2"/>
                              <button icon="gtk-stop" special="cancel"
                                 string="Cancel" />
-                        	<button name="update" string="Aceptar" colspan="1" type="object" context = "{'tipo_gasto':tipo_gasto}"/>
-                            <button name="%(report_tres_cartera_egreso)d" string="Comprobante" type="action" icon="gtk-print"/>
+                        	<button name="update" string="Aceptar" colspan="1" type="object" confirm="Imprima por favor el Comprobante de Pago" />
+                            <button name="%(report_tres_cartera_egreso)d" string="Comprobante" type="action" icon="gtk-print" attrs="{'invisible':[('state','=','draft')]}" />
                        </group>
                 </form>
             </field>
@@ -68,14 +68,7 @@
                         <field name="res_partner_id" select="1"/>
                         <field name="date" select="1"/>
 						<field name="amount" select="1"/>
-                        <!-- <field name="user_id" select="1">
-                            <filter help="My Partners" icon="terp-personal+" domain="[('user_id','=',uid)]"/>
-                        </field> -->
                    </group>
-<!--                    <newline />
-                   <group expand="0" string="Group By...">
-                       <filter string="Salesman" icon="terp-personal" domain="[]" context="{'group_by' : 'user_id'}" />
-                   </group> -->
                </search>
             </field>
         </record>
@@ -91,10 +84,12 @@
             <field name="search_view_id" ref="view_res_egreso_filter"/>
             <field name="help">A customer is an entity you do business with, like a company or an organization. A customer can have several contacts or addresses which are the people working for this company. You can use the history tab, to follow all transactions related to a customer: sales order, emails, opportunities, claims, etc. If you use the email gateway, the Outlook or the Thunderbird plugin, don't forget to register emails to each contact so that the gateway will automatically attach incoming emails to the right partner.</field>
         </record>
+	
+		<menuitem name="Listado de Egresos" parent="menu_egreso" id="listado_egreso" action="action_egreso_view" sequence="6" groups="group_tres_cartera"/>
 		
 
         <record id="action_box_out" model="ir.actions.act_window">
-            <field name="name">Take Money Out</field>
+            <field name="name">Egreso</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">tres.cartera.egreso</field>
             <field name="view_type">form</field>
@@ -102,6 +97,6 @@
 <!--             <field name="view_id" ref="view_tres_cartera_egreso"/> -->
             <field name="target">new</field>
         </record>
-
+       	<menuitem name="Realizar Egreso" parent="menu_egreso" id="realizar_egreso" action="action_box_out" sequence="6" groups="group_tres_cartera"/>
     </data>
 </openerp>

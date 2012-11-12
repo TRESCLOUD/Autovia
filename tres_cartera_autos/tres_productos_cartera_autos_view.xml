@@ -69,6 +69,7 @@
                 <search string="Search Product">
                    <group col='10' colspan='4'>
                         <filter string="Vendidos" name="vendido" icon="terp-purchase" domain="[('vendido','=',1)]"/>
+                        <filter string="No Vendidos" icon="terp-purchase" domain="[('vendido','!=',1)]"/>
                         <separator orientation="vertical"/>
                         <field name="name" string ="Marca" select="1"/>
                         <field name="cae" select="1"/>

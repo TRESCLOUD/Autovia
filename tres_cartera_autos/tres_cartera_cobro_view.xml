@@ -161,7 +161,7 @@
 		    <field name="view_id" ref="tres_cartera_cobro_tree_view"/>
             <field name="search_view_id" ref="view_tres_cartera_cobro_search"/>
 		</record>		
-		<menuitem id="tres_cartera_pagos" name="Pagos" parent="menu_pagos" action="action_tres_cartera_cobro_tree_view" groups="group_tres_cartera"/>
+		<menuitem id="tres_cartera_pagos" name="Pagos" sequence="2" parent="menu_tres_cartera" action="action_tres_cartera_cobro_tree_view" groups="group_tres_cartera"/>
 		
 <!-- Se crea una accion dependiendo de donde se activa el formulario de cobro
  LA primera es cuando se hace desde los contratos y la segunda es cuando se hace
@@ -197,13 +197,13 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
 <!-- Vista que muestra los pagos y su estado (estado de cuenta general) -->
 <!-- #ICE -->
       <record model="ir.ui.view" id="tres_linea_estado_cuenta_tree_view">
-        <field name="name">tres.linea.estado.cuenta.tree</field>
+        <field name="name">Estado de Cuenta</field>
         <field name="model">tres.linea.estado.cuenta</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Estado de Cuenta" editable="bottom">
                 <field name="name" readonly="1"/>
-                <field name="state" readonly="1"/>
+                <field name="state" string="Estado" readonly="1"/>
 <!--                 <field name="valor_interes" readonly="1" sum="Total por cobrar"/> -->
 				<!-- Modificado el nombre date_pago -->
                 <field name="date_vencimiento"/>
@@ -212,8 +212,10 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
                 <!-- <field name="numero_haber" invisible="1"/> -->
                 <field name="partner_id" readonly="1" invisible="1"/>
                 <field name="tipo_haber" invisible="1"/>
-                <field name="valor" readonly="1"/>
+                <field name="valor_interes" readonly="1"/>
+                <field name="date_pago" readonly="1"/>
                 <field name="abonado" readonly="1"/>
+                <field name="metodo_pago" readonly="1"/>
 				<field name="interes" readonly="1"/>
                 <field name="history_id" invisible="1"/>
                 <field name="letra_entregada" invisible="1"/>
@@ -225,8 +227,40 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
             </tree>
         </field>
       </record>     
+      
+      <record model="ir.ui.view" id="tres_linea_estado_cuenta_form_view">
+        <field name="name">Estado de Cuenta</field>
+        <field name="model">tres.linea.estado.cuenta</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <tree string="Estado de Cuenta" editable="bottom">
+                <field name="name" readonly="1"/>
+                <field name="state" string="Estado" readonly="1"/>
+<!--                 <field name="valor_interes" readonly="1" sum="Total por cobrar"/> -->
+				<!-- Modificado el nombre date_pago -->
+                <field name="date_vencimiento"/>
+ 				<!-- Se muestra en la vista este campo para poder enviarlo como parte del contexto, se utiliza
+ 				tag invisible="1" para que no se muestre al usuario -->                
+                <!-- <field name="numero_haber" invisible="1"/> -->
+                <field name="partner_id" readonly="1" invisible="1"/>
+                <field name="tipo_haber" invisible="1"/>
+                <field name="valor_interes" readonly="1"/>
+                <field name="date_pago" readonly="1"/>
+                <field name="abonado" readonly="1"/>
+                <field name="metodo_pago" readonly="1"/>
+				<field name="interes" readonly="1"/>
+                <field name="letra_entregada" invisible="1"/>
+                <field name="dias_mora" readonly="1" attrs="{'invisible': [('dias_mora','==',0)]}" /> <!-- widget="progressbar/> -->
+                <field name="meses" readonly="1" attrs="{'invisible': [('tipo_haber','==','Cuota')]}"/>
+                
+ 				<!-- <field name="cancelado" invisible="0" icon="terp-open"/> -->                
+<!--               	<button name="%(action_tres_cartera_cobro_form_view_from_estado_cuenta)d" string="Efectuar Pago" type="action" icon="gtk-yes" context="{'partner_id':partner_id}"/> -->
+            </tree>
+        </field>
+      </record>  
+         
 <record model="ir.actions.act_window" id="tres_linea_estado_cuenta_tree_view_list">
-        <field name="name">tres.linea.estado.cuenta.tree</field>
+        <field name="name">tres.linea.estado.cuenta.tree.view.list</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">tres.linea.estado.cuenta</field>
         <!-- Cambio del nombre del campo date_pago -->
@@ -236,38 +270,6 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
         <field name="view_id" ref="tres_linea_estado_cuenta_tree_view"/>
     </record>
 
-<!--     <record model="ir.actions.act_window" id="action_tres_linea_estado_cuenta_search_view">
-        <field name="name">tres.linea.estado.cuenta.search</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">tres.linea.estado.cuenta</field>
-        Cambio del nombre del campo date_pago
-		<field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="tres_linea_estado_cuenta_search_view"/>
-    </record>
- 	<menuitem id="action_tres_linea_estado_cuenta_tree_search_button" parent="menu_borrar" name="Lineas de haberes" action="action_tres_linea_estado_cuenta_search_view"/>
- 	
- -->
-<!-- Agregado vista tipo tree para la presentacion del dashboard
- -->
-    <record model="ir.ui.view" id="tres_linea_estado_cuenta_tree_view_board">
-        <field name="name">tres.linea.estado.cuenta.tree</field>
-        <field name="model">tres.linea.estado.cuenta</field>
-        <field name="type">tree</field>
-        <field name="arch" type="xml">
-            <tree string="Cartera" editable="bottom">
-                <field name="partner_id" readonly="1" invisible="1"/>
-                <field name="name" readonly="1"/>
-                <field name="state" readonly="1"/>
-                <field name="date_vencimiento"/>
-                <field name="valor_interes" readonly="1" sum="Total por cobrar"/>
-				<field name="abonado" readonly="1" sum="Total Abonado"/>
-				<field name="interes_mora_calc" readonly="1"/>
-                <field name="dias_mora"/>
-                <field name="meses" readonly="1"/>
-         	  </tree>
-        </field>
-      </record>     
 
 		<record model="ir.actions.act_window" id="action_tres_linea_estado_cuenta_cobro">
 			<field name="name">Lista de cobros realizados</field>
@@ -279,8 +281,7 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
 		    <field name="search_view_id" ref="view_tres_cartera_cobro_realizados_search"/>
 		</record>
 <!--#ICE Menu  -->	
-		<menuitem id="tres_cartera_cobro_menu" name="Cobros Realizados" parent="menu_pagos" action="action_tres_linea_estado_cuenta_cobro" groups="group_tres_cartera"/>
-<!-- 		<menuitem id="tres_cartera_linea_cobro_menu" name="linea Cobros a Clientes" parent="" action="action_tres_linea_estado_cuenta_cobro"/>
+	<!-- 		<menuitem id="tres_cartera_linea_cobro_menu" name="linea Cobros a Clientes" parent="" action="action_tres_linea_estado_cuenta_cobro"/>
  -->
 
 <!-- Vista usada para asignar los pagos de los clientes
@@ -315,12 +316,13 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
 	        <field name="model">tres.cartera</field>
 	        <field name="type">search</field>
 	        <field name="arch" type="xml">
-			<search string="Busqueda de contratos">      
-	                <!-- <filter string="En Mora" icon="terp-dolar_ok!"/>
-					<separator orientation ="vertical"/>
-	                 --><filter string="Renegociar" icon="terp-stock_effects-object-colorize" domain="[('state','=','renegociar')]"/>
+			<search string="Busqueda de contratos">
+					<filter string="Renegociar" icon="terp-stock_effects-object-colorize" domain="[('state','=','renegociar')]"/>
 	                <filter string="Pre-embargo" icon="terp-dialog-close" domain="[('state','=','pre_embargo')]"/>
 	                <filter string="Embargo" icon="terp-accessories-archiver" domain="[('state','=','embargo')]"/>
+	                <filter string ="anulados" icon="gtk-cancel" domain="[('state','=','refused')]"/>
+					<filter string ="cancelados" icon="terp-camera_test" domain="[('state','=','cancelada')]"/>                		
+	               	<filter string ="Mora" icon="gtk-cancel" domain="[('mora','=',1)]"/>                		
 	                <newline/>
 	                <field name="name" string="Contrato" select="1"/>
 	                <field name="partner_id" string="Cliente" select="1"/>
@@ -334,18 +336,12 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
 	        <field name="model">tres.cartera</field>
 	        <field name="type">search</field>
 	        <field name="arch" type="xml">
-			<search string="Busqueda de contratos">      
-	                <filter string="En Mora" icon="terp-dolar_ok!" domain="[('mora','=',True)]"/>
-					<!-- <separator orientation ="vertical"/>
-	                <filter string="Renegociar" icon="terp-stock_effects-object-colorize" domain="[('state','=','renegociar')]"/>
-	                <filter string="Pre-embargo" icon="terp-dialog-close" domain="[('state','=','pre_embargo')]"/>
-	                <filter string="Embargo" icon="terp-accessories-archiver" domain="[('state','=','embargo')]"/>
-	                 --><newline/>
+			<search string="Busqueda de contratos">
+			<!-- ('mora','=',1)       -->
+					<newline/>
 	                <field name="partner_id" string="Cliente" select="1"/>
 	               	<field name="name" string="Contrato" select="1"/>
-	                <field name="product_id" string="Auto" select="1"/>
-	                
-	                
+	                <field name="product_id" string="Auto" select="1"/>   
 	            </search>
 	        </field>
 	     </record>
@@ -359,6 +355,7 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
                     <field name="name"/>
                     <field name="partner_id"/>
                     <field name="product_id"/>
+                    <field name="mora" invisible="1"/>
                    </tree>
             </field>
         </record>
@@ -378,7 +375,6 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
 			<field name="name">Pagos</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">tres.cartera.cobro</field>
-			<!-- <field name="lineaestado_ids" domain="[('date_vencimiento','&lt;',time.strftime('%Y-%m-%d')),('state','in',('cartera','embarco','en_mora','pre_embargo','renegociar'))]"/> -->
 		    <field name="view_type">form</field>
 		    <field name="view_mode">tree,form</field>
 		    <field name="view_id" ref="view_tres_cartera_cliente_tree"/>
@@ -388,7 +384,7 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
 			<field name="name">Cartera en mora</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">tres.cartera</field>
-			<field name="domain">[]</field>
+			<field name="domain">[('mora','=',1)]</field>
 		    <field name="view_type">form</field>
 		    <field name="view_mode">tree,form</field>
 		    <field name="view_id" ref="view_tres_cartera_cliente_tree"/>
@@ -398,7 +394,7 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
 			<field name="name">Contratos</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">tres.cartera</field>
-			<field name="domain">[('mora','=',True)]</field>
+			<field name="domain">[]</field>
 		    <field name="view_type">form</field>
 		    <field name="view_mode">tree,form</field>
 		    <field name="view_id" ref="view_tres_cartera_cliente_tree"/>
@@ -407,7 +403,7 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
 <!--#ICE Menu  -->	
 		<menuitem id="tres_cartera_cliente_menu" name="Cartera de Clientes" parent="menu_ventas" action="action_tres_cartera_cliente_tree_view"/>
  		<menuitem id="tres_cartera_contratos_menu_mora" name="Clientes En Mora" parent="menu_ventas" action="action_tres_cartera_contratos_tree_view_mora"/>
-		<menuitem id="tres_cartera_contratos_menu" name="Contratos Vencidos" parent="menu_ventas" action="action_tres_cartera_contratos_tree_view"/>
+		<menuitem id="tres_cartera_contratos_menu" name="Estado de Contratos" parent="menu_reportes" action="action_tres_cartera_contratos_tree_view"/>
 <!--#ICE Menu  -->	
 		<!-- #ICE MODIFICAR <menuitem id="tres_cartera_cliente_menu_mora" name="Clientes en mora" parent="menu_ventas" action="action_tres_cartera_cliente_tree_view_mora"/> -->
 	

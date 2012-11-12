@@ -39,7 +39,7 @@ class res_partner(osv.osv):
         'telf_e': fields.char('Telefono',size=64),   
         'street_e': fields.char('Calle', size=128),
         'cargo': fields.char('Cargo', size=128),
-        'anti': fields.char('Antiguedad', size=128),
+        'anti': fields.integer('Antiguedad'),
         's_mes': fields.integer('Sueldo Mensual'),
         'otrs_ingr': fields.integer('Otros Ingresos'),
         'origen': fields.char('Origen', size=128),

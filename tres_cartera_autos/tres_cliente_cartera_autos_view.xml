@@ -46,9 +46,9 @@
                                 <form string="Partner Contacts">
                                       <group colspan="2" col="4">
                                         <separator string="Dirección" colspan="4" col="4" />
-                                        <field name="type" string="Type" colspan="2"/>
-                                        <field name="street" colspan="4"/>
-                                        <field name="street2" colspan="4"/>
+                                        <field name="type" string="Type" colspan="2" invisible="1"/>
+                                        <field name="street" string="Direccion 1" colspan="4"/>
+                                        <field name="street2" string="Direccion 2" colspan="4"/>
                                         <newline/>
 						            	<!-- <field name="residencia_aux"/>
 						            	<field name="otros" attrs="{'invisible':[('residencia_aux', '!=', 'Otros')]}"/>                                        <field name="city"/>
@@ -83,7 +83,12 @@
 			                <field name="telf_e"/>  
 			                <field name="cargo"/>
 						    <field name="anti"/>
-						    <field name="s_mes"/>      
+						    <field name="s_mes"/>
+						    <newline/>
+						    <separator string="Otros ingresos">
+ 							<newline/>  
+ 							</separator> 
+ 							<newline/>   
 						    <field name="otrs_ingr"/>
 			        		<field name="origen" attrs="{'required':[('otrs_ingr', '!=', '0')]}"/>
 			        		</group>	        	

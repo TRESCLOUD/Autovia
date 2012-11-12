@@ -28,12 +28,16 @@ class tres_cartera_egreso(osv.osv):
         'amount': fields.float('Monto', digits=(16, 2)),
         'detalle':fields.char('Detalle', size=128, readonly=False),
         'journal_id': fields.selection(pos_box_entries.get_journal, "Cash Register", size=-1),
+        'state': fields.selection([
+             ('draft', 'draft'),
+            ('aceptado', 'aceptado'),], 'State', readonly=True),
     }
     _defaults = {
          'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
          'amount':0.0,
          'tipo_egreso':0,
          'tipo_gasto':0,
+         'state':'draft',
     }
 
     def update(self, cr, uid, ids, context={}):

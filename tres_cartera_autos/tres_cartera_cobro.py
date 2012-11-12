@@ -131,37 +131,7 @@ class tres_cartera_cobro(osv.osv):
         estado_abono = self.pool.get('tres.linea.estado.cuenta.abono')
         
         for r in records:
-            
-#            # variable con el valor total a pagar
-#            total_pago = 0.0
-#            #analizo las lineas de cobro que tengo
-#            for r_l in r.detalle_pago_ids:
-#                
-#                #verifico si se va o no a cancelar un valor
-#                if r_l.cancelado:
-#                    # se esta cancelando este haber, se suma completo lo que falta abonar
-#                    # ademas se suma el interes acumulado por mora
-#                    if r_l.interes_mora < 0:
-#                        # no se puede calcular, el interes no puede ser negativo
-#                        raise osv.except_osv(_('Error !'), _('Existe un valor negativo como valor de interes!!'))
-#                        
-#                    total_pago = total_pago + float(r_l.valor_interes - r_l.valor_abonado) + r_l.interes_mora
-#                    
-#                else:
-#                    # caso contrario, debe sumarse el valor asignado en el pago
-#                    # se verifica que el valor sea mayor a 0
-#                    if r_l.valor_pago >= 0.0:
-#                        
-#                        if r_l.interes_mora < 0:
-#                            # no se puede calcular, el interes no puede ser negativo
-#                            raise osv.except_osv(_('Error !'), _('Existe un valor negativo como valor de interes!!'))
-#
-#                        total_pago = total_pago + r_l.valor_pago#  + r_l.interes_mora
-#                         
-#                    else:
-#                        # no se puede calcular, hay un valor negativo
-#                        raise osv.except_osv(_('Error !'), _('Existe un valor negativo como pago!!'))
-            
+                 
             total_pago = self._suma_total(cr, r, context=context)
             
             #Una vez sumado todos los valores, verifico que sean iguales al pago general
@@ -191,9 +161,12 @@ class tres_cartera_cobro(osv.osv):
                         linea_abonada['abonado'] = linea_abonada['valor_interes'] + r_l.interes_mora
                         # se cancela el haber
                         linea_abonada['state'] = 'cancelado'
+                        linea_abonada['date_pago']=r.fecha
+                        linea_abonada['metodo_pago']=r.metodo_pago
                     else:
                         # se aumenta lo abonado
                         nuevo_abono = linea_abonada['abonado'] + r_l.valor_pago
+                        linea_abonada['state'] = 'abonado'
                         # se verifica que el nuevo abono no exeda el valor total
                         if nuevo_abono > (linea_abonada['valor_interes'] + r_l.interes_mora):
                             #es preferible usar la opcion de cancelar, se informa al usuario
@@ -203,11 +176,16 @@ class tres_cartera_cobro(osv.osv):
                             #no se uso la opcion de cancelar, pero coincide el valor
                             # se cancela el haber
                             linea_abonada['state'] = 'cancelado'
+                            linea_abonada['date_pago']=r.fecha
+                            linea_abonada['metodo_pago']=r.metodo_pago
                         # el abono es valido, lo seteo
                         linea_abonada['abonado'] = linea_abonada['abonado'] + + r_l.valor_pago
-                    
+                        linea_abonada['date_pago']=r.fecha
+                        linea_abonada['metodo_pago']=r.metodo_pago
                     estado_cuenta.write(cr, uid, r_l.estado_cuenta_id.id, {'abonado': linea_abonada['abonado'],
-                                                                           'state': linea_abonada['state'],})
+                                                                           'state': linea_abonada['state'],
+                                                                           'date_pago':linea_abonada['date_pago'],
+                                                                           'metodo_pago':linea_abonada['metodo_pago'],})
 
                 # Manejo del PAGO: 
                 # depende del tipo de pago, si es efectivo o cheque debe usarse un journal
