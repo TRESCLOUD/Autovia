@@ -523,13 +523,29 @@
            </search>
         </field>
     </record>   
-	
+	<record model="ir.ui.view" id="crm_case_phone_form_view_inherit">
+        <field name="name">CRM - Phone Calls Tree</field>
+        <field name="model">crm.phonecall</field>
+        <field name="inherit_id" ref="crm.crm_case_phone_form_view"/>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+                <field name="partner_id" position="attributes">
+                <attribute name="string">Cliente</attribute>
+         		</field>
+                <field name="partner_address_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+                </field>
+                <field name="section_id" position="attributes" >
+                <attribute name="invisible">1</attribute>
+                </field>               
+        </field>
+    </record>
 	<record model="ir.actions.act_window" id="crm_case_categ_phone_outgoing0">
         <field name="name">Llamadas planificadas</field>
         <field name="res_model">crm.phonecall</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,calendar</field>
-        <field name="view_id" ref="crm.crm_case_phone_tree_view"/>
+        <field name="view_mode">calendar,tree</field>
+        <field name="view_id" ref="crm_case_phone_form_view_inherit"/>
         <field name="domain">[('state','!=','done')]</field>
         <field name="context" eval="'{\'search_default_section_id\':section_id, \'default_state\':\'open\', \'search_default_current\':1}'"/>
         <field name="search_view_id" ref="view_crm_case_scheduled_phonecalls_filter"/>

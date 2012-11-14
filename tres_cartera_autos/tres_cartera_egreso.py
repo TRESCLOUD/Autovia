@@ -5,6 +5,8 @@ from dateutil.relativedelta import relativedelta
 from osv import osv, fields
 from tools.translate import _
 from point_of_sale.wizard import pos_box_entries
+from report import report_sxw
+import pooler
 #import pos_box_entries
 
 class tres_cartera_egreso(osv.osv):
@@ -43,10 +45,10 @@ class tres_cartera_egreso(osv.osv):
     def update(self, cr, uid, ids, context={}):
 
         obj_contrato = self.pool.get('tres.linea.estado.cuenta')
-        
+        self.write(cr, uid, ids, {'state': 'aceptado'})
         result={}
         valorState=''
-        
+                
         if context['tipo_gasto'] =='embargo':
             valorState = 'embargo'
             name = 'Pago embargo'
@@ -68,11 +70,21 @@ class tres_cartera_egreso(osv.osv):
             } 
             datos_id = obj_contrato.create(cr, uid, result, context)         
             self.get_out(cr, uid, ids, context)
-        return result
+#            self.print_report(cr, uid, ids, context=context)
+#            jasper_report.report_jasper('report.jasper_report_user_print', 'res.users' )
+            return result
     
+#    def print_report(self, cr, uid, ids, context=None):
+#        active_id = context.get('active_id', [])
+#        active_id=1
+#        datas = {'ids' : [active_id]}
+#        return {
+#            'type': 'ir.actions.report.xml',
+#            'report_name': 'comprobanteIngreso.jrxml',
+#            'datas': datas,
+#        }
     def get_out(self, cr, uid, ids, context=None):
 
-        print "entro"
         vals = {}
         statement_obj = self.pool.get('account.bank.statement')
         statement_line_obj = self.pool.get('account.bank.statement.line')

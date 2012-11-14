@@ -2,29 +2,6 @@
 <openerp>
 	<data>
 
-
-<!-- Vista complementaria para cada linea de asignacion de pago de haberes 
-	LA vista permite visualizar los haberes del cliente, se visualiza en conjunto con la
-	vista de pre cobro
--->
-<!-- 		<record model="ir.ui.view" id="tres_linea_estado_cuenta_cobro_tree_view">
-		    <field name="name">tres.linea.estado.cuenta.abono.tree</field>
-		    <field name="model">tres.linea.estado.cuenta.abono</field>
-		    <field name="type">tree</field>
-		    <field name="arch" type="xml">
-		        <tree string="Cuotas a pagar" editable="bottom">
-		            <field name="name" invisible="1"/>
-		            <field name="estado_cuenta_id" readonly="1"/>
-		            <field name="date_pago" readonly="1"/>
-		            <field name="valor_interes" readonly="1" sum="Total por cobrar"/>
-		            <field name="valor_abonado" readonly="1" sum="Total pagado"/>
-					<field name="interes_mora" readonly="1" sum="Total Interes Por Mora"/>
-					<field name="cancelado" on_change="onchange_cancelado(valor_abonado, valor_interes)"/>
-					<field name="valor_pago" attrs="{'readonly': [('cancelado','==',True)]}"/>
-		        </tree>
-		    </field>
-		</record>
- -->
 		<record model="ir.ui.view" id="tres_linea_estado_cuenta_cobro_tree_view_filtrado">
 		    <field name="name">tres.linea.estado.cuenta.abono.tree</field>
 		    <field name="model">tres.linea.estado.cuenta.abono</field>

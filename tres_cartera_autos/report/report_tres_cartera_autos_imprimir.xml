@@ -36,13 +36,22 @@
       		  model="tres.cartera"
       		  name="report_tres_cartera_comprobante"
       		  rml="tres_cartera_autos/report/comprobanteIngreso.jrxml"
-      		  menu="False"/>
+      		  menu="False"
+      		  auto="True"/>
     <report id="report_tres_cartera_autos_cuotas_cv2"
            	  string="Prueba"
       		  model="tres.cartera"
       		  name="report.prueba"
       		  rml="tres_cartera_autos/report/Contrato_parte2.jrxml"
       		  menu="False"/>
-
+	 <report
+            id="tres_cartera_egreso"
+            string="Imprimir"
+            model="tres.cartera.egreso"
+            name="Todos los Egresos"
+            auto="False"
+            multi="False"
+            rml="tres_cartera_autos/report/comprobanteIngreso.jrxml"
+             />
      </data>
 </openerp>
