@@ -174,22 +174,14 @@ class tres_linea_estado_cuenta(osv.osv):
         'metodo_pago': fields.char('Metodo de Pago',size=20),
         # modificado date_pago para una mejor comprension del campo
         'date_vencimiento': fields.date('Fecha de Vencimiento'),
-        #'dias_mora': fields.function(_dias_mora, method=True, type='integer', string='Dias en Mora'),
         # se modifica el abonado para que se calcule en base alos pagos encontrados y realizados por el cliente
         'abonado': fields.float('Monto Cobrado', digits=(5,2)),
-        #'abonado': fields.function(_id_nombre_cliente_mora, method=True, type='float', string='Abonado', multi=True),
-        #'saldo': fields.float('Saldo', digits=(5,2)),
         'dias_mora': fields.function(_dias_interes_mora, method=True, type='integer', string='Dias en Mora', multi=True),
-        #'nombre_cliente': fields.function(_id_nombre_cliente_mora, method=True, type='char', string='Nombre del Cliente', multi=True),
-        #'partner_id': fields.function(_id_nombre_cliente_mora, method=True, type='integer', string='Nombre del Cliente', multi=True, store=True),       
         #ICE cambiar partner_id
         'lineaestado_id': fields.many2one('tres.cartera', 'Lineas de cuotas del contrato', select=True),
         'partner_id': fields.related('lineaestado_id','partner_id',type='many2one',relation='res.partner',string='Cliente',store=True,readonly=True),
         'user_id': fields.many2one('res.users', 'Connected Salesman', help="Person who uses the the cash register. It could be a reliever, a student or an interim employee."),
         #ICE FIN
-        #'nombre_cliente': fields.function(_nombre_cliente, method=True, type='char', string='Nombre del Cliente'),
-        #'partner_id': fields.integer('ID CLiente'),
-        #'partner_id': fields.many2one('tres.cartera', 'Cliente'),
         'letra_entregada':fields.boolean('Letra Entregada', required=False),
         'state': fields.selection([
             ('espera', 'Esperando Pago'),
@@ -203,10 +195,6 @@ class tres_linea_estado_cuenta(osv.osv):
             # Estado cancelado, para indicar que este haber terminado de pagar, facilita el filtrado
             ('cancelado', 'Cancelado'),
             ('renegociado', 'Renegociado'),], 'State', readonly=True),
-        # identifica un orden dentro de cada tipo de cuota
-        #'numero_haber': fields.integer('Orden del tipo de Haber'),
-        # se agrega un booleano para indicar si el haber esta cancelado
-        #'cancelado': fields.function(_id_nombre_cliente_mora, method=True, type='boolean', string='Cancelado', multi=True),
         'cancelado': fields.boolean("Cancelado"),
         #'history_id': fields.many2one('tres.cartera.history', 'History'),
         'history_id': fields.many2one('tres.cartera', 'History'),
@@ -269,19 +257,6 @@ class tres_linea_estado_cuenta_adicional(osv.osv):
                   }            
         return result
 
-#    def _cliente_ident(self, cr, uid, context=None):
-#        # Funcion que verifica que se haya enviado en el contexto el id del cliente, caso contrario
-#        # debe cerrarse el formulario
-#        
-#        partner_id = context['partner_id'] if context and 'partner_id' in context else False
-#        
-#        if not partner_id:
-#            msg = _('No se ha seleccionado un Cliente, debe seleccionarlo o crearlo antes de continuar!')
-#            raise osv.except_osv(_('Warning !'), msg)
-#            return {'type': 'ir.actions.act_window_close'}
-#        
-#        return partner_id
-
     _columns = {
         #'adicional_id': fields.many2one('tres.cartera', 'Adicional', select=True),
         #'lineaestado_id':'adicional_id'
@@ -340,7 +315,6 @@ class tres_cartera(osv.osv):
         #_logger.info("orders: %r", orders)
         lista = []
         for order in orders:
-            # order :: {'name': 'Order 1329148448062', 'amount_paid': 9.42, 'lines': [[0, 0, {'discount': 0, 'price_unit': 1.46, 'product_id': 124, 'qty': 5}], [0, 0, {'discount': 0, 'price_unit': 0.53, 'product_id': 62, 'qty': 4}]], 'statement_ids': [[0, 0, {'journal_id': 7, 'amount': 9.42, 'name': '2012-02-13 15:54:12', 'account_id': 12, 'statement_id': 21}]], 'amount_tax': 0, 'amount_return': 0, 'amount_total': 9.42}
             order_obj = self.pool.get('tres.cartera')
             # get statements out of order because they will be generated with add_payment to ensure
             # the module behavior is the same when using the front-end or the back-end
@@ -522,7 +496,6 @@ class tres_cartera(osv.osv):
         
         records = self.browse(cr, uid, ids)
         result = {}
-        
         for r in records:       
 
             result[r.id] = {
@@ -540,6 +513,11 @@ class tres_cartera(osv.osv):
                 #division para 0, se envia tal como esta
                 return result
                 
+
+            if not r.entrada or not r.interes:    
+               # result ={'total_pagare_texto': '', 'total_letras': 0.0, 'cuota_mes': 0.0, 'monto_financiar': 0.0, 'total_pagare': 0.0}
+                return result
+
             #se calcula el interes por mes
             interes=float(r.interes)/12/100
             monto=r.price
@@ -650,9 +628,10 @@ class tres_cartera(osv.osv):
         'cyg_partner_id': fields.many2one('res.partner', 'Conyuge Cliente', change_default=True, select=1, readonly=False, states={'cartera':[('readonly',True)]}),
         'cyg_garante_id': fields.many2one('res.partner', 'Conyuge Garante', change_default=True, select=1, readonly=False, states={'cartera':[('readonly',True)]}),
         'entrada':fields.integer('Entrada',states={'cartera': [('readonly', True)]},readonly=False),
-        'product_id': fields.many2one('product.product.auto', 'Product', required=True,readonly=False, states={'cartera':[('readonly',True)]}, domain=[('vendido','=',False)]), 
-        #'price':fields.related('list_price', relation='product.product', type='function'),
-        'price': fields.float('Precio',states={'cartera': [('readonly', True)]},readonly=False),
+        'product_id': fields.many2one('product.product.auto', 'Product', required=True, states={'cartera':[('readonly',True)]}, domain=[('vendido','=',False)]), 
+        #'product_id': fields.many2one('product.product.auto', 'Product'),
+        'price': fields.float('Precio',states={'cartera': [('readonly', True)]}),
+        #'price': fields.float('Precio'),
         #'cuota_ids': fields.one2many('tres.linea.estado.cuenta.cuota', 'cuota_id', 'Cuotas'),
         'pago_l':fields.float('Pago'),
         'financiamiento':fields.char('Financiamiento (En meses)', size=3,states={'cartera': [('readonly', True)]},readonly=False),         
@@ -677,11 +656,11 @@ class tres_cartera(osv.osv):
             ('embargo', 'Embargado'),
             ('cancelada', 'Cancelado')],
             'State', readonly=True),
-        'amount_paid': fields.function(tres_amount_all, digits=(5,2),string='Paid', states={'draft': [('readonly', False)]}, readonly=True,multi='precio1'),
-        'amount_paid_adic': fields.function(tres_amount_all, digits=(5,2),string='Paid', states={'draft': [('readonly', False)]}, readonly=True,multi='precio1'),
+#        'amount_paid': fields.function(tres_amount_all, digits=(5,2),string='Paid', states={'draft': [('readonly', False)]}, readonly=True,multi='precio1'),
+#        'amount_paid_adic': fields.function(tres_amount_all, digits=(5,2),string='Paid', states={'draft': [('readonly', False)]}, readonly=True,multi='precio1'),
         'mora': fields.function(_estado_mora, string='Mora',method=True,type='integer',store=True),
-#        'mora':fields.function(_estado_mora,type="boolean",multi=False,string="Mora"),
-#ICE inicio de bloque a Comentar
+        #'mora': fields.integer('mora'),
+        #ICE inicio de bloque a Comentar
         #relacion a trescartera
         'egreso_id': fields.one2many('tres.cartera.egreso', 'tres_cartera_id', 'Egreso'),
         
@@ -717,6 +696,7 @@ class tres_cartera(osv.osv):
         #'nb_print': 0,
         'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
         'financiamiento': 3,
+        #'mora':_estado_mora,
         'date_creacion': lambda self,cr,uid,context: time.strftime('%Y-%m-%d %H:%M:%S'),
         'date_order': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
     }
@@ -1032,13 +1012,6 @@ class tres_cartera_history(osv.osv):
         'pago_l':fields.float('Pago'),
         'financiamiento':fields.char('Financiamiento (En meses)', size=3),         
         'interes':fields.float('Interes Anual',digits=(5,2)),
-        
-#        'cuota_mes': fields.function(_calcula_precio, type="float", digits=(5,2),string="Valor Letra",multi='precio'),
-#        'monto_financiar': fields.function(_calcula_precio, type="float", digits=(5,2),string="A Financiar",multi='precio'),
-#        'total_letras': fields.function(_calcula_precio, type="float", digits=(5,2),string="Total Letras",multi='precio'),
-#        'total_pagare': fields.function(_calcula_precio, type="float", digits=(5,2),string="Total Pagare",multi='precio'),
-#        'total_pagare_texto': fields.function(_calcula_precio, type="text",string="Total Pagare (Texto)",multi='precio'),
-        
         'cuota_mes': fields.float('Valor Letra', digits=(5,2)),
         'monto_financiar': fields.float('A Financiar', digits=(5,2)),
         'total_letras': fields.float('Total Letras', digits=(5,2)),

@@ -197,7 +197,7 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
                 <field name="history_id" invisible="1"/>
                 <field name="letra_entregada" invisible="1"/>
                 <field name="dias_mora" readonly="1" attrs="{'invisible': [('dias_mora','==',0)]}" /> <!-- widget="progressbar/> -->
-                <field name="meses" readonly="1" attrs="{'invisible': [('tipo_haber','==','Cuota')]}"/>
+                <field name="meses" readonly="1" attrs="{'invisible': [('tipo_haber','==','cuota')]}"/>
                 
  				<!-- <field name="cancelado" invisible="0" icon="terp-open"/> -->                
 <!--               	<button name="%(action_tres_cartera_cobro_form_view_from_estado_cuenta)d" string="Efectuar Pago" type="action" icon="gtk-yes" context="{'partner_id':partner_id}"/> -->
@@ -228,7 +228,7 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
 				<field name="interes" readonly="1"/>
                 <field name="letra_entregada" invisible="1"/>
                 <field name="dias_mora" readonly="1" attrs="{'invisible': [('dias_mora','==',0)]}" /> <!-- widget="progressbar/> -->
-                <field name="meses" readonly="1" attrs="{'invisible': [('tipo_haber','==','Cuota')]}"/>
+                <field name="meses" readonly="1" attrs="{'invisible': [('tipo_haber','==','cuota')]}"/>
                 
  				<!-- <field name="cancelado" invisible="0" icon="terp-open"/> -->                
 <!--               	<button name="%(action_tres_cartera_cobro_form_view_from_estado_cuenta)d" string="Efectuar Pago" type="action" icon="gtk-yes" context="{'partner_id':partner_id}"/> -->
@@ -379,8 +379,8 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
 		</record>
 <!--#ICE Menu  -->	
 		<menuitem id="tres_cartera_cliente_menu" name="Cartera de Clientes" parent="menu_ventas" action="action_tres_cartera_cliente_tree_view"/>
- 		<menuitem id="tres_cartera_contratos_menu_mora" name="Clientes En Mora" parent="menu_ventas" action="action_tres_cartera_contratos_tree_view_mora"/>
-		<menuitem id="tres_cartera_contratos_menu" name="Estado de Contratos" parent="menu_reportes" action="action_tres_cartera_contratos_tree_view"/>
+ 		<menuitem id="tres_cartera_contratos_menu_mora" name="Clientes En Mora" parent="menu_reportes" action="action_tres_cartera_contratos_tree_view_mora" sequence="6"/>
+		<menuitem id="tres_cartera_contratos_menu" name="Estado de Contratos" parent="menu_reportes" action="action_tres_cartera_contratos_tree_view" sequence="3"/>
 <!--#ICE Menu  -->	
 		<!-- #ICE MODIFICAR <menuitem id="tres_cartera_cliente_menu_mora" name="Clientes en mora" parent="menu_ventas" action="action_tres_cartera_cliente_tree_view_mora"/> -->
 	

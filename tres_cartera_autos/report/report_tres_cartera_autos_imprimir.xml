@@ -44,6 +44,7 @@
       		  name="report.prueba"
       		  rml="tres_cartera_autos/report/Contrato_parte2.jrxml"
       		  menu="False"/>
+<!--  TODOS LOS EGRESOS IMPRIMIR EN LADO DERECHO -->
 	 <report
             id="tres_cartera_egreso"
             string="Imprimir"

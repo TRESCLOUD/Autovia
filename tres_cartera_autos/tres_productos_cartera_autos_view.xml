@@ -129,10 +129,9 @@
        </record> -->
        
        <record model="ir.actions.act_window" id="action_product_auto_tree_view">
-           <field name="name">product.product.auto</field>
+           <field name="name">Autos</field>
            <field name="type">ir.actions.act_window</field>
            <field name="res_model">product.product.auto</field>
-<!-- <field name="domain">[('field_name','condition',criteria)]</field>-->
            <field name="view_type">form</field>
            <field name="view_mode">tree,form</field>
            <field name="view_id" ref="product_auto_tree_view"/>
