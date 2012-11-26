@@ -10,23 +10,24 @@
                 <form string="Salida de dinero">
                         <separator string="Describe porque realizas el egres:" colspan="4"/>
                        <!--  <field name="name"/> -->
-                        <field name="tipo_egreso" required="1"/>
+                        <field name="tipo_egreso" required="1" attrs="{'readonly': [('state','=','aceptado')]}"/>
                   		<group attrs="{'invisible': [('tipo_egreso','!=','cliente')]}">
-                        	<field name="tipo_gasto"/>                  
-                  			<field name="res_partner_id"/>
-                        	<field name="tres_cartera_id" domain ="[('partner_id','=',res_partner_id)]"/>
+                        	<field name="tipo_gasto" attrs="{'readonly': [('state','=','aceptado')]}"/>                  
+                  			<field name="res_partner_id" attrs="{'readonly': [('state','=','aceptado')]}"/>
+                        	<field name="tres_cartera_id" domain ="[('partner_id','=',res_partner_id)]" attrs="{'readonly': [('state','=','aceptado')]}"/>
                         </group>
                         <separator string="Caja" colspan="4"/>
-                        <field name="date"/>
-                        <field name="amount"/>
-                        <field name="journal_id"/>
-                        <field name="detalle" colspan="4"/>                        
+                        <field name="date" attrs="{'readonly': [('state','=','aceptado')]}"/>
+                        <field name="amount" attrs="{'readonly': [('state','=','aceptado')]}"/>
+                        <field name="journal_id" attrs="{'readonly': [('state','=','aceptado')]}"/>
+                        <field name="detalle" colspan="4" attrs="{'readonly': [('state','=','aceptado')]}"/>                        
                         <separator colspan="4"/>
-                        <group colspan="4" col="4">                           
-                             <button icon="gtk-stop" special="cancel"
-                                string="Cancel" />
-                        	<button name="update" string="Aceptar" colspan="1" type="object" context = "{'tipo_gasto':tipo_gasto}"/>
-                            <button name="%(report_tres_cartera_egreso)d" string="Comprobante" type="action" icon="gtk-print" />
+                        <group colspan="4" col="4"> 
+                        <field name="state" widget="statusbar" statusbar_visible="draft,aceptado"/>                          
+                             <!-- <button icon="gtk-stop" special="cancel"
+                                string="Cancel" /> -->
+                        	<button name="update" string="Aceptar" states="draft" colspan="1" type="object" context = "{'tipo_gasto':tipo_gasto}"/>
+                            <button name="%(report_tres_cartera_egreso)d" string="Comprobante" states="aceptado" type="action" icon="gtk-print" attrs="{'invisible': [('state','=','draft')]}" />
                        </group>
                        </form>
             </field>
