@@ -27,7 +27,7 @@
                              <!-- <button icon="gtk-stop" special="cancel"
                                 string="Cancel" /> -->
                         	<button name="update" string="Aceptar" states="draft" colspan="1" type="object" context = "{'tipo_gasto':tipo_gasto}"/>
-                            <button name="%(report_tres_cartera_egreso)d" string="Comprobante" states="aceptado" type="action" icon="gtk-print" attrs="{'invisible': [('state','=','draft')]}" />
+                            <button name="%(report_tres_cartera_egreso_prueba)d" string="Comprobante" states="aceptado" type="action" icon="gtk-print" attrs="{'invisible': [('state','=','draft')]}" />
                        </group>
                        </form>
             </field>
