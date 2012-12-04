@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="xPath">
+		<![CDATA[]]>
+	</queryString>
+	<field name="Nombre-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Cliente-res_partner_id/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="Nombre_del_contacto-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Cliente-res_partner_id/Contactos-address/Nombre_del_contacto-name]]></fieldDescription>
+	</field>
+	<field name="Tipo_egreso-tipo_egreso" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Tipo_egreso-tipo_egreso]]></fieldDescription>
+	</field>
+	<field name="Tipo_de_gasto-tipo_gasto" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Tipo_de_gasto-tipo_gasto]]></fieldDescription>
+	</field>
+	<field name="Monto-amount" class="java.lang.Float">
+		<fieldDescription><![CDATA[/data/record/Monto-amount]]></fieldDescription>
+	</field>
+	<field name="Fecha_de_Creacion-date" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Fecha_de_Creacion-date]]></fieldDescription>
+	</field>
+	<field name="Detalle-detalle" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Detalle-detalle]]></fieldDescription>
+	</field>
+	<field name="Nombre_de_la_compania-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Contrato-tres_cartera_id/Company-company_id/Nombre_de_la_compania-name]]></fieldDescription>
+	</field>
+	<field name="Nombre_de_la_compania-name2" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Usuario-User/Company-company_id/Nombre_de_la_compania-name]]></fieldDescription>
+	</field>
+	<field name="Nombre_del_contacto-name2" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Usuario-User/Company-company_id/Empresa-partner_id/Contactos-address/Nombre_del_contacto-name]]></fieldDescription>
+	</field>
+	<variable name="Nombre_de_la_compania-name_1" class="java.lang.Integer" resetType="Group" resetGroup="Egreso" calculation="Count">
+		<variableExpression><![CDATA[$F{Nombre_de_la_compania-name}]]></variableExpression>
+	</variable>
+	<variable name="Monto-amount_1" class="java.lang.Float" resetType="Group" resetGroup="Egreso" calculation="Sum">
+		<variableExpression><![CDATA[$F{Monto-amount}]]></variableExpression>
+	</variable>
+	<variable name="Monto-amount_2" class="java.lang.Float" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{Monto-amount}]]></variableExpression>
+	</variable>
+	<group name="Egreso">
+		<groupExpression><![CDATA[$F{Tipo_egreso-tipo_egreso}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<rectangle>
+					<reportElement x="1" y="0" width="554" height="21" backcolor="#C0C0C0"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="1" y="1" width="101" height="20"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Left">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tipo de egreso:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="102" y="1" width="158" height="20"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{Tipo_egreso-tipo_egreso}.equals( "cliente" )? "Haberes cliente":"Gastos de la empresa"]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="22">
+				<rectangle>
+					<reportElement x="1" y="0" width="554" height="21" backcolor="#F2F1F0"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="375" y="1" width="101" height="21"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Left">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total: ]]></text>
+				</staticText>
+				<textField pattern="###0.00">
+					<reportElement x="476" y="2" width="77" height="20"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$V{Monto-amount_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="65" splitType="Stretch">
+			<staticText>
+				<reportElement x="203" y="12" width="172" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE EGRESOS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="1" width="134" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="136" y="1" width="100" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de gasto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="236" y="1" width="80" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="316" y="1" width="160" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="476" y="1" width="79" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="1" y="0" width="134" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Tipo_egreso-tipo_egreso}.equals( "cliente" )? $F{Nombre-name}:$F{Nombre_de_la_compania-name2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="136" y="0" width="100" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Tipo_de_gasto-tipo_gasto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="476" y="0" width="79" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Monto-amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="236" y="0" width="80" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Fecha_de_Creacion-date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="316" y="0" width="160" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Detalle-detalle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="316" y="-1" width="160" height="21"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL EGRESOS: ]]></text>
+			</staticText>
+			<textField pattern="###0.00">
+				<reportElement x="476" y="-1" width="79" height="21"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{Monto-amount_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

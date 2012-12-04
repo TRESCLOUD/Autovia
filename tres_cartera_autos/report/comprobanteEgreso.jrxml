@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="comprobanteIngreso" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="xPath">
+		<![CDATA[]]>
+	</queryString>
+	<field name="Nombre-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Cliente-res_partner_id/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="Tipo_de_gasto-tipo_gasto" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Tipo_de_gasto-tipo_gasto]]></fieldDescription>
+	</field>
+	<field name="Tipo_egreso-tipo_egreso" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Tipo_egreso-tipo_egreso]]></fieldDescription>
+	</field>
+	<field name="Codigo-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Contrato-tres_cartera_id/Codigo-name]]></fieldDescription>
+	</field>
+	<field name="Fecha_de_Creacion-date" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Fecha_de_Creacion-date]]></fieldDescription>
+	</field>
+	<field name="Monto-amount" class="java.lang.Float">
+		<fieldDescription><![CDATA[/data/record/Monto-amount]]></fieldDescription>
+	</field>
+	<field name="Cash_Register-journal_id" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Cash_Register-journal_id]]></fieldDescription>
+	</field>
+	<field name="Detalle-detalle" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Detalle-detalle]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="43" splitType="Stretch">
+			<staticText>
+				<reportElement x="167" y="17" width="217" height="26"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPROBANTE EGRESO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="176" splitType="Stretch">
+			<staticText>
+				<reportElement x="16" y="15" width="92" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de egreso:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="108" y="35" width="420" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Tipo_de_gasto-tipo_gasto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="16" y="35" width="92" height="20">
+					<printWhenExpression><![CDATA[!$F{Tipo_de_gasto-tipo_gasto}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de gasto:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="108" y="15" width="420" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Tipo_egreso-tipo_egreso}.equals( "cliente" )? "Haberes cliente":"Gastos de la empresa"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="16" y="55" width="92" height="20">
+					<printWhenExpression><![CDATA[!$F{Nombre-name}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="108" y="55" width="220" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Nombre-name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="328" y="55" width="67" height="20">
+					<printWhenExpression><![CDATA[!$F{Codigo-name}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contrato: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="395" y="55" width="133" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Codigo-name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="16" y="75" width="92" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="108" y="75" width="220" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Fecha_de_Creacion-date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="328" y="75" width="67" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto:]]></text>
+			</staticText>
+			<textField pattern="###0.00">
+				<reportElement x="395" y="75" width="133" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Monto-amount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="16" y="95" width="92" height="45"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalle:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="108" y="95" width="420" height="45"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Detalle-detalle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
