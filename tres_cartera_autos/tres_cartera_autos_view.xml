@@ -23,7 +23,7 @@
                                <separator orientation="vertical"/>
                 <filter string="No Aprobados" icon="gtk-cancel" domain="[('state','=','cancelled')]"/>
 	       	 	<newline/>
-                <field name="partner_id" string="Cliente" select="1"/>
+                <field name="partner_id" string="Cliente" select="1" />
                 <field name="name" string="Contrato" select="1"/>
                 <field name="product_id" string="Auto" select="1"/>
             </search>
@@ -173,16 +173,16 @@
                         <separator string="Cliente"/>
                         <newline/>
                         <group col="8" colspan="4">
-                        <field name="partner_id" required="1" string ="Cliente" on_change="onchange_partner_id(partner_id)" context="{'default_customer': 1,'search_default_customer':1,'default_supplier': 0}"/>
+                        <field name="partner_id" required="1" string ="Cliente" on_change="onchange_partner_id(partner_id)" context="{'default_cliente_check': 1, 'search_default_cliente_check': 1, 'default_garante_check': 0,'default_conyuge_check': 0}" options='{"quick_create": false}' domain="[('cliente_check', '=', True)]"/>
                         <!-- 	<button name="action_partner_form_new" string ="Validar estado del cliente" states="draft" type="action" icon="terp-personal"/> -->
-                        <field name="cyg_partner_id" on_change="onchange_partner_id(partner_id)" context="{'default_customer': 0,'search_default_supplier':1,'default_conyugec': 1}" />
+                        <field name="cyg_partner_id" on_change="onchange_partner_id(partner_id)" context="{'default_cliente_check': 0, 'default_garante_check': 0,'default_conyuge_check': 1}" options='{"quick_create": false}' domain="[('conyuge_check', '=', True)]" />
                         </group>
                     	<newline/>
                     	<separator string="Garante"/>
                     	<field name="sin_garante" colspan="4"/>
                     	<group col="8" colspan="4">
-                    		<field name="garante_id" on_change="onchange_partner_id(partner_id)" context="{'default_customer': 0,'search_default_supplier':1,'default_supplier': 1}" attrs="{'invisible': [('sin_garante','=',True)]}"/>
-                    		<field name="cyg_garante_id" on_change="onchange_partner_id(partner_id)" context="{'default_customer': 0,'search_default_supplier':1,'default_conyugeg': 1}" attrs="{'invisible': [('sin_garante','=',True)]}"/>                    	
+                    		<field name="garante_id" on_change="onchange_partner_id(partner_id)" context="{'default_cliente_check': 0, 'default_garante_check': 1,'default_conyuge_check': 0}" options='{"quick_create": false}' domain="[('garante_check', '=', True)]" attrs="{'invisible': [('sin_garante','=',True)]}"/>
+                    		<field name="cyg_garante_id" on_change="onchange_partner_id(partner_id)" context="{'default_cliente_check': 0, 'default_garante_check': 0,'default_conyuge_check': 1}" options='{"quick_create": false}' domain="[('conyuge_check', '=', True)]" attrs="{'invisible': [('sin_garante','=',True)]}"/>                    	
                     	</group>
                     	<separator string="Credito"/>
                     	<newline/>

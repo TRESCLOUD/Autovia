@@ -78,6 +78,10 @@ class res_partner(osv.osv):
             help="This account will be used instead of the default one as the receivable account for the current partner",
             required=True),
         }
+    _default={
+        'cliente_check': lambda *a: 1,
+        'active': lambda *a: 1,
+              }
 
 res_partner()
 

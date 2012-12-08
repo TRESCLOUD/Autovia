@@ -12,9 +12,9 @@
                        <!--  <field name="name"/> -->
                         <field name="tipo_egreso" required="1" attrs="{'readonly': [('state','=','aceptado')]}"/>
                   		<group attrs="{'invisible': [('tipo_egreso','!=','cliente')]}">
-                        	<field name="tipo_gasto" attrs="{'readonly': [('state','=','aceptado')]}"/>                  
-                  			<field name="res_partner_id" attrs="{'readonly': [('state','=','aceptado')]}"/>
-                        	<field name="tres_cartera_id" domain ="[('partner_id','=',res_partner_id)]" attrs="{'readonly': [('state','=','aceptado')]}"/>
+                        	<field name="tipo_gasto" attrs="{'readonly': [('state','=','aceptado')],'required': [('tipo_egreso','=','cliente')]}"/>                  
+                  			<field name="res_partner_id" attrs="{'readonly': [('state','=','aceptado')],'required': [('tipo_egreso','=','cliente')]}"/>
+                        	<field name="tres_cartera_id" domain ="[('partner_id','=',res_partner_id)]" attrs="{'readonly': [('state','=','aceptado')],'required': [('tipo_egreso','=','cliente')]}"/>
                         </group>
                         <separator string="Caja" colspan="4"/>
                         <field name="date" attrs="{'readonly': [('state','=','aceptado')]}"/>

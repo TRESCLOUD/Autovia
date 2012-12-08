@@ -5,7 +5,7 @@
         <record model="ir.module.category" id="module_category_tres_cartera_autos">
             <field name="name">Credito Autos</field>
             <field name="description">Helps you handle your Credit Car.</field>
-            <field name="sequence">16</field>
+            <field name="sequence">18</field>
         </record>
 
 		<record model="res.groups" id="group_tres_cartera_log" context="{'noadmin':True}">
