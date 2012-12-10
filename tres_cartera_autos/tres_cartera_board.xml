@@ -21,7 +21,7 @@
                 <field name="partner_id" readonly="1" invisible="0"/>
                 <field name="name" readonly="1"/>
                 <field name="state" readonly="1"/>
-                <field name="date_vencimiento"/>
+                <field name="date_vencimiento" />
                 <field name="valor_interes" readonly="1" sum="Total por cobrar"/>
 				<field name="abonado" readonly="1" sum="Total Abonado"/>
 				<field name="interes_mora_calc" readonly="1"/>
@@ -113,8 +113,6 @@
 <menuitem name="Reportes" parent="menu_tres_cartera" id="menu_reportes"	action="action_tres_cartera_form" sequence="2" groups="group_tres_cartera_gere,group_tres_cartera_admin"/>
 	
 	<menuitem name="Contratos activos" parent="menu_reportes" id="reportes_activos"	action="action_view_tres_cartera_tree_contratos" sequence="2" />	
-	<!-- <menuitem name="Contratos Firmados" parent="menu_reportes" id="reportes_firmados"	action="action_view_tres_cartera_tree_board_firmado" sequence="1" /> -->
-	<!-- <menuitem name="Estado de Cuotas" parent="menu_reportes" id="reportes_estado_cuenta"	action="action_tres_linea_estado_cuenta_tree_view_board" sequence="3" /> -->
 	<menuitem name="Estado de Cuotas" parent="menu_reportes" id="reportes_estado_cuenta_mora"	action="action_tres_linea_estado_cuenta_tree_view_board_mora" sequence="5" />
 	<menuitem name="Contratos Embargados" parent="menu_reportes" id="reportes_embargos"	action="action_view_tres_cartera_tree_board_embargo" sequence="4" />
  

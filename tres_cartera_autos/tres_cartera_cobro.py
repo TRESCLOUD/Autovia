@@ -429,6 +429,7 @@ class tres_cartera_cobro(osv.osv):
         'name': fields.char('Descripcion', size=64, translate=True),
         'amount': fields.float('Monto', digits=(16, 2)),
         'fecha': fields.datetime('Fecha', select=True),
+        'fecha_creacion': fields.datetime('Fecha de Creacion', select=True),
         'ref_pago': fields.char('Referencia de pago', size=64),
         'metodo_pago': fields.selection([
             ('efectivo', 'Efectivo'),
@@ -450,6 +451,7 @@ class tres_cartera_cobro(osv.osv):
             ('anulado', 'Anulado'),],
             'State', readonly=True),
         'interes_mora': fields.float(string="Interes Por Mora", digits=(5,2)),
+        'user_id': fields.many2one('res.users', 'Usuario', readonly=True),
                 }
 
     _defaults = {
@@ -457,12 +459,12 @@ class tres_cartera_cobro(osv.osv):
         #'name': 'efectivo',
         'metodo_pago': 'efectivo',
         'fecha': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
-        #'cliente': lambda self, cr, uid, context : context['partner_id'] if context and 'partner_id' in context else None,
-        #'detalle_pago_ids': recalcular_lineas_cobro,
+        'fecha_creacion': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
         'partner_id': lambda self, cr, uid, context : context['partner_id'] if context and 'partner_id' in context else None,
         'state': 'draft',
         'interes_mora': 3, 
         'journal_id': _default_journal,
+        'user_id': lambda self, cr, uid, context: uid,
                 }
     
     def get_in(self, cr, uid, ids, context=None):
