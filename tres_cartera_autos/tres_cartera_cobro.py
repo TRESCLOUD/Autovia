@@ -440,7 +440,7 @@ class tres_cartera_cobro(osv.osv):
         'partner_id': fields.many2one('res.partner', 'Cliente'),
         'detalle_pago_ids': fields.one2many('tres.linea.estado.cuenta.abono', 'cobro_id', 'Asignacion Pago'),
         #
-        'journal_id': fields.selection(pos_box_entries.get_journal, "Cash Register", size=-1),
+        'journal_id': fields.selection(pos_box_entries.get_journal, "Caja Registradora", size=-1),
         'ref': fields.char('Ref', size=32),
         #'suma_total': fields.float(string='Suma Total', digits=(5,2)),
         'suma_total': fields.function(_total_pagar, method=True, type='float', digits=(5,2), string='Total a Pagar', multi=True),

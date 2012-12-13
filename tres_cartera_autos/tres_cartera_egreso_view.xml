@@ -72,7 +72,7 @@
         </record>
 
        <record id="action_egreso_view" model="ir.actions.act_window">
-            <field name="name">Personas</field>
+            <field name="name">Egresos</field>
             <field name="view_id" ref="view_egreso_view"/>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">tres.cartera.egreso</field>

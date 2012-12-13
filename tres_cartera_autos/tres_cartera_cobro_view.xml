@@ -143,7 +143,8 @@
 		    <field name="view_id" ref="tres_cartera_cobro_tree_view"/>
             <field name="search_view_id" ref="view_tres_cartera_cobro_search"/>
 		</record>		
-		<menuitem id="tres_cartera_pagos" name="Pagos" sequence="2" parent="menu_tres_cartera" action="action_tres_cartera_cobro_tree_view" groups="group_tres_cartera"/>
+		<menuitem id="tres_cartera_pago" name="Pagos" sequence="2" parent="menu_tres_cartera"  groups="group_tres_cartera"/>
+		<menuitem id="tres_cartera_pagos" name="Pagos" sequence="1" parent="tres_cartera_pago" action="action_tres_cartera_cobro_tree_view" groups="group_tres_cartera"/>
 		
 <!-- Se crea una accion dependiendo de donde se activa el formulario de cobro
  LA primera es cuando se hace desde los contratos y la segunda es cuando se hace
@@ -383,7 +384,7 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
 			<field name="search_view_id" ref="view_tres_cartera_contratos_search"/>
 		</record>
 <!--#ICE Menu  -->	
-		<menuitem id="tres_cartera_cliente_menu" name="Cartera de Clientes" parent="menu_ventas" action="action_tres_cartera_cliente_tree_view"/>
+	<!-- 	<menuitem id="tres_cartera_cliente_menu" name="Cartera de Clientes" parent="menu_ventas" action="action_tres_cartera_cliente_tree_view"/> -->
  		<menuitem id="tres_cartera_contratos_menu_mora" name="Clientes En Mora" parent="menu_reportes" action="action_tres_cartera_contratos_tree_view_mora" sequence="6"/>
 		<menuitem id="tres_cartera_contratos_menu" name="Estado de Contratos" parent="menu_reportes" action="action_tres_cartera_contratos_tree_view" sequence="3"/>
 <!--#ICE Menu  -->	

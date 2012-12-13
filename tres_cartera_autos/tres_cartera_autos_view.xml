@@ -21,7 +21,8 @@
                 <filter string="Espera" icon="gtk-go-forward" domain="[('state','=','confirm')]"/>
                 <filter string="Cartera" icon="terp-camera_test" domain="[('state','=','cartera')]"/>
                                <separator orientation="vertical"/>
-                <filter string="No Aprobados" icon="gtk-cancel" domain="[('state','=','cancelled')]"/>
+                <filter string="No Aprobados" icon="gtk-cancel" domain="[('state','=','refused')]"/>
+                <filter string="Aprobados" icon="terp-camera_test" domain="[('state','=','accepted')]"/>
 	       	 	<newline/>
                 <field name="partner_id" string="Cliente" select="1" />
                 <field name="name" string="Contrato" select="1"/>
@@ -30,7 +31,7 @@
         </field>
      </record>
 	
-		<record model="ir.ui.view" id="tres_cartera_tree_search">
+<!-- 		<record model="ir.ui.view" id="tres_cartera_tree_search">
         <field name="name">view.tres.cartera.search</field>
         <field name="model">tres.cartera</field>
         <field name="type">search</field>
@@ -47,7 +48,7 @@
                 <field name="product_id" string="Auto" select="1"/>
             </search>
         </field>
-     </record> 
+     </record>  -->
 	
     <record id="view_tres_cartera_tree" model="ir.ui.view">
             <field name="name">view.tres.cartera.tree</field>
@@ -421,8 +422,8 @@
         <field name="arch" type="xml">
 		<search string="Busqueda de Contratos">
 				<filter string="Por Confirmar" icon="gtk-go-forward" domain="[('state','=','confirm')]"/>
-                <filter string="Contrato por Firmar"  icon="terp-camera_test" domain="[('state','=','accepted')]"/>
-                <filter string="Contrato firmados"  icon="terp-purchase" domain="[('state','=','cartera')]"/>
+                <filter string="Contratos por Firmar"  icon="terp-camera_test" domain="[('state','=','accepted')]"/>
+                <filter string="Contratos firmados"  icon="terp-purchase" domain="[('state','=','cartera')]"/>
             </search>
         </field>
      </record>
@@ -704,8 +705,8 @@
 	<menuitem name="Egresos" parent="menu_tres_cartera" id="menu_egreso" sequence="6" groups="group_tres_cartera"/>
 <!-- #ICE registro de llamadas-->
 	<menuitem name="Llamadas Telefónicas" parent="menu_tres_cartera" id="menu_phone"	action="action_tres_cartera_form" sequence="3" />
-    <menuitem name="Registro de llamadas" id="menu_crm_case_phone_inbound" parent="menu_phone" action="crm_case_categ_phone_incoming0" />
-    <menuitem name="Llamadas Planificadas" id="menu_crm_case_phone_outbound" parent="menu_phone" action="crm_case_categ_phone_outgoing0" />
+    <menuitem name="Registro de llamadas" id="menu_crm_case_phone_inbound" parent="menu_phone" action="crm_case_categ_phone_incoming0" sequence="2"/>
+    <menuitem name="Llamadas Planificadas" id="menu_crm_case_phone_outbound" parent="menu_phone" action="crm_case_categ_phone_outgoing0" sequence="1"/>
 
 </data>
 </openerp>

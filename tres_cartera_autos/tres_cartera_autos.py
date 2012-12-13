@@ -631,8 +631,6 @@ class tres_cartera(osv.osv):
         'product_id': fields.many2one('product.product.auto', 'Product', required=True, states={'cartera':[('readonly',True)]}, domain=[('vendido','=',False)]), 
         #'product_id': fields.many2one('product.product.auto', 'Product'),
         'price': fields.float('Precio',states={'cartera': [('readonly', True)]}),
-        #'price': fields.float('Precio'),
-        #'cuota_ids': fields.one2many('tres.linea.estado.cuenta.cuota', 'cuota_id', 'Cuotas'),
         'pago_l':fields.float('Pago'),
         'financiamiento':fields.char('Financiamiento (En meses)', size=3,states={'cartera': [('readonly', True)]},readonly=False),         
         'interes':fields.float('Interes Anual',digits=(5,2),states={'cartera': [('readonly', True)]},readonly=False),
