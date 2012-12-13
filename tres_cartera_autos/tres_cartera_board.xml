@@ -17,7 +17,7 @@
         <field name="model">tres.linea.estado.cuenta</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree string="Cartera" editable="bottom" colors="red:dias_mora>='90';orange:dias_mora>='60';green:dias_mora>'30';pink:dias_mora=='30'" >
+            <tree string="Cartera" editable="bottom" colors="red:dias_mora>='90';orange:dias_mora>='60';green:dias_mora>'30';blue:dias_mora=='30'" >
                 <field name="partner_id" readonly="1" invisible="0"/>
                 <field name="name" readonly="1"/>
                 <field name="state" readonly="1"/>
@@ -112,7 +112,7 @@
         </record>
 <menuitem name="Reportes" parent="menu_tres_cartera" id="menu_reportes"	action="action_tres_cartera_form" sequence="2" groups="group_tres_cartera_gere,group_tres_cartera_admin"/>
 	
-	<menuitem name="Contratos activos" parent="menu_reportes" id="reportes_activos"	action="action_view_tres_cartera_tree_contratos" sequence="2" />	
+	<menuitem name="Contratos Activos" parent="menu_reportes" id="reportes_activos"	action="action_view_tres_cartera_tree_contratos" sequence="2" />	
 	<menuitem name="Estado de Cuotas" parent="menu_reportes" id="reportes_estado_cuenta_mora"	action="action_tres_linea_estado_cuenta_tree_view_board_mora" sequence="5" />
 	<menuitem name="Contratos Embargados" parent="menu_reportes" id="reportes_embargos"	action="action_view_tres_cartera_tree_board_embargo" sequence="4" />
  
