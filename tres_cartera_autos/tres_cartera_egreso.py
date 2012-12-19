@@ -70,8 +70,6 @@ class tres_cartera_egreso(osv.osv):
             } 
             datos_id = obj_contrato.create(cr, uid, result, context)         
             self.get_out(cr, uid, ids, context)
-#            self.print_report(cr, uid, ids, context=context)
-#            jasper_report.report_jasper('report.jasper_report_user_print', 'res.users' )
             return result
     
 #    def print_report(self, cr, uid, ids, context=None):
@@ -91,7 +89,7 @@ class tres_cartera_egreso(osv.osv):
         product_obj = self.pool.get('product.product')
         res_obj = self.pool.get('res.users')
         ids1 = product_obj.search(cr, uid, [('expense_pdt', '=', True)], order='id', context=context)
-        
+
         if not ids1:
             raise osv.except_osv(_('Error !'), _('Necesita un producto para usarce como entrada de caja!!'))
 
@@ -116,8 +114,14 @@ class tres_cartera_egreso(osv.osv):
             amount = data['amount'] or 0.0
             if data['amount'] > 0:
                 amount = -data['amount']
+            print data['tipo_egreso']
+            if data['tipo_egreso']=="cliente":
+                vals['partner_id']= data['res_partner_id'][0]
+            else :
+                vals['partner_id']= curr_company
             vals['amount'] = amount
-            vals['name'] = "%s: %s " % (product.name, data['name'])
+            vals['ref'] ="%s: %s " % ("Egreso",data['id'])
+            vals['name'] = "%s: %s " % ("Egreso", data['name'])
             statement_line_obj.create(cr, uid, vals, context=context)
         return {}
 tres_cartera_egreso()

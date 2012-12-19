@@ -51,15 +51,15 @@
 		        <form string="form_string">
 		        	<field name="fecha_creacion" readonly="1"/>
 		        	<field name="user_id" readonly="1" widget="selection"/>
-		            <field name="partner_id" select="1" on_change="onchange_cliente_interes(partner_id, interes_mora)" attrs="{'readonly': [('state','=','pagado')]}"/>
-		            <field name="name" select="1" attrs="{'readonly': [('state','=','pagado')]}"/>
-		            <field name="fecha" required="1" attrs="{'readonly': [('state','=','pagado')]}"/>
+		            <field name="partner_id" select="1" on_change="onchange_cliente_interes(partner_id, interes_mora,fecha)" attrs="{'readonly': [('state','=','pagado')]}"/>
+		            <field name="name" select="1" attrs="{'readonly': [('state','=','pagado')]}" required="True"/>
+		            <field name="fecha" on_change="onchange_cliente_interes(partner_id, interes_mora,fecha)" required="1" attrs="{'readonly': [('state','=','pagado')]}"/>
 		            <field name="ref_pago" attrs="{'required': [('metodo_pago','in',('cheque','deposito'))], 'readonly': [('state','=','pagado')]}"/>
 		            <field name="metodo_pago" attrs="{'readonly': [('state','=','pagado')]}"/>
  			<!-- 		<field name="product_id"/>-->
 		            <field name="journal_id" attrs="{'required': [('metodo_pago','in',('efectivo','cheque'))], 'readonly': [('state','=','pagado')], 'invisible': [('metodo_pago','=','deposito')]}"/>
 		            <field name="amount" attrs="{'readonly': [('state','=','pagado')]}"/>
-					<field name="interes_mora" on_change="onchange_cliente_interes(partner_id, interes_mora)" attrs="{'readonly': [('state','=','pagado')]}"/>
+					<field name="interes_mora" on_change="onchange_cliente_interes(partner_id, interes_mora,fecha)" attrs="{'readonly': [('state','=','pagado')]}"/>
 		            <newline/>
 					<notebook colspan="4">
 					

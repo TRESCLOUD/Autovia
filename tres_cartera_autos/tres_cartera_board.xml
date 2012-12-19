@@ -12,7 +12,8 @@
         <field name="view_id" ref="view_tres_cartera_tree"/>
         <field name="search_view_id" ref="tres_cartera_embargo_search"/>
     </record>
-	 <record model="ir.ui.view" id="tres_linea_estado_cuenta_tree_view_board">
+	   
+	  <record model="ir.ui.view" id="tres_linea_estado_cuenta_tree_view_board">
         <field name="name">Estado de Cuotas</field>
         <field name="model">tres.linea.estado.cuenta</field>
         <field name="type">tree</field>
@@ -30,13 +31,49 @@
          	  </tree>
         </field>
       </record>     
-
+<!-- LETRAS ENTREGADAS -->
+	 <record model="ir.ui.view" id="tres_linea_estado_cuenta_tree_view_letra_entregada">
+        <field name="name">Entrega de Letras de Pago</field>
+        <field name="model">tres.linea.estado.cuenta</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Cartera" editable="bottom" colors="red:dias_mora>='90';orange:dias_mora>='60';green:dias_mora>'30';blue:dias_mora=='30'" >
+                <field name="partner_id" readonly="1" invisible="0"/>
+                <field name="name" readonly="1"/>
+                <field name="state" readonly="1"/>
+                <field name="date_vencimiento" readonly="True" groups="tres_cartera_autos.group_tres_cartera"/>
+                <field name="date_vencimiento" groups="tres_cartera_autos.group_tres_cartera_gere"/>
+                <field name="valor_interes" readonly="1" sum="Total por cobrar"/>
+				<field name="abonado" readonly="1" sum="Total Abonado"/>
+				<field name="interes_mora_calc" readonly="1"/>
+                <field name="dias_mora"/>
+                <field name="meses" readonly="1"/>
+                <field name="letra_permiso" readonly="True" groups="tres_cartera_autos.group_tres_cartera"/>
+                <field name="letra_permiso" groups="tres_cartera_autos.group_tres_cartera_gere"/>
+                <field name="letra_entregada" readonly="True" groups="tres_cartera_autos.group_tres_cartera_gere"/>
+				<field name="letra_entregada" groups="tres_cartera_autos.group_tres_cartera" attrs="{'readonly':[('letra_permiso','=',0)]}"/>
+         	  </tree>
+        </field>
+      </record> 
+      
+      <record model="ir.actions.act_window" id="action_tres_linea_estado_cuenta_tree_view_letra_entregada">
+        <field name="name">Entrega de Letras de Pago</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">tres.linea.estado.cuenta</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="tres_linea_estado_cuenta_tree_view_letra_entregada"/>
+    	<field name="search_view_id" ref="tres_cartera_estado_cuenta_search_letra_entregada"/>
+    </record> 
+<!-- FIN DE LETRA ENTREGADA -->   
+ 
+<!-- Esatdo de CUenta Reporte -->
     <record model="ir.actions.act_window" id="action_tres_linea_estado_cuenta_tree_view_board">
         <field name="name">Estado de Cuotas</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">tres.linea.estado.cuenta</field>
         <!-- Cambio del nombre del campo date_pago -->
-		<field name="domain">[('date_vencimiento','&lt;',time.strftime('%Y-%m-%d')),('state','in',('espera','pagado'))]</field>
+		<field name="domain">[('date_vencimiento','&lt;',time.strftime('%Y-%m-%d')),('state','in',('espera','pagado')),('dias_mora','=',60)]</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="tres_linea_estado_cuenta_tree_view_board"/>
@@ -114,6 +151,7 @@
 	
 	<menuitem name="Contratos Activos" parent="menu_reportes" id="reportes_activos"	action="action_view_tres_cartera_tree_contratos" sequence="2" />	
 	<menuitem name="Estado de Cuotas" parent="menu_reportes" id="reportes_estado_cuenta_mora"	action="action_tres_linea_estado_cuenta_tree_view_board_mora" sequence="5" />
+	<menuitem name="Entrega de Letras" parent="menu_tres_cartera" id="reportes_estado_cuenta_letra_entregada"	action="action_tres_linea_estado_cuenta_tree_view_letra_entregada" sequence="6" groups="group_tres_cartera_log,group_tres_cartera_gere,group_tres_cartera_admin"/>
 	<menuitem name="Contratos Embargados" parent="menu_reportes" id="reportes_embargos"	action="action_view_tres_cartera_tree_board_embargo" sequence="4" />
  
         <record id="open_board_cartera" model="ir.actions.act_window">

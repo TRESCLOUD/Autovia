@@ -249,7 +249,7 @@ class tres_cartera_cobro(osv.osv):
         
         return result
 
-    def onchange_cliente_interes(self, cr, uid, ids, cliente, interes_mora , context=None):
+    def onchange_cliente_interes(self, cr, uid, ids, cliente, interes_mora ,fecha, context=None):
 
         # A cambiar de cliente se recalcula las lineas a mostrar y tambien se eliminan las lineas existentes
         
@@ -265,7 +265,7 @@ class tres_cartera_cobro(osv.osv):
             lineas_cobro.unlink(cr, uid, line_ids)
 
         # Buscando nuevas lineas
-        res = self.recalcular_lineas_cobro(cr, uid, cliente, interes_mora)
+        res = self.recalcular_lineas_cobro(cr, uid, cliente, interes_mora,fecha)
         
         #asignando las nuevas lineas
         default = {'value': {
@@ -281,14 +281,14 @@ class tres_cartera_cobro(osv.osv):
         
         return default
 
-    def recalcular_lineas_cobro(self, cr, uid, partner_id, interes_mora):
+    def recalcular_lineas_cobro(self, cr, uid, partner_id, interes_mora,fecha):
         # funcion que genera las lineas a pagar asociadas al cliente, debe buscar en la tabla de cartera
         # los contratos relacionados al cliente en estado "cartera", de ahi extraer los pagos pendientes o
         # "en espera", debe ordenarse por fecha de pago
 
         #inicializo la variable
         DATETIME_FORMAT = "%Y-%m-%d"
-        hasta = time.strftime(DATETIME_FORMAT)
+        hasta = fecha
         default = []
 
         #objeto general del estado de cuenta
@@ -324,8 +324,8 @@ class tres_cartera_cobro(osv.osv):
             #Se transforma la fecha de vencimiento del pago
             #TODO,  bug en caso de no existir fecha de vencimiento
             desde_dt = datetime.strptime(linea_cobro['date_vencimiento'], DATETIME_FORMAT)
-            hasta_dt = datetime.strptime(hasta, DATETIME_FORMAT)
-                
+          #  hasta_dt = datetime.strptime(hasta, DATETIME_FORMAT)
+            hasta_dt = datetime.strptime(hasta, '%Y-%m-%d %H:%M:%S')   
             #esta parte verifica si han pasado 3 meses y calcula los intereses en mora
             fecha_inicio_mora = desde_dt + relativedelta(months=3)
                 
@@ -517,9 +517,9 @@ class tres_cartera_cobro(osv.osv):
             if acc_id:
                 vals['account_id'] = acc_id.id
             vals['amount'] = data['amount'] or 0.0
-            print data['amount']
-            vals['ref'] = "%s" % (data['ref'] or '')
-            vals['name'] = "%s: %s " % (product.name, data['name'])
+            vals['partner_id']= data['partner_id'][0]
+            vals['ref'] = "%s: %s " %  ("Cobro",data['id'] )
+            vals['name'] = "%s: %s " % ("Cobro", data['name'])
             bank_statement.create(cr, uid, vals, context=context)
         return {}
     #A.G 12/09/2012 SE 

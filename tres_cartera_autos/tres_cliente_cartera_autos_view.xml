@@ -50,9 +50,7 @@
                                         <field name="street" string="Direccion 1" colspan="4"/>
                                         <field name="street2" string="Direccion 2" colspan="4"/>
                                         <newline/>
-						            	<!-- <field name="residencia_aux"/>
-						            	<field name="otros" attrs="{'invisible':[('residencia_aux', '!=', 'Otros')]}"/>                                        <field name="city"/>
-                                         --><field name="country_id" completion="1"/>
+                                        <field name="country_id" completion="1"/>
                                         <field name="state_id"/>
                                      </group>
                                      <group colspan="2" col="2">
@@ -189,7 +187,7 @@
                     </page>         
                     <page string="Contratos">
                      
-                     		<field colspan="4" name="contratos_ids" nolabel="1">
+                     		<field colspan="4" name="contratos_ids" readonly="True" nolabel="1">
 				               <tree string="Contratos">
 				                    <field name="name" string="Codigo"/>
 				                    <field name="product_id"/>
@@ -197,7 +195,7 @@
 				                </tree>
 							</field>
                      
-                            <field colspan="4" name="history_ids" nolabel="1" domain="[('state','=','renegociado')]" >
+                            <field colspan="4" name="history_ids" readonly="True" nolabel="1" domain="[('state','=','renegociado')]" >
 				                <tree string="Historial">
 				                    <field name="name" string="Codigo"/>
 <!-- 				                    <field name="partner_id"/> -->

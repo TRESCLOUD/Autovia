@@ -8,13 +8,14 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Salida de dinero">
-                        <separator string="Describe porque realizas el egres:" colspan="4"/>
+                		 <field name="id"/>
+                        <separator string="Describe porque realizas el egreso:" colspan="4"/>
                        <!--  <field name="name"/> -->
                         <field name="tipo_egreso" required="1" attrs="{'readonly': [('state','=','aceptado')]}"/>
                   		<group attrs="{'invisible': [('tipo_egreso','!=','cliente')]}">
                         	<field name="tipo_gasto" attrs="{'readonly': [('state','=','aceptado')],'required': [('tipo_egreso','=','cliente')]}"/>                  
                   			<field name="res_partner_id" attrs="{'readonly': [('state','=','aceptado')],'required': [('tipo_egreso','=','cliente')]}"/>
-                        	<field name="tres_cartera_id" domain ="[('partner_id','=',res_partner_id)]" attrs="{'readonly': [('state','=','aceptado')],'required': [('tipo_egreso','=','cliente')]}"/>
+                        	<field name="tres_cartera_id" domain ="[('partner_id','=',res_partner_id)]" attrs="{'readonly': [('state','=','aceptado')],'required': [('tipo_egreso','=','cliente')]}" />
                         </group>
                         <separator string="Caja" colspan="4"/>
                         <field name="date" attrs="{'readonly': [('state','=','aceptado')]}"/>

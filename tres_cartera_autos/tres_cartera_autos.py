@@ -178,11 +178,12 @@ class tres_linea_estado_cuenta(osv.osv):
         'abonado': fields.float('Monto Cobrado', digits=(5,2)),
         'dias_mora': fields.function(_dias_interes_mora, method=True, type='integer', string='Dias en Mora', multi=True),
         #ICE cambiar partner_id
-        'lineaestado_id': fields.many2one('tres.cartera', 'Lineas de cuotas del contrato', select=True),
+        'lineaestado_id': fields.many2one('tres.cartera', 'Lineas de cuotas del contrato',ondelete= "restrict"),
         'partner_id': fields.related('lineaestado_id','partner_id',type='many2one',relation='res.partner',string='Cliente',store=True,readonly=True),
         'user_id': fields.many2one('res.users', 'Connected Salesman', help="Person who uses the the cash register. It could be a reliever, a student or an interim employee."),
         #ICE FIN
         'letra_entregada':fields.boolean('Letra Entregada', required=False),
+        'letra_permiso':fields.boolean('Entregar letra', required=False,write=['tres_cartera_autos.group_tres_cartera'],read=['tres_cartera_autos.group_tres_cartera_log'] ),
         'state': fields.selection([
             ('espera', 'Esperando Pago'),
             #('en_mora', 'En Mora'),
@@ -210,7 +211,12 @@ class tres_linea_estado_cuenta(osv.osv):
             #'partner_id' : lambda self, cr, uid, context : context['partner_id'] if context and 'partner_id' in context else None,
             #'partner_id':_cliente_ident,
                 }   
-     
+    
+    def unlink(self, cr, uid, ids, context=None):
+        for rec in self.browse(cr, uid, ids, context=context):
+               raise osv.except_osv(_('No se puede Eliminar !'), _('En Estado de Cuenta para borrar una cuota, este deberia ser nuevo o estar cancelado.'))
+        return super(tres_linea_estado_cuenta, self).unlink(cr, uid, ids, context=context)
+    
 tres_linea_estado_cuenta()
 
 class tres_linea_estado_cuenta_cuota(osv.osv):
@@ -664,7 +670,7 @@ class tres_cartera(osv.osv):
         
         'lineaestado_ids': fields.one2many('tres.linea.estado.cuenta', 'lineaestado_id', 'lineas de estado cuenta',domain=[('state','!=','renegociado')]),
         'cuota_ids': fields.one2many('tres.linea.estado.cuenta.cuota', 'lineaestado_id', 'Cuotas',  domain=[('tipo_haber','=','cuota')]),
-        'adicional_ids': fields.one2many('tres.linea.estado.cuenta.adicional', 'lineaestado_id', 'Adicionales' ,readonly=False, states={'cartera':[('readonly',True)]},  domain=[('tipo_haber','=','adicional')]),
+        'adicional_ids': fields.one2many('tres.linea.estado.cuenta.adicional', 'lineaestado_id', 'Adicionales',readonly=False, states={'cartera':[('readonly',True)]}, domain=[('tipo_haber','=','adicional')]),
         #ICE Fin de bloque a Comentar
         #documentos
         'copy_predio': fields.boolean('Predio'),
@@ -1004,7 +1010,7 @@ class tres_cartera_history(osv.osv):
         'product_id': fields.many2one('product.product.auto', 'Product', required=True), 
         #'price':fields.related('list_price', relation='product.product', type='function'),
         'price': fields.float('Precio'),
-        'lineaestado_ids': fields.one2many('tres.linea.estado.cuenta', 'lineaestado_id', 'Cuotas Estado'),
+        'lineaestado_ids': fields.one2many('tres.linea.estado.cuenta', 'lineaestado_id', 'Cuotas Estado',ondelete="restrict"),
 #ice
         'cuota_ids': fields.one2many('tres.linea.estado.cuenta.cuota', 'lineaestado_id', 'Cuotas'),
         'pago_l':fields.float('Pago'),

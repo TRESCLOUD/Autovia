@@ -197,8 +197,8 @@
         	-->			<newline/>
         				<notebook colspan="4">
         					<page string="Estado de Cuenta" attrs="{'invisible': [('state','not in',('cartera','cancelada'))]}">
-							 <field colspan="4" name="lineaestado_ids" nolabel="1"
-							   	context="{'tree_view_ref' : 'tres_linea_estado_cuenta_tree_view_list'}" />
+					   		 <field colspan="4" name="lineaestado_ids" nolabel="1" readonly="True"
+							   	context="{'tree_view_ref' : 'tres_linea_estado_cuenta_tree_view_list'}" /> 
  		                    </page>
 		                    <page string="Adicionales" attrs="{'invisible': [('state','in',('cartera','cancelada'))]}">
 							  <field colspan="4" name="adicional_ids" nolabel="1" 
@@ -424,7 +424,9 @@
 				<filter string="Por Confirmar" icon="gtk-go-forward" domain="[('state','=','confirm')]"/>
                 <filter string="Contratos por Firmar"  icon="terp-camera_test" domain="[('state','=','accepted')]"/>
                 <filter string="Contratos firmados"  icon="terp-purchase" domain="[('state','=','cartera')]"/>
-            </search>
+        		<newline/>
+            	<field name="partner_id"/>
+        </search>
         </field>
      </record>
      <record model="ir.ui.view" id="tres_cartera_manager_search_cont_firmados">
@@ -461,6 +463,20 @@
             </search>
         </field>
      </record>
+     <!-- LETRAS ENTREGADAS -->
+     <record model="ir.ui.view" id="tres_cartera_estado_cuenta_search_letra_entregada">
+        <field name="name">view.tres.cartera.search2</field>
+        <field name="model">tres.linea.estado.cuenta</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+		<search string="Busqueda de estado de cuenta">      
+				<filter string ="Letras sin Entregar" icon="terp-camera_test" domain="[('letra_permiso','=',0)]"/>        
+                <filter string ="Letras Aprobadas para Entrega" icon="terp-dolar_ok!" domain="[('letra_permiso','=',1)]"/>
+				<filter string ="Letras Entregadas" icon="terp-camera_test" domain="[('letra_entregada','=',1)]"/>                		
+            </search>
+        </field>
+     </record>
+     
        <record model="ir.ui.view" id="tres_cartera_estado_cuenta_search_mora">
         <field name="name">view.tres.cartera.search</field>
         <field name="model">tres.linea.estado.cuenta</field>
@@ -558,7 +574,7 @@
     </record>
     
     <record model="ir.actions.act_window.view" id="action_crm_tag_calendar_phone_outgoing0">
-        <field name="sequence" eval="2"/>
+        <field name="sequence" eval="1"/>
         <field name="view_mode">calendar</field>
         <field name="view_id" ref="crm.crm_case_phone_calendar_view"/>
         <field name="act_window_id" ref="crm_case_categ_phone_outgoing0"/>
