@@ -31,25 +31,6 @@
         </field>
      </record>
 	
-<!-- 		<record model="ir.ui.view" id="tres_cartera_tree_search">
-        <field name="name">view.tres.cartera.search</field>
-        <field name="model">tres.cartera</field>
-        <field name="type">search</field>
-        <field name="arch" type="xml">
-		<search string="Busqueda de estados">
-                <filter string="Borrador" icon="terp-document-new" domain="[('state','=','draft')]"/>
-                <filter string="Espera" icon="gtk-go-forward" domain="[('state','=','confirm')]"/>
-                <filter string="Cartera" icon="terp-camera_test" domain="[('state','=','cartera')]"/>
-                <separator orientation ="vertical"/>
-                <filter string="No Aprobados" icon="gtk-cancel" domain="[('state','=','cancelled')]"/>
-	       	 	<newline/>
-                <field name="partner_id" string="Cliente" select="1"/>
-                <field name="name" string="Contrato" select="1"/>
-                <field name="product_id" string="Auto" select="1"/>
-            </search>
-        </field>
-     </record>  -->
-	
     <record id="view_tres_cartera_tree" model="ir.ui.view">
             <field name="name">view.tres.cartera.tree</field>
             <field name="model">tres.cartera</field>
@@ -209,6 +190,8 @@
  		                    <page string="Documentos">
 				                <separator string="Documentos del Cliente"/>
 								<group>
+								  <field name="cobro_id" colspan="2" readonly="1"
+                                    invisible="1"/>
 								  <field name="copy_predio"/>	
 								  <field name="copy_rol"/>
 								  <field name="copy_ruc"/>
@@ -265,7 +248,6 @@
                                 	<button name="aceptar" states="confirm" string="Aprobar" type="workflow" icon="gtk-go-forward"/>                   
              <!--A.G <button name="aceptar" states="confirm" string="Aprobar" type="workflow" groups="tres_cartera_autos.group_tres_cartera_admin"/>
 -->
-                                	<button name="cartera" states="accepted" string="Contrato Firmado" type="workflow" icon="gtk-copy" confirm="El contrato se encuentra Firmado?"/>
 									<button name="draft" states="confirm,accepted" string="Revisión" type="workflow" icon="terp-mrp"/>
 									<button name="refuse" states="draft,confirm,accepted" string="Anular" type="workflow" icon="gtk-cancel" />                                
 
@@ -277,6 +259,8 @@
                                <!--      cambios Ruth: Botones para renegociado -->
     	                          	<button name="renegociar" states="cartera,pre_embargo,embargo" string="Renegociar" confirm="Está seguro que desea renegociar" icon="terp-stock_format-scientific" type="workflow"/>
 				               <!-- <button name="cartera" states="renegociar" string="Cartera" type="object" icon="gtk-convert"/> -->
+                               		<button name="action_pago" string="Invoice" icon="gtk-apply" type="object" states="accepted" confirm="El contrato se encuentra Firmado?"/>
+                      
                                </group>
                             </group>
                     </group>   
@@ -352,27 +336,6 @@
 								</group>
 							</page>
  		                </notebook>    
-        				<!-- <notebook colspan="4">
-		                    <page string="Adicionales">
-							   	<field colspan="4" name="adicional_ids" nolabel="1" 
-							   	context="{'form_view_ref' : 'view_tres_linea_estado_cuenta_adicional_form', 
-							   	'tree_view_ref' : 'view_tres_linea_estado_cuenta_adicional_tree',
-							   	'partner_id':partner_id}"/>
- 		                    </page>
-        					<page string="Pagos" attrs="{'invisible': [('state','!=','cartera')]}">
-			                    <button name="%(action_tres_pagar_cuota)d" string="Pagar Cuota" type="action" states="cartera" attrs="{'readonly': [('cuota_ids','=',True)]}"/>  
-					            <field colspan="4" name="cuota_ids" nolabel="1"
-							   	context="{'form_view_ref' : 'view_tres_linea_estado_cuenta_cuota_form', 
-							   	'tree_view_ref' : 'view_tres_linea_estado_cuenta_cuota_tree'}"/>,
-							   	'partner_id':active_id}"/>
-		                    	<group>
-			                        <button name="create_letras"
-			                        string="Crear letras de Pago" 
-			                        type="object" icon="terp-document-new"/>     
-		                    	</group>
-	                        </page>
-	                        
-	                    </notebook> -->
 	                 <group colspan="4" col="7">
 	                 	<field name="monto_financiar"/>
 	                 	<field name="cuota_mes"/>

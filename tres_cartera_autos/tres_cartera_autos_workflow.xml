@@ -60,6 +60,7 @@
 		      <field name="kind">function</field>
 		      <field name="action">create_letras()</field>	      
   		</record>
+  		
   		<record model="workflow.activity" id="act_pagado">
 		      <field name="wkf_id" ref="wkf_autopolo"/>
 		      <field name="name">Pagado</field>

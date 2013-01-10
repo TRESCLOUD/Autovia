@@ -163,6 +163,7 @@ class tres_linea_estado_cuenta(osv.osv):
         'tipo_haber': fields.selection([
             ('cuota', 'Cuota'),
             ('adicional', 'Adicional'),
+            ('entrada', 'Entrada'),
             ('embargo', 'Por embargo'),
             ('otro', 'Otros'),], 'Tipo', readonly=True),    
         'valor': fields.float('Valor'), 
@@ -264,8 +265,6 @@ class tres_linea_estado_cuenta_adicional(osv.osv):
         return result
 
     _columns = {
-        #'adicional_id': fields.many2one('tres.cartera', 'Adicional', select=True),
-        #'lineaestado_id':'adicional_id'
             }
    
     _defaults = {
@@ -302,41 +301,35 @@ class tres_linea_estado_cuenta_otros(osv.osv):
 
 tres_linea_estado_cuenta_otros()
 
+class tres_linea_estado_cuenta_entrada(osv.osv):
+  
+    '''
+    Modelo que hereda la clase de haberes general y permite registrar haberes varios 
+    '''
+    
+    _name = 'tres.linea.estado.cuenta.otros'
+    #_description = 'Pago Adicional'
+    _inherit = 'tres.linea.estado.cuenta'
+    
+    _columns = {
+        #'otros_id': fields.many2one('tres.cartera', 'Otros', select=True),
+        #'concepto': fields.char(string='Concepto', size=256),
+            }
+   
+    _defaults = {
+        # modificado el campo name por tipo_haber como default
+        # tambien en name va la descripcion del haber
+        'tipo_haber': 'entrada',
+        'name':'Entrada'
+      }
+
+tres_linea_estado_cuenta_entrada()
 
 class tres_cartera(osv.osv):
     _name = 'tres.cartera'
     _description = 'Cartera de Autos'
-    _order='name'
+    _order='name'          
     
-#    def name_get(self, cr, uid, ids, context=None):
-#        # redefino el metodo de name_get, para que me entregue el nombre del cliente al que esta asociados el contrato
-#        # elimina los nombres duplicados
-#        res= []
-#        for r in self.read(cr,uid,ids,['partner_id']):
-#            res.append(r['partner_id'])
-#        #return list(set(res))
-#        return list(res)               
-    
-    def create_from_ui(self, cr, uid, orders, context=None):
-        #_logger.info("orders: %r", orders)
-        lista = []
-        for order in orders:
-            order_obj = self.pool.get('tres.cartera')
-            # get statements out of order because they will be generated with add_payment to ensure
-            # the module behavior is the same when using the front-end or the back-end
-            statement_ids = order.pop('statement_ids')
-            order_id = self.create(cr, uid, order, context)
-            lista.append(order_id)
-            # call add_payment; refer to wizard/pos_payment for data structure
-            # add_payment launches the 'paid' signal to advance the workflow to the 'paid' state
-            data = {
-                'journal': statement_ids[0][2]['journal_id'],
-                'amount': order['amount_paid'],
-                'payment_name': order['name'],
-                'payment_date': statement_ids[0][2]['name'],
-            }
-            order_obj.add_payment(cr, uid, order_id, data, context=context)
-        return lista
     
     def tres_amount_all(self, cr, uid, ids, name, args, context=None):
         res = {}
@@ -349,12 +342,6 @@ class tres_cartera(osv.osv):
         for payment in order.statement_ids:
             res[order.id]['amount_paid'] +=  payment.amount
             print payment.amount
-#            else:
-#                for payment in order.statement_ids:
-#                    res[order.id]['amount_paid'] +=  payment.amount
-#                    print "amountpaid"
-#                    print payment.amountp
-#                res[order.id]['amount_return'] += (payment.amount < 0 and payment.amount or 0)
         return res
     
     # Funciones que convierten a texto un valor numerico INICIO
@@ -499,87 +486,95 @@ class tres_cartera(osv.osv):
 
     # cambios realizados en esta definicion de calcula_precio en tres_cartera_auto
     def _calcula_precio(self, cr, uid, ids, field_name, arg, context=None):
-        
+    
         records = self.browse(cr, uid, ids)
         result = {}
-        for r in records:       
-
-            result[r.id] = {
-                'cuota_mes': 0.0,
-                'total_letras':0.0,
-                'monto_financiar':0.0,
-                'total_pagare':0.0,
-                'total_pagare_texto': '',
-                }
-
-            #financiamiento es el numero de meses (plazo de pago)
-            plazo=int(r.financiamiento)
-            
-            if plazo == 0:
-                #division para 0, se envia tal como esta
-                return result
+        if not records:
+         return result
+        else:    
+            for r in records:       
+                result[r.id] = {
+                        'cuota_mes': 0.0,
+                        'total_letras':0.0,
+                        'monto_financiar':0.0,
+                        'total_pagare':0.0,
+                        'total_pagare_texto': '',
+                        }
+        
+                #financiamiento es el numero de meses (plazo de pago)
+                plazo=int(r.financiamiento)
                 
-
-            if not r.entrada or not r.interes:    
-               # result ={'total_pagare_texto': '', 'total_letras': 0.0, 'cuota_mes': 0.0, 'monto_financiar': 0.0, 'total_pagare': 0.0}
-                return result
-
-            #se calcula el interes por mes
-            interes=float(r.interes)/12/100
-            monto=r.price
-            entrada=r.entrada
-            a_financiar=(monto-entrada)
-
-            #inicializo las variables
-            monto_financiar=0.0 # el monto que se financiara en cuotas
-            cuota_mes=0.0 # si existen cuotas, este sera el valor a pagar, incluido interes
-            total_letras=0.0 # valor total usado por las cuotas
-            total_pagare=0.0 # el monto total financiado entre Adicionales y cuotas
-                        
-            # caso 1: Cuotas sin Adicionales
-            if not r.adicional_ids:
+                if plazo == 0:
+                    #division para 0, se envia tal como esta
+                    return result
+               
+                if not r.entrada:
+                    return result
                 
-                # monto_financiar es el monto (a_financiar) mas el interes acumulado
-                monto_financiar = (a_financiar*(1+(interes*plazo)))
-                cuota_mes=float(monto_financiar)/plazo
-                # redondeo del valor de la cuota, para evitar decimales
-                cuota_mes=redondeo(cuota_mes)                
-                total_pagare=cuota_mes*plazo
-                total_letras=total_pagare
-            
-            # caso 2: Adicionales
-            # TODO: Deberia comprobarse si todo el precio se cubre con los adicioanles
-            # asi se evita mostrar o generar las cuotas
-            else:
-                # sumo los adicionales, con este valor resto del capital a financiar
-                # y genero el valor de las cuotas (de ser necesario)
-                for adicionales in self.browse(cr, uid, ids, context=context):
+                if r.entrada>r.price:
+                    msg = _('La entrada no puede ser igual a 0 o mayor que el valor de compra')
+                    raise osv.except_osv(_('Warning !'), msg)               
+ 
+                if not r.interes:
+#                        msg = _('Deberia tener un interes Ejemplo: 12%')
+#                        raise osv.except_osv(_('Warning !'), msg)
+                    return result
+                #se calcula el interes por mes
+                interes=float(r.interes)/12/100
+                monto=r.price
+                entrada=r.entrada
+                a_financiar=(monto-entrada)
+    
+                #inicializo las variables
+                monto_financiar=0.0 # el monto que se financiara en cuotas
+                cuota_mes=0.0 # si existen cuotas, este sera el valor a pagar, incluido interes
+                total_letras=0.0 # valor total usado por las cuotas
+                total_pagare=0.0 # el monto total financiado entre Adicionales y cuotas
+                            
+                # caso 1: Cuotas sin Adicionales
+                if not r.adicional_ids:
                     
-                    TotalAdicionales = 0.0
-                    TotalAdicionalesInteres = 0.0
-                    
-                    for adicional in adicionales.adicional_ids:
-                        TotalAdicionales += adicional.valor
-                        TotalAdicionalesInteres += adicional.valor_interes
-                        
-                # Calculo los valores con adicionales
-                # se financia por cuotas lo restante entre del valor del auto con la entrada y los adicionales
-                a_financiar=monto-entrada-TotalAdicionales
-                monto_financiar = (a_financiar*(1+(interes*plazo)))
-                cuota_mes=float(monto_financiar)/plazo
-                # redondeo del valor de la cuota, para evitar decimales
-                cuota_mes=redondeo(cuota_mes)                
-                total_letras=cuota_mes*plazo
-                total_pagare=total_letras+TotalAdicionalesInteres
+                    # monto_financiar es el monto (a_financiar) mas el interes acumulado
+                    monto_financiar = (a_financiar*(1+(interes*plazo)))
+                    cuota_mes=float(monto_financiar)/plazo
+                    # redondeo del valor de la cuota, para evitar decimales
+                    cuota_mes=redondeo(cuota_mes)                
+                    total_pagare=cuota_mes*plazo
+                    total_letras=total_pagare
                 
-            # genero el resultado para actualizar la vista
-            result[r.id]['monto_financiar']=a_financiar
-            result[r.id]['cuota_mes']=cuota_mes
-            result[r.id]['total_letras']=total_letras
-            result[r.id]['total_pagare']=total_pagare
-            result[r.id]['total_pagare_texto']= self.NumeroTextoCompleto(total_pagare)
+                # caso 2: Adicionales
+                # TODO: Deberia comprobarse si todo el precio se cubre con los adicioanles
+                # asi se evita mostrar o generar las cuotas
+                else:
+                    # sumo los adicionales, con este valor resto del capital a financiar
+                    # y genero el valor de las cuotas (de ser necesario)
+                    for adicionales in self.browse(cr, uid, ids, context=context):
+                        
+                        TotalAdicionales = 0.0
+                        TotalAdicionalesInteres = 0.0
+                        
+                        for adicional in adicionales.adicional_ids:
+                            TotalAdicionales += adicional.valor
+                            TotalAdicionalesInteres += adicional.valor_interes
+                            
+                    # Calculo los valores con adicionales
+                    # se financia por cuotas lo restante entre del valor del auto con la entrada y los adicionales
+                    a_financiar=monto-entrada-TotalAdicionales
+                    monto_financiar = (a_financiar*(1+(interes*plazo)))
+                    cuota_mes=float(monto_financiar)/plazo
+                    # redondeo del valor de la cuota, para evitar decimales
+                    cuota_mes=redondeo(cuota_mes)                
+                    total_letras=cuota_mes*plazo
+                    total_pagare=total_letras+TotalAdicionalesInteres
+                    
+                # genero el resultado para actualizar la vista
+                result[r.id]['monto_financiar']=a_financiar
+                result[r.id]['cuota_mes']=cuota_mes
+                result[r.id]['total_letras']=total_letras
+                result[r.id]['total_pagare']=total_pagare
+                result[r.id]['total_pagare_texto']= self.NumeroTextoCompleto(total_pagare)
          #   self._estado_mora(cr, uid, ids,field_name, arg,context)    
-            return result
+                return result
         
     def _estado_mora(self,cr,uid,ids,field_name,arg,context):       
         result = {}
@@ -627,7 +622,6 @@ class tres_cartera(osv.osv):
         'date_creacion': fields.datetime('Fecha de Creacion', select=False),
         'user_id': fields.many2one('res.users', 'Connected Salesman', help="Person who uses the the cash register. It could be a reliever, a student or an interim employee."),
         'note': fields.text('Notas para Gerencia'),
-        #'nb_print': fields.integer('Number of Print', readonly=True),
         'cedula': fields.char('Cedula', size=14),  
         'partner_id': fields.many2one('res.partner', 'Customer', change_default=True,select=1,readonly=False, states={'cartera':[('readonly',True)]}),
         'garante_id': fields.many2one('res.partner', 'Garante', change_default=True, select=0,readonly=False, states={'cartera': [('readonly', True)]}),
@@ -639,7 +633,7 @@ class tres_cartera(osv.osv):
         'price': fields.float('Precio',states={'cartera': [('readonly', True)]}),
         'pago_l':fields.float('Pago'),
         'financiamiento':fields.char('Financiamiento (En meses)', size=3,states={'cartera': [('readonly', True)]},readonly=False),         
-        'interes':fields.float('Interes Anual',digits=(5,2),states={'cartera': [('readonly', True)]},readonly=False),
+        'interes':fields.float('Interes Anual',digits=(5,2),states={'cartera': [('readonly', True)]},readonly=False,required=True),
         'cuota_mes': fields.function(_calcula_precio, type="float", digits=(5,2),string="Valor Letra",multi='precio'),
         'monto_financiar': fields.function(_calcula_precio, type="float", digits=(5,2),string="A Financiar",multi='precio'),
         'total_letras': fields.function(_calcula_precio, type="float", digits=(5,2),string="Total Letras",multi='precio'),
@@ -660,14 +654,10 @@ class tres_cartera(osv.osv):
             ('embargo', 'Embargado'),
             ('cancelada', 'Cancelado')],
             'State', readonly=True),
-#        'amount_paid': fields.function(tres_amount_all, digits=(5,2),string='Paid', states={'draft': [('readonly', False)]}, readonly=True,multi='precio1'),
-#        'amount_paid_adic': fields.function(tres_amount_all, digits=(5,2),string='Paid', states={'draft': [('readonly', False)]}, readonly=True,multi='precio1'),
         'mora': fields.function(_estado_mora, string='Mora',method=True,type='integer',store=True),
-        #'mora': fields.integer('mora'),
         #ICE inicio de bloque a Comentar
         #relacion a trescartera
         'egreso_id': fields.one2many('tres.cartera.egreso', 'tres_cartera_id', 'Egreso'),
-        
         'lineaestado_ids': fields.one2many('tres.linea.estado.cuenta', 'lineaestado_id', 'lineas de estado cuenta',domain=[('state','!=','renegociado')]),
         'cuota_ids': fields.one2many('tres.linea.estado.cuenta.cuota', 'lineaestado_id', 'Cuotas',  domain=[('tipo_haber','=','cuota')]),
         'adicional_ids': fields.one2many('tres.linea.estado.cuenta.adicional', 'lineaestado_id', 'Adicionales',readonly=False, states={'cartera':[('readonly',True)]}, domain=[('tipo_haber','=','adicional')]),
@@ -689,7 +679,7 @@ class tres_cartera(osv.osv):
         'copy_papeleta_grt': fields.boolean('Copia Papeleta garante'),
         'copy_pago_grt': fields.boolean('Copia pago agua, luz, telefono garante'),
         #relacion con cobros
-        #'cobro_id': fields.many2one('tres.cartera.cobro', 'Cobro', required=True),          
+        'cobro_id': fields.many2one('tres.cartera.cobro', 'Cobro'),          
      }
 
     _defaults = {
@@ -730,6 +720,84 @@ class tres_cartera(osv.osv):
         obj_product = self.pool.get('product.product.auto')
         obj_product.write(cr, uid, tresc.product_id.id, {'vendido':True,})         
         return True
+    
+    def action_pago(self, cr, uid, ids, context=None):
+        wf_service = netsvc.LocalService("workflow")
+        inv_ref = self.pool.get('tres.cartera.cobro')
+        inv_line_ref = self.pool.get('account.invoice.line')
+        product_obj = self.pool.get('product.product')
+        tres_linea_estado=self.pool.get('tres.linea.estado.cuenta')
+        partner_ids = []
+        inv_ids = []   
+        ids1 = product_obj.search(cr, uid, [('income_pdt', '=', True)], order='id', context=context)
+        for order in self.pool.get('tres.cartera').browse(cr, uid, ids, context=context):
+            if order.cobro_id:
+                inv_ids.append(order.invoice_id.id)
+                continue
+
+            if not order.partner_id:
+                raise osv.except_osv(_('Error'), _('Please provide a partner for the sale.'))
+            
+            product = product_obj.browse(cr, uid, ids1[0])
+            
+            acc = product.property_account_income or product.categ_id.property_account_income_categ
+            #acc = order.partner_id.property_account_receivable.id
+            partner_ids.append(order.partner_id.id)
+            inv = {
+                'name': "Entrada " + order.name,
+                'partner_id': order.partner_id.id,
+            }
+            if not inv.get('account_id', None):
+                inv['account_id'] = acc
+       
+            if not context:
+                context={}
+
+            context['partner_ids'] = partner_ids
+            context['interes_mora']= 0.0
+            context['fecha']=order.date_order
+            inv_id = inv_ref.create(cr, uid, inv, context=context)        
+            self.write(cr, uid, [order.id], {'cobro_id': inv_id, 'state': 'cartera'}, context=context)
+            inv_ids.append(inv_id)
+            #esta funcion sirve para llamar al worflow por lo tanto entra a la funcion que este llamando esta
+            wf_service.trg_validate(uid, 'tres.cartera', order.id, 'cartera', cr)
+        #    inv_ref.onchange_cliente_interes(cr, uid, [inv_id], order.partner_id.id, 0.3,order.date_order)
+        # inv.update({'customer': True})
+        id_line_estado = tres_linea_estado.search(cr, uid, [('lineaestado_id', '=', ids),('tipo_haber', '=', 'entrada')])
+        #FILTRADO por cliente, estado del haber
+        linea_cobro = tres_linea_estado.read(cr, uid, id_line_estado[0])
+        
+        rs={
+                'name': linea_cobro['name'],
+                'estado_cuenta_id': linea_cobro['id'],
+                'valor_abonado': linea_cobro['abonado'],
+                'valor_interes': linea_cobro['valor_interes'],
+                'date_vencimiento': linea_cobro['date_vencimiento'],
+                'cancelado': False,
+                'interes':linea_cobro['interes'],
+                'valor_pago': 0.0,#valor_pago,
+                'interes_mora': 0.0, 
+            }
+        
+        #inv_ref.llamar_onchange(cr,uid,inv['partner_id'],context['fecha'],rs)
+        if not inv_ids: return {}
+        # codigo para ir a otra vista por medio de un boton este siempre debe ser object
+        mod_obj = self.pool.get('ir.model.data')
+        res = mod_obj.get_object_reference(cr, uid, 'tres_cartera_autos', 'tres_cartera_cobro_form_view')
+        res_id = res and res[1] or False
+            
+        return {
+            'name': _('Cuentas por pagar'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': [res_id],
+            'res_model': 'tres.cartera.cobro',
+            'type': 'ir.actions.act_window',
+            'nodestroy': True,
+            'target': 'current',
+            'res_id': inv_ids and inv_ids[0] or False,
+        }
+        
 
     def refused(self, cr, uid, ids, *args):
         self.write(cr, uid, ids, {'state':'refused'})
@@ -859,8 +927,17 @@ class tres_cartera(osv.osv):
         cuota_obj = self.pool.get('tres.linea.estado.cuenta')        
         self.cartera(cr, uid, ids, context)
         
-        for fy in self.browse(cr, uid, ids, context=context):            
- 
+        for fy in self.browse(cr, uid, ids, context=context):   
+            # Creacion de la linea de Entrada
+            fecha_inicial_e = datetime.strptime(fy.date_order, '%Y-%m-%d %H:%M:%S')
+            fecha_pago_entrada = fecha_inicial_e
+            entrada={ 'tipo_haber': 'entrada',
+                     'valor_interes': fy.entrada,
+                     'partner_id': fy.partner_id.id,
+                     'lineaestado_id':fy.id,
+                     'date_vencimiento': fecha_pago_entrada.strftime('%Y-%m-%d'),
+                     'name': 'Pago Entrada'}
+            cuota_obj.create(cr, uid, entrada )         
             # antes de crear las cuotas verifico si se ha seleccionado el cliente
             if not fy.partner_id:
                 msg = _('Debe crear o seleccionar el cliente para poder generar las cuotas respectivas')
@@ -874,7 +951,7 @@ class tres_cartera(osv.osv):
                 i=0
     
                 while i < int(fy.financiamiento):
-    
+            
                     cuota = {
                         # EL name se ocupa como descripcion, el tipo_haber es para identificar el tipo 
                         'tipo_haber': 'cuota',
@@ -886,25 +963,21 @@ class tres_cartera(osv.osv):
                         'meses': fy.financiamiento,
                         'interes': fy.interes,
                         'valor_interes': fy.cuota_mes, 
-                        # no se ocupa la fecha inicial
-                        #'date_inicio': fecha_inicial.strftime('%Y-%m-%d'),
-                        # se modifica el nombre por date_vencimiento
-                        #'date_pago': fecha_pago_cuota.strftime('%Y-%m-%d'),
                         'date_vencimiento': fecha_pago_cuota.strftime('%Y-%m-%d'),
-                        #'cuota_id': fy.id,
                         'lineaestado_id':fy.id
                          } 
-    
+            
                     cuota_obj.create(cr, uid, cuota)
                     fecha_pago_cuota = fecha_pago_cuota + relativedelta(months=1)
-    
+            
                     i += 1
             
             #caso 2: Ya se han creado las cuotas
             else:
                 msg = _('Las letras de pago para esta solicitud ya han sido generadas, no se pueden volver a generar!')
                 raise osv.except_osv(_('Warning !'), msg)
-
+        
+        
         return True 
         
     def test_paid_letras(self, cr, uid, ids, context=None):
@@ -930,51 +1003,6 @@ class tres_cartera(osv.osv):
                     return False
         return True
         
-    def add_payment(self, cr, uid, order_id, data, context=None):
-        statement_obj = self.pool.get('account.bank.statement')
-        statement_line_obj = self.pool.get('account.bank.statement.line')
-        #prod_obj = self.pool.get('product.product')
-        property_obj = self.pool.get('ir.property')
-        curr_c = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id
-        curr_company = curr_c.id
-        order = self.browse(cr, uid, order_id, context=context)
-        ids_new = []
-        args = {
-                'amount': data['amount'],
-            }
-        if 'payment_date' in data.keys():
-            args['date'] = data['payment_date']
-            
-        args['name'] = order.name
-        if data.get('payment_name', False):
-            args['name'] = args['name'] + ': ' + data['payment_name']
-        account_def = property_obj.get(cr, uid, 'property_account_receivable', 'res.partner', context=context)
-        args['account_id'] = (order.partner_id and order.partner_id.property_account_receivable \
-                             and order.partner_id.property_account_receivable.id) or (account_def and account_def.id) or False
-        args['partner_id'] = order.partner_id and order.partner_id.id or None
-        statement_id = statement_obj.search(cr,uid, [
-                                                     ('journal_id', '=', int(data['journal'])),
-                                                     ('company_id', '=', curr_company),
-                                                     ('user_id', '=', uid),
-                                                     ('state', '=', 'open')], context=context)
-        if len(statement_id) == 0:
-            raise osv.except_osv(_('Error !'), _('You have to open at least one cashbox'))
-        if statement_id:
-            statement_id = statement_id[0]
-        args['statement_id'] = statement_id
-        args['tres_statement_id'] = order_id
-        args['journal_id'] = int(data['journal'])
-        args['type'] = 'customer'
-        args['ref'] = order.name
-        statement_line_obj.create(cr, uid, args, context=context)
-        ids_new.append(statement_id)
-
-        wf_service = netsvc.LocalService("workflow")
-        wf_service.trg_validate(uid, 'tres.cartera', order_id, 'cancelado', cr)
-        wf_service.trg_write(uid, 'tres.cartera', order_id, cr)
-#
-#        letras_obj = self.pool.get('tres.line.letras')
-        return statement_id
 #A.G 12/09/2012 SE CREO FUNCION UNLINK PARA QUE NO SE PUEDAN ELIMINAR LOS CONTRATOS POR ERROR    
     def unlink(self, cr, uid, ids, context=None):
         for rec in self.browse(cr, uid, ids, context=context):

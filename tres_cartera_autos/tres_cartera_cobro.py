@@ -6,6 +6,7 @@
 
 from osv import osv
 from osv import fields
+from lxml import etree
 import time
 # uso de datetime
 from datetime import datetime
@@ -14,6 +15,12 @@ from dateutil.relativedelta import relativedelta
 # si se quiere usar mensajes de error del sistema, esta linea debe usarse!!!
 from tools.translate import _
 from point_of_sale.wizard import pos_box_entries
+
+import logging
+from PIL import Image
+
+import netsvc
+from tools.translate import _
 
 class tres_linea_estado_cuenta_abono(osv.osv):
 
@@ -74,11 +81,67 @@ class tres_cartera_cobro(osv.osv):
     '''
     
     _name = 'tres.cartera.cobro'
+    def llamar_onchange(self,cr,uid,cliente,fecha,lista):
+        print lista
+        self.onchange_cliente_interes(cr, uid, [], cliente, lista['interes_mora'], fecha)
+        return {'value':{'detalle_pago_ids':lista}} 
+    
+    def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
+        journal_obj = self.pool.get('account.journal')
+        if context is None:
+            context = {}
+
+        if context.get('active_model', '') in ['res.partner'] and context.get('active_ids', False) and context['active_ids']:
+            partner = self.pool.get(context['active_model']).read(cr, uid, context['active_ids'], ['supplier','customer'])[0]
+            if not view_type:
+                view_id = self.pool.get('ir.ui.view').search(cr, uid, [('name', '=', 'tres.cartera.cobro.tree')])
+                view_type = 'tree'
+            if view_type == 'form':
+                    view_id = self.pool.get('ir.ui.view').search(cr,uid,[('name', '=', 'tres.cartera.cobro.form')])
+        if view_id and isinstance(view_id, (list, tuple)):
+            view_id = view_id[0]
+        res = super(tres_cartera_cobro,self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
+
+        type = context.get('journal_type', False)
+        for field in res['fields']:
+            if field == 'journal_id' and type:
+                journal_select = journal_obj._name_search(cr, uid, '', [('type', '=', type)], context=context, limit=None, name_get_uid=1)
+                res['fields'][field]['selection'] = journal_select
+
+        doc = etree.XML(res['arch'])
+        
+        if context.get('type', False):
+            for node in doc.xpath("//field[@name='partner_bank_id']"):
+                if context['type'] == 'in_refund':
+                    node.set('domain', "[('partner_id.ref_companies', 'in', [company_id])]")
+                elif context['type'] == 'out_refund':
+                    node.set('domain', "[('partner_id', '=', partner_id)]")
+            res['arch'] = etree.tostring(doc)
+                
+        if view_type == 'search':
+            for node in doc.xpath("//group[@name='extended filter']"):
+                    doc.remove(node)
+            res['arch'] = etree.tostring(doc)
+
+        return res    
     
     def _default_journal(self, cr, uid, context=None):
         res = pos_box_entries.get_journal(self, cr, uid, context=context)
         return len(res)>1 and res[1][0] or False
 
+    def _lineas_por_cliente(self, cr, uid, context=None):
+
+        res = []
+                
+        if context and 'partner_ids' in context:
+            # Buscando nuevas lineas
+            partner_id = context['partner_ids'][0]
+            interes = 3.0
+            fecha = time.strftime('%Y-%m-%d %H:%M:%S')
+            
+            res = self.recalcular_lineas_cobro(cr, uid, partner_id, interes, fecha)
+        
+        return res
 
     def _suma_total(self, cr, r, context=None):
 
@@ -272,22 +335,16 @@ class tres_cartera_cobro(osv.osv):
             'detalle_pago_ids': res,
             #'cliente': cliente,
             }
-        }
-        
-        #no se puede agregar por este metodo debido a que no hay un id para el cobro aun
-        #for detalle in res:
-            # agrego al tree las lineas nuevas
-            #lineas_cobro.create(cr, uid, detalle)
-        
+        }       
         return default
-
+        
     def recalcular_lineas_cobro(self, cr, uid, partner_id, interes_mora,fecha):
         # funcion que genera las lineas a pagar asociadas al cliente, debe buscar en la tabla de cartera
-        # los contratos relacionados al cliente en estado "cartera", de ahi extraer los pagos pendientes o
+        # los contratos relarecalcular_lineas_cobrocionados al cliente en estado "cartera", de ahi extraer los pagos pendientes o
         # "en espera", debe ordenarse por fecha de pago
 
         #inicializo la variable
-        DATETIME_FORMAT = "%Y-%m-%d"
+        DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
         hasta = fecha
         default = []
 
@@ -323,87 +380,93 @@ class tres_cartera_cobro(osv.osv):
 
             #Se transforma la fecha de vencimiento del pago
             #TODO,  bug en caso de no existir fecha de vencimiento
-            desde_dt = datetime.strptime(linea_cobro['date_vencimiento'], DATETIME_FORMAT)
-          #  hasta_dt = datetime.strptime(hasta, DATETIME_FORMAT)
-            hasta_dt = datetime.strptime(hasta, '%Y-%m-%d %H:%M:%S')   
-            #esta parte verifica si han pasado 3 meses y calcula los intereses en mora
-            fecha_inicio_mora = desde_dt + relativedelta(months=3)
-                
-            interes_calculado = 0.0  
-
-            if fecha_inicio_mora <= hasta_dt:
-                #ha pasado el tiempo necesario, debe calcularse el interes extra
-                #Se determina los meses completos que esta el cliente en mora
-                
-                # Se calcula en base a los pagos el interes que se debe ir acumulando
-                # filtramos todos los pagos o abonos hechos a este haber
-                #objeto general de las lineas de pago
-                pagos_cuenta_obj = self.pool.get('tres.linea.estado.cuenta.abono')
-                #objeto que contiene la asignacion de cada pago
-                cobro_obj = self.pool.get('tres.cartera.cobro')
-                
-                # FILTRADO por haberes, mostramos los pagos de este haber
-                # se debe excluir aquellos que su pago este como Borrador o Anulado
-                # Primero se buscan los pagos asignados a este haber
-                pagos_estado_cuenta_por_haber = pagos_cuenta_obj.search(cr, uid, [('estado_cuenta_id', '=', linea),])
-                
-                # Segundo se filtran los pagos que efectivamete se hayan efectuado
-                for pago in pagos_estado_cuenta_por_haber:
-                    # leo el pago para extraer el id del cobro que lo contiena
-                    info_pago = pagos_cuenta_obj.read(cr, uid, pago)
-                    # Con el id anterior leo y verifico si esta efectuado el pago
-                    info_cobro = cobro_obj.read(cr, uid, info_pago['cobro_id'][0])
-                    # verifico si esta en el estado de "pagado" 
-                    if info_cobro['state'] == 'pagado':
-                        # esta pagado, calculo su posible interes
-
-                        # Con cada id de cobro encontrado calculo el interes y lo acumulo de manera general
-                        # Para calcular el interes se sigue la siguiente logica
-                        # Se usa la fecha de vencimiento del haber y la fecha de pago, con esto obtengo el numero de meses
-                        # el interes lo obtengo del formulario y el valor sobre el cual se calcula esta basado en el monto pagado
-                        #for pago in pagos_estado_cuenta_por_haber:
-    
-                        #creo la linea de cobro en base a la linea encontrada
-                        linea_pago = pagos_cuenta_obj.read(cr, uid, pago)
-                        
-                        # usando la fecha de vencimiento general desde_dt, calculo el interes de este pago
-                        # la fecha desde la cual se cobra interes es desde_dt + 3 meses = fecha_inicio_mora
-                        # Notese que la fecha de pago debe obtenerse desde el cobro general 
-                        #linea_pago['date_pago'] es desde el pago, no desde el cobro
-                        fecha_pagado = info_cobro['fecha']
-                        # Elimino el texto estra existente en este valor de fecha
-                        fecha_pagado = fecha_pagado[:fecha_pagado.rindex(" ")]
-                        fecha_pago_dt = datetime.strptime(fecha_pagado, DATETIME_FORMAT) 
-                        
-                        if fecha_inicio_mora <= fecha_pago_dt:
-                            # para este pago ya existio interes, se lo calcula
-                            # Se determina los meses completos que esta el cliente en mora
-                            # numero de meses en mora
-                            meses = 0
-                            temp_inicio = desde_dt
-                            
-                            while temp_inicio < fecha_pago_dt:
-                                #sumo un mes mas
-                                temp_inicio = temp_inicio + relativedelta(months=1)
-                                meses = meses + 1 
-                            
-                            # Tengo los meses en mora, el interes y el pago, calculo el interes
-                            interes_calculado = interes_calculado + float((linea_pago['valor_pago'] * interes_mora * meses)/100)
-                
-                #Tengo el interes acumulado, ahora calculo el interes del saldo
-                saldo =  linea_cobro['valor_interes'] - linea_cobro['abonado']
-                
-                # numero de meses en mora
-                meses = 0
-                temp_inicio = desde_dt
-                
-                while temp_inicio < hasta_dt:
-                    #sumo un mes mas
-                    temp_inicio = temp_inicio + relativedelta(months=1)
-                    meses = meses + 1 
             
-                #calculo el interes:
-                interes_calculado = interes_calculado + float((saldo * interes_mora * meses)/100)
+            if not linea_cobro['date_vencimiento']:
+                msg = _('No existe Fecha de vencimiento!')
+                raise osv.except_osv(_('Warning !'), msg)
+            
+            else:
+                desde_dt = datetime.strptime(linea_cobro['date_vencimiento'], '%Y-%m-%d')
+              #  hasta_dt = datetime.strptime(hasta, DATETIME_FORMAT)
+                hasta_dt = datetime.strptime(hasta, '%Y-%m-%d %H:%M:%S')   
+                #esta parte verifica si han pasado 3 meses y calcula los intereses en mora
+                fecha_inicio_mora = desde_dt + relativedelta(months=3)
+                    
+                interes_calculado = 0.0  
+    
+                if fecha_inicio_mora <= hasta_dt:
+                    #ha pasado el tiempo necesario, debe calcularse el interes extra
+                    #Se determina los meses completos que esta el cliente en mora
+                    
+                    # Se calcula en base a los pagos el interes que se debe ir acumulando
+                    # filtramos todos los pagos o abonos hechos a este haber
+                    #objeto general de las lineas de pago
+                    pagos_cuenta_obj = self.pool.get('tres.linea.estado.cuenta.abono')
+                    #objeto que contiene la asignacion de cada pago
+                    cobro_obj = self.pool.get('tres.cartera.cobro')
+                    
+                    # FILTRADO por haberes, mostramos los pagos de este haber
+                    # se debe excluir aquellos que su pago este como Borrador o Anulado
+                    # Primero se buscan los pagos asignados a este haber
+                    pagos_estado_cuenta_por_haber = pagos_cuenta_obj.search(cr, uid, [('estado_cuenta_id', '=', linea),])
+                    
+                    # Segundo se filtran los pagos que efectivamete se hayan efectuado
+                    for pago in pagos_estado_cuenta_por_haber:
+                        # leo el pago para extraer el id del cobro que lo contiena
+                        info_pago = pagos_cuenta_obj.read(cr, uid, pago)
+                        # Con el id anterior leo y verifico si esta efectuado el pago
+                        info_cobro = cobro_obj.read(cr, uid, info_pago['cobro_id'][0])
+                        # verifico si esta en el estado de "pagado" 
+                        if info_cobro['state'] == 'pagado':
+                            # esta pagado, calculo su posible interes
+    
+                            # Con cada id de cobro encontrado calculo el interes y lo acumulo de manera general
+                            # Para calcular el interes se sigue la siguiente logica
+                            # Se usa la fecha de vencimiento del haber y la fecha de pago, con esto obtengo el numero de meses
+                            # el interes lo obtengo del formulario y el valor sobre el cual se calcula esta basado en el monto pagado
+                            #for pago in pagos_estado_cuenta_por_haber:
+        
+                            #creo la linea de cobro en base a la linea encontrada
+                            linea_pago = pagos_cuenta_obj.read(cr, uid, pago)
+                            
+                            # usando la fecha de vencimiento general desde_dt, calculo el interes de este pago
+                            # la fecha desde la cual se cobra interes es desde_dt + 3 meses = fecha_inicio_mora
+                            # Notese que la fecha de pago debe obtenerse desde el cobro general 
+                            #linea_pago['date_pago'] es desde el pago, no desde el cobro
+                            fecha_pagado = info_cobro['fecha']
+                            # Elimino el texto estra existente en este valor de fecha
+                            fecha_pagado = fecha_pagado[:fecha_pagado.rindex(" ")]
+                            fecha_pago_dt = datetime.strptime(fecha_pagado, DATETIME_FORMAT) 
+                            
+                            if fecha_inicio_mora <= fecha_pago_dt:
+                                # para este pago ya existio interes, se lo calcula
+                                # Se determina los meses completos que esta el cliente en mora
+                                # numero de meses en mora
+                                meses = 0
+                                temp_inicio = desde_dt
+                                
+                                while temp_inicio < fecha_pago_dt:
+                                    #sumo un mes mas
+                                    temp_inicio = temp_inicio + relativedelta(months=1)
+                                    meses = meses + 1 
+                                
+                                # Tengo los meses en mora, el interes y el pago, calculo el interes
+                                interes_calculado = interes_calculado + float((linea_pago['valor_pago'] * interes_mora * meses)/100)
+                    
+                    #Tengo el interes acumulado, ahora calculo el interes del saldo
+                    saldo =  linea_cobro['valor_interes'] - linea_cobro['abonado']
+                    
+                    # numero de meses en mora
+                    meses = 0
+                    temp_inicio = desde_dt
+                    
+                    while temp_inicio < hasta_dt:
+                        #sumo un mes mas
+                        temp_inicio = temp_inicio + relativedelta(months=1)
+                        meses = meses + 1 
+                
+                    #calculo el interes:
+                    interes_calculado = interes_calculado + float((saldo * interes_mora * meses)/100)
             
                             
             rs = {
@@ -436,10 +499,8 @@ class tres_cartera_cobro(osv.osv):
             ('cheque', 'Cheque'),
             ('deposito', 'Deposito')],'Tipo de Pago'),
         # fin modificaciones
-        #'partner_id': fields.related('detalle_pago_ids','partner_id',type='many2one',relation='tres.cartera', string='Cliente', store=True),
         'partner_id': fields.many2one('res.partner', 'Cliente'),
         'detalle_pago_ids': fields.one2many('tres.linea.estado.cuenta.abono', 'cobro_id', 'Asignacion Pago'),
-        #
         'journal_id': fields.selection(pos_box_entries.get_journal, "Caja Registradora", size=-1),
         'ref': fields.char('Ref', size=32),
         #'suma_total': fields.float(string='Suma Total', digits=(5,2)),
@@ -465,6 +526,7 @@ class tres_cartera_cobro(osv.osv):
         'interes_mora': 3, 
         'journal_id': _default_journal,
         'user_id': lambda self, cr, uid, context: uid,
+        'detalle_pago_ids': _lineas_por_cliente,
                 }
     
     def get_in(self, cr, uid, ids, context=None):

@@ -82,7 +82,6 @@
 					        </tree>
 					 	 	
 					 	 	</field>
-<!-- 					 	 	on_change="onchange_detalle_pago()" -->
 					 	 	<newline/>
 					 	 	<separator string="Notas de Pago"/>
 					 	 	<group>
@@ -263,9 +262,6 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
 		    <field name="view_id" ref="tres_linea_estado_cuenta_cobro_tree_view_filtrado"/>
 		    <field name="search_view_id" ref="view_tres_cartera_cobro_realizados_search"/>
 		</record>
-<!--#ICE Menu  -->	
-	<!-- 		<menuitem id="tres_cartera_linea_cobro_menu" name="linea Cobros a Clientes" parent="" action="action_tres_linea_estado_cuenta_cobro"/>
- -->
 
 <!-- Vista usada para asignar los pagos de los clientes
 	La lista debe mostrar SOLO lista de clientes. Esta lista esta basada en la vista de contratos
