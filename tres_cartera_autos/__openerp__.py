@@ -19,7 +19,7 @@
     
     """,
     "version" : "1.0",
-    "depends" : ["base","crm","sale","point_of_sale","account_accountant","hr",],
+    "depends" : ["base","crm","sale","point_of_sale","account_accountant","hr","jasper_reports"],
     "init_xml" : [],
     "update_xml" : [
                 #"security/ir.model.access.csv",

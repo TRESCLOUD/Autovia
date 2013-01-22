@@ -493,7 +493,7 @@ class tres_cartera_cobro(osv.osv):
         'amount': fields.float('Monto', digits=(16, 2)),
         'fecha': fields.datetime('Fecha', select=True),
         'fecha_creacion': fields.datetime('Fecha de Creacion', select=True),
-        'ref_pago': fields.char('Referencia de pago', size=64),
+        'ref_pago': fields.char('Referencia de pago', size=164),
         'metodo_pago': fields.selection([
             ('efectivo', 'Efectivo'),
             ('cheque', 'Cheque'),
