@@ -259,7 +259,7 @@
                                <!--      cambios Ruth: Botones para renegociado -->
     	                          	<button name="renegociar" states="cartera,pre_embargo,embargo" string="Renegociar" confirm="Está seguro que desea renegociar" icon="terp-stock_format-scientific" type="workflow"/>
 				               <!-- <button name="cartera" states="renegociar" string="Cartera" type="object" icon="gtk-convert"/> -->
-                               		<button name="action_pago" string="Invoice" icon="gtk-apply" type="object" states="accepted" confirm="El contrato se encuentra Firmado?"/>
+                               		<button name="action_pago" string="Contrato FIrmado" icon="gtk-copy" type="object" states="accepted" confirm="El contrato se encuentra Firmado?"/>
                       
                                </group>
                             </group>
