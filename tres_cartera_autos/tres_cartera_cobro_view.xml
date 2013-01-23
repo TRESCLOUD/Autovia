@@ -37,8 +37,7 @@
 		            <field name="journal_id"/>
 		            <field name="amount"/>
 		           	<field name="fecha_creacion"/>
-		        	<field name="user_id" widget="selection"/>
-		        	
+		        	<field name="user_id" widget="selection"/>  	
 		        </tree>
 		    </field>
 		</record>
@@ -203,9 +202,8 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
                 <field name="letra_entregada" invisible="1"/>
                 <field name="dias_mora" readonly="1" attrs="{'invisible': [('dias_mora','==',0)]}" /> <!-- widget="progressbar/> -->
                 <field name="meses" readonly="1" attrs="{'invisible': [('tipo_haber','==','cuota')]}"/>
-                
- 				<!-- <field name="cancelado" invisible="0" icon="terp-open"/> -->                
-<!--               	<button name="%(action_tres_cartera_cobro_form_view_from_estado_cuenta)d" string="Efectuar Pago" type="action" icon="gtk-yes" context="{'partner_id':partner_id}"/> -->
+                <field name="cancelado" invisible="0" icon="terp-open"/>                
+				<button name="%(action_tres_cartera_cobro_form_view_from_estado_cuenta)d" string="Efectuar Pago" type="action" icon="gtk-yes" context="{'partner_id':partner_id}"/>
             </tree>
         </field>
       </record>     
@@ -235,8 +233,8 @@ desde la lista de haberes pendientes (la segunda esta en estado_cuenta)-->
                 <field name="dias_mora" readonly="1" attrs="{'invisible': [('dias_mora','==',0)]}" /> <!-- widget="progressbar/> -->
                 <field name="meses" readonly="1" attrs="{'invisible': [('tipo_haber','==','cuota')]}"/>
                 
- 				<!-- <field name="cancelado" invisible="0" icon="terp-open"/> -->                
-<!--               	<button name="%(action_tres_cartera_cobro_form_view_from_estado_cuenta)d" string="Efectuar Pago" type="action" icon="gtk-yes" context="{'partner_id':partner_id}"/> -->
+ 				 <field name="cancelado" invisible="0" icon="terp-open"/>                
+              	<button name="%(action_tres_cartera_cobro_form_view_from_estado_cuenta)d" string="Efectuar Pago" type="action" icon="gtk-yes" context="{'partner_id':partner_id}"/>
             </tree>
         </field>
       </record>  
