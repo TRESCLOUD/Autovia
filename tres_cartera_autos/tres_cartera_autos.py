@@ -730,6 +730,9 @@ class tres_cartera(osv.osv):
         partner_ids = []
         inv_ids = []   
         ids1 = product_obj.search(cr, uid, [('income_pdt', '=', True)], order='id', context=context)
+        if not ids1:
+            raise osv.except_osv(_('Error'), _('You must have Cash in product.'))
+                        
         for order in self.pool.get('tres.cartera').browse(cr, uid, ids, context=context):
             if order.cobro_id:
                 inv_ids.append(order.invoice_id.id)
@@ -778,7 +781,6 @@ class tres_cartera(osv.osv):
                 'valor_pago': 0.0,#valor_pago,
                 'interes_mora': 0.0, 
             }
-        
         #inv_ref.llamar_onchange(cr,uid,inv['partner_id'],context['fecha'],rs)
         if not inv_ids: return {}
         # codigo para ir a otra vista por medio de un boton este siempre debe ser object
