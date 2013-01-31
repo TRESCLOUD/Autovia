@@ -1,57 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-	<report id="report_tres_cartera_autos_cuotas_c"
-           	  string="Contrato Compra-Venta"
-      		  model="tres.cartera"
-      		  name="report.tres.cartera.autos.cuotas.c"
-      		  rml="tres_cartera_autos/report/contratoVenta.jrxml"
-      		  menu="False"/>
-    <report id="report_tres_cartera_autos_cuotas_cv"
-           	  string="Contrato de Venta con Reserva de Dominio"
-      		  model="tres.cartera"
-      		  name="report.tres.cartera.autos.cuotas.cv"
-      		  rml="tres_cartera_autos/report/prueba.jrxml"
-      		  menu="False"/>
-    <report id="report_tres_cartera_autos_cuotas_m"
-           	  string="Contrato de Mutuo"
-      		  model="tres.cartera"
-      		  name="report.tres.cartera.autos.cuotas.m"
-      		  rml="tres_cartera_autos/report/mutuo.jrxml"
-      		  menu="False"/>
-    <report id="report_tres_cartera_autos_cuotas_p"
-           	  string="Pagare a la Orden con Vencimientos Sucesivos"
-      		  model="tres.cartera"
-      		  name="report.tres.cartera.autos.cuotas.p"
-      		  rml="tres_cartera_autos/report/pagare.jrxml"
-      		  menu="False"/>
-    <report id="report_tres_cartera_comprobante"
-           	  string="Prueba"
-      		  model="tres.cartera"
-      		  name="report_tres_cartera_comprobante"
-      		  rml="tres_cartera_autos/report/comprobanteCobro.jrxml"
-      		  menu="False"/>
-    <report id="report_tres_cartera_egreso_prueba"
-           	  string="Prueba"
-      		  model="tres.cartera"
-      		  name="Prueba"
-      		  rml="tres_cartera_autos/report/comprobanteEgreso.jrxml"
-      		  menu="False"
-      		  auto="True"/>
-    <report id="report_tres_cartera_autos_cuotas_cv2"
-           	  string="Prueba"
-      		  model="tres.cartera"
-      		  name="report.prueba"
-      		  rml="tres_cartera_autos/report/Contrato_parte2.jrxml"
-      		  menu="False"/>
-	<report
-            id="tres_cartera_egreso"
-            string="Imprimir"
-            model="tres.cartera.egreso"
-            name="Todos los Egresos"
-            auto="False"
-            multi="False"
-            rml="tres_cartera_autos/report/reportEgreso.jrxml"
-            />
+	<record id="report_mutuo" model="ir.actions.report.xml">
+	<field name="name">Mutuo</field>
+	<field name="type">ir.actions.report.xml</field>
+	<field name="model">tres.cartera</field>
+	<field name="report_name">reporte_mutuo</field>
+	<field name="report_type">aeroo</field>
+	<field name="in_format">oo-odt</field>
+	<field name='out_format' eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')" />
+	<field name="report_rml">tres_cartera_autos/report/reporte_mutuo.odt</field>
+	<field name="parser_state">default</field>
+	<field name="tml_source">file</field>
+	</record>
+
+	<record id="report_contrato" model="ir.actions.report.xml">
+	<field name="name">Contrato</field>
+	<field name="type">ir.actions.report.xml</field>
+	<field name="model">tres.cartera</field>
+	<field name="report_name">reporte_contrato</field>
+	<field name="report_type">aeroo</field>
+	<field name="in_format">oo-odt</field>
+	<field name='out_format' eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')" />
+	<field name="report_rml">tres_cartera_autos/report/report_contrato.odt</field>
+	<field name="parser_state">default</field>
+	<field name="tml_source">file</field>
+	</record>
+
+	<record id="report_pagare" model="ir.actions.report.xml">
+	<field name="name">Pagare</field>
+	<field name="type">ir.actions.report.xml</field>
+	<field name="model">tres.cartera</field>
+	<field name="report_name">reporte_pagare</field>
+	<field name="report_type">aeroo</field>
+	<field name="in_format">oo-odt</field>
+	<field name='out_format' eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')" />
+	<field name="report_rml">tres_cartera_autos/report/report_pagare.odt</field>
+	<field name="parser_state">default</field>
+	<field name="tml_source">file</field>
+	</record>
+
+	<record id="report_reserva" model="ir.actions.report.xml">
+	<field name="name">Reserva</field>
+	<field name="type">ir.actions.report.xml</field>
+	<field name="model">tres.cartera</field>
+	<field name="report_name">reporte_reserva</field>
+	<field name="report_type">aeroo</field>
+	<field name="in_format">oo-odt</field>
+	<field name='out_format' eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')" />
+	<field name="report_rml">tres_cartera_autos/report/report_reserva.odt</field>
+	<field name="parser_state">default</field>
+	<field name="tml_source">file</field>
+	</record>
+
+	<record id="comprobante_pago" model="ir.actions.report.xml">
+	<field name="name">Comprobante Pago</field>
+	<field name="type">ir.actions.report.xml</field>
+	<field name="model">tres.cartera.cobro</field>
+	<field name="report_name">comprobante_pago</field>
+	<field name="report_type">aeroo</field>
+	<field name="in_format">oo-odt</field>
+	<field name='out_format' eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')" />
+	<field name="report_rml">comprobante_pagp.odt</field>
+	<field name="parser_state">default</field>
+	<field name="tml_source">file</field>
+	</record>
      </data>
 </openerp>
