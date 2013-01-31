@@ -480,6 +480,7 @@ class tres_cartera_cobro(osv.osv):
                 'interes':linea_cobro['interes'],
                 'valor_pago': 0.0,#valor_pago,
                 'interes_mora': interes_calculado, 
+                
             }
             
             default.append(rs)

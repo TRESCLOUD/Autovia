@@ -330,6 +330,47 @@ class tres_cartera(osv.osv):
     _description = 'Cartera de Autos'
     _order='name'          
     
+    def print_report(self, cr, uid, ids, context=None):
+       
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'reporte_reserva',    # the 'Service Name' from impresion_cheque                                 the report
+            'datas' : {
+                    'model' : 'tres.cartera',    # Report Model
+                    'res_ids' : ids
+                    }
+                }
+    def print_report_pagare(self, cr, uid, ids, context=None):
+       
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'reporte_pagare',    # the 'Service Name' from impresion_cheque                                 the report
+            'datas' : {
+                    'model' : 'tres.cartera',    # Report Model
+                    'res_ids' : ids
+                    }
+                }     
+        
+    def print_report_contrato(self, cr, uid, ids, context=None):
+       
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'reporte_contrato',    # the 'Service Name' from impresion_cheque                                 the report
+            'datas' : {
+                    'model' : 'tres.cartera',    # Report Model
+                    'res_ids' : ids
+                    }
+                } 
+    def print_report_mutuo(self, cr, uid, ids, context=None):
+       
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'reporte_mutuo',    # the 'Service Name' from impresion_cheque                                 the report
+            'datas' : {
+                    'model' : 'tres.cartera',    # Report Model
+                    'res_ids' : ids
+                    }
+                } 
     
     def tres_amount_all(self, cr, uid, ids, name, args, context=None):
         res = {}
@@ -759,7 +800,9 @@ class tres_cartera(osv.osv):
             context['partner_ids'] = partner_ids
             context['interes_mora']= 0.0
             context['fecha']=order.date_order
-            inv_id = inv_ref.create(cr, uid, inv, context=context)        
+            inv_id = inv_ref.create(cr, uid, inv, context=context) 
+            if not inv_id:
+                print hello       
             self.write(cr, uid, [order.id], {'cobro_id': inv_id, 'state': 'cartera'}, context=context)
             inv_ids.append(inv_id)
             #esta funcion sirve para llamar al worflow por lo tanto entra a la funcion que este llamando esta

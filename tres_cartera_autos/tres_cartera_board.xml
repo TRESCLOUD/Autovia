@@ -169,7 +169,9 @@
  		<menuitem id="menu_tres_cartera" 
  		name="CREDITO DE AUTOS" 
  		action="open_board_cartera"
- 		groups="group_tres_cartera"/>
+ 		groups="group_tres_cartera"
+ 		web_icon="images/auto_black.png"
+    	web_icon_hover="images/auto2.png"/>
  
 
     <record model="ir.actions.act_window" id="open_adicional">

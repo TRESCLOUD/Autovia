@@ -169,7 +169,7 @@
                     	<separator string="Credito"/>
                     	<newline/>
                     	<field name="product_id" on_change="onchange_product_id(product_id)" />
-                    	<field name="price"/>
+                    	<field name="price" required="True"/>
                     	<field name="entrada" required="True"/>
         				<field name="financiamiento" required="True"/>
         				<field name="interes" />
@@ -235,12 +235,10 @@
                                <group col="5" colspan="5">                            		
                                 <group col="4" colspan="3" states="accepted,cartera" >
                                 	<!-- Cuotas icem-->
-                                	<button name="%(report_tres_cartera_autos_cuotas_cv)d" string="RESERVAS I" type="action" icon="gtk-print"/>
-                                	<button name="%(report_tres_cartera_autos_cuotas_cv2)d" string="RESERVAS II" type="action" icon="gtk-print"/>
-                                	<button name="%(report_tres_cartera_autos_cuotas_p)d" string="PAGARE" type="action" icon="gtk-print"/>
-                                	<button name="%(report_tres_cartera_autos_cuotas_c)d" string="CONTRATO" type="action" icon="gtk-print"/>
-                                	<button name="%(report_tres_cartera_autos_cuotas_m)d" string="MUTUO" type="action" icon="gtk-print"/>
-               						
+                                	<button name="print_report" string="RESERVAS" type="object" icon="gtk-print"/>
+                                	<button name="print_report_pagare" string="PAGARE" type="object" icon="gtk-print"/>
+                                  	<button name="print_report_contrato" string="CONTRATO" type="object" icon="gtk-print"/>
+                                	<button name="print_report_mutuo" string="MUTUO" type="object" icon="gtk-print"/>
 	                             </group> 
                                 <newline/>
 									<button name="confirm" states="draft" string="Validar" type="workflow" icon="gtk-ok"/>
