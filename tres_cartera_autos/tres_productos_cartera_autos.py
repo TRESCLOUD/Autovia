@@ -23,13 +23,28 @@ class product_product_auto(osv.osv):
         res = []
 
         for record in reads:
-            mensaje=[]        
-            mensaje.append(str(record['name']))
-            mensaje.append(str(record['modelo']))
-            mensaje.append(str(record['color']))
-            mensaje.append(str(record['year']))
-            mensaje.append(str(record['cae']))
-            res.append((record['id'], mensaje))
+            if not record['name']=="Cash in":
+                if not record['name']=="Cash out":
+                    mensaje=[]        
+                    mensaje.append(str(record['name']))
+                    if record['modelo']:
+                        mensaje.append(str(record['modelo']))
+                    else:
+                        mensaje.append("-")
+                    if record['color']!=0:
+                        mensaje.append(str(record['color']))
+                    else:
+                        mensaje.append("-")  
+                    if record['year']:
+                        mensaje.append(str(record['year']))
+                    else:
+                        mensaje.append("-")               
+                    if record['cae']:
+                        mensaje.append(str(record['cae']))
+                    else:
+                        mensaje.append("-") 
+                
+                    res.append((record['id'], mensaje))
         return res
 
     def _name_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
