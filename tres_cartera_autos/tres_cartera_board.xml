@@ -18,7 +18,8 @@
         <field name="model">tres.linea.estado.cuenta</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree string="Cartera" editable="bottom" colors="red:dias_mora>='90';orange:dias_mora>='60';green:dias_mora>'30';blue:dias_mora=='30'" >
+<!-- #ICE -->
+            <tree string="Cartera" editable="bottom" colors="red:dias_mora>='90';grey:dias_mora>='60';green:dias_mora>'30';blue:dias_mora=='30'" >
                 <field name="partner_id" readonly="1" invisible="0"/>
                 <field name="name" readonly="1"/>
                 <field name="state" readonly="1"/>
@@ -39,9 +40,10 @@
         <field name="model">tres.linea.estado.cuenta</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree string="Cartera" editable="bottom" colors="red:dias_mora>='90';orange:dias_mora>='60';green:dias_mora>'30';blue:dias_mora=='30'" >
-                <field name="partner_id" readonly="1" invisible="0"/>
-                <field name="name" readonly="1"/>
+<!-- #ICE -->
+            <tree string="Cartera" editable="bottom" colors="red:dias_mora>='90';grey:dias_mora>='60';green:dias_mora>'30';blue:dias_mora=='30'" >
+                <field name="partner_id" readonly="1" invisible="0"  select="1"/>
+                <field name="name" readonly="1" />
                 <field name="state" readonly="1"/>
                 <field name="date_vencimiento" readonly="True" groups="tres_cartera_autos.group_tres_cartera"/>
                 <field name="date_vencimiento" groups="tres_cartera_autos.group_tres_cartera_gere"/>

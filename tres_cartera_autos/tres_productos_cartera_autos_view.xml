@@ -32,13 +32,14 @@
 		        	<group colspan="4" col="6" groups="tres_cartera_autos.group_tres_cartera_log">        		 
                	<separator string ="Detalle del Auto"/>
 					<newline/>	
-						<field name="cae" select="1" on_change="onchange_cae(cae)"/>
-						<field name ="name" select="1" string="Marca" on_change="onchange_name(name)"/>
-						<field name="clase" select="1" on_change="onchange_clase(clase)"/>
-						<field name="year" select="1"/>												
-						<field name="modelo" select="1" on_change="onchange_modelo(modelo)"/>
+<!-- #ICE -->
+						<field name="cae" required="1" select="1" on_change="onchange_cae(cae)"/>
+						<field name="name" required="1" select="1" string="Marca" on_change="onchange_name(name)"/>
+						<field name="clase" select="1" required="1" on_change="onchange_clase(clase)"/>
+						<field name="year" select="1" required="1"/>												
+						<field name="modelo" select="1" required="1" on_change="onchange_modelo(modelo)"/>
 						<field name="motor" select="1" on_change="onchange_motor(motor)"/>
-						<field name="color" select="1" on_change="onchange_color(color)"/>
+						<field name="color" select="1" required="1" on_change="onchange_color(color)"/>
 						<field name="chasis" select="1" on_change="onchange_chasis(chasis)"/>
 						<newline/>
 						<separator string ="Detalle Matricula"/>

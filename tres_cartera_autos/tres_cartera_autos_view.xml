@@ -10,7 +10,6 @@
 		<field name="domain">[]</field>
 	</record>
 	<!-- #ICE search-->
-	<!-- #ICE search-->
 	<record model="ir.ui.view" id="tres_cartera_tree_search">
         <field name="name">view.tres.cartera.search</field>
         <field name="model">tres.cartera</field>
@@ -81,6 +80,7 @@
 				<field name="date_vencimiento"/>
 	       	 	<field name="meses" on_change="onchange_general(meses, interes, valor)"/>
 	       	 	<newline/>
+<!-- ice Colocar en readonly cuando ya se guarde -->
 	       	 	<field name="valor_interes"/>
 	       </form>
         </field>
@@ -433,7 +433,10 @@
 		<search string="Busqueda de estado de cuenta">      
 				<filter string ="Letras sin Entregar" icon="terp-camera_test" domain="[('letra_permiso','=',0)]"/>        
                 <filter string ="Letras Aprobadas para Entrega" icon="terp-dolar_ok!" domain="[('letra_permiso','=',1)]"/>
-				<filter string ="Letras Entregadas" icon="terp-camera_test" domain="[('letra_entregada','=',1)]"/>                		
+<!-- #ICE -->
+				<filter string ="Letras Entregadas" icon="terp-camera_test" domain="[('letra_entregada','=',1)]"/>
+        		<newline/>
+            	<field name="partner_id"/>                		
             </search>
         </field>
      </record>

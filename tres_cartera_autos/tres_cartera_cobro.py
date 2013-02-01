@@ -291,8 +291,8 @@ class tres_cartera_cobro(osv.osv):
                             #raise osv.except_osv(_('Aviso:'), _(mensaje))
                 
             else:
-                #hay diferencia!!
-                raise osv.except_osv(_('Warning !'), _('El amount pagado difiere de los pagos efectuados!!'))
+#<!-- #ICE -->
+                raise osv.except_osv(_('Warning !'), _('El Valor ingresado en MONTO es menor o diferente del o los VALORES A PAGAR!'))
         # Depende del tipo de pago, no siempre va hacia caja 
         #self.get_in(cr, uid, ids, context) 
         return True

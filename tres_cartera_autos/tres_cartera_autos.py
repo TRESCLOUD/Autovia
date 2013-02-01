@@ -174,10 +174,12 @@ class tres_linea_estado_cuenta(osv.osv):
         'date_pago': fields.date('Fecha de Cobro'),
         'metodo_pago': fields.char('Metodo de Pago',size=20),
         # modificado date_pago para una mejor comprension del campo
-        'date_vencimiento': fields.date('Fecha de Vencimiento'),
+		#ICE
+        'date_vencimiento': fields.date('Fecha de Vencimiento', required=True),
         # se modifica el abonado para que se calcule en base alos pagos encontrados y realizados por el cliente
         'abonado': fields.float('Monto Cobrado', digits=(5,2)),
-        'dias_mora': fields.function(_dias_interes_mora, method=True, type='integer', string='Dias en Mora', multi=True),
+		#ICE store
+        'dias_mora': fields.function(_dias_interes_mora, store=True, method=True, type='integer', string='Dias en Mora', multi=True),
         #ICE cambiar partner_id
         'lineaestado_id': fields.many2one('tres.cartera', 'Lineas de cuotas del contrato',ondelete= "restrict"),
         'partner_id': fields.related('lineaestado_id','partner_id',type='many2one',relation='res.partner',string='Cliente',store=True,readonly=True),
