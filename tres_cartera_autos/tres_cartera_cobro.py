@@ -31,6 +31,7 @@ class tres_linea_estado_cuenta_abono(osv.osv):
     
     _name = 'tres.linea.estado.cuenta.abono'
     
+    
     def onchange_cancelado(self, cr, uid, ids, valor_abonado, valor_interes , context=None):
         
         #cuando cambia el estado del cancelado, debe evitarse que puede editarse el valor a pagar (Vista)
