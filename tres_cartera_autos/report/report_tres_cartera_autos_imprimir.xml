@@ -65,5 +65,12 @@
 	<field name="parser_state">default</field>
 	<field name="tml_source">file</field>
 	</record>
+	
+	<report id="report_tres_cartera_comprobante"
+           	  string="Prueba"
+      		  model="tres.cartera"
+      		  name="report_tres_cartera_comprobante"
+      		  rml="tres_cartera_autos/report/comprobanteCobro.jrxml"
+      		  menu="False"/>
      </data>
 </openerp>
