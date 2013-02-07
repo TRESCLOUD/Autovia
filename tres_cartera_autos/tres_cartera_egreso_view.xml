@@ -58,10 +58,11 @@
                 <search string="Busqueda Egreso">
                    <group col='10' colspan='4'>
                         <filter string="Gastos de Cliente" name="tipo_egreso" icon="terp-personal" domain="[('tipo_egreso','=','cliente')]"/>
-                        <filter string="Gastos Embargo" name="tipo_gasto" icon="terp-personal" domain="[('tipo_gasto','=','embargo')]"/>
-                        <separator orientation="vertical"/>                     
                         <filter string="Gastos Empresa" name="tipo_egreso" icon="terp-personal+" domain="[('tipo_egreso','=','empresa')]"/>
+                        <separator orientation="vertical"/>                     
+						<filter string="Gastos Embargo" name="tipo_gasto" icon="terp-personal" domain="[('tipo_gasto','=','embargo')]"/>
                         <filter string="Otros Gastos" name="tipo_gasto" icon="terp-personal" domain="[('tipo_gasto','=','otro')]"/>
+                        
                         <separator orientation="vertical"/>
                         <field name="name" select="1"/>
                         <field name="res_partner_id" select="1"/>
