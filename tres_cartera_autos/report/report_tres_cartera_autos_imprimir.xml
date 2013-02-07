@@ -73,4 +73,20 @@
       		  rml="tres_cartera_autos/report/comprobanteCobro.jrxml"
       		  menu="False"/>
      </data>
+     <report id="report_tres_cartera_egreso_prueba"
+           	  string="Prueba"
+      		  model="tres.cartera"
+      		  name="Prueba"
+      		  rml="tres_cartera_autos/report/comprobanteEgreso.jrxml"
+      		  menu="False"
+      		  auto="True"/>
+     	<report
+            id="tres_cartera_egreso"
+            string="Imprimir"
+            model="tres.cartera.egreso"
+            name="Todos los Egresos"
+            auto="False"
+            multi="False"
+            rml="tres_cartera_autos/report/reportEgreso.jrxml"
+            />
 </openerp>
