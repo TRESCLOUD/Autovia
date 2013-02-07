@@ -215,6 +215,16 @@ class tres_linea_estado_cuenta(osv.osv):
             #'partner_id':_cliente_ident,
                 }   
     
+    def _permiso_crear(self, cr, uid, ids, context=None):
+        for statement in self.browse(cr, uid, ids, context=context):
+            if not statement.partner_id:
+                return False
+        return True
+
+    _constraints = [
+        (_permiso_crear, 'Error! Usted no puede crear sin seleccionar el ciente.', ['partner_id'])
+    ]
+    
     def unlink(self, cr, uid, ids, context=None):
         for rec in self.browse(cr, uid, ids, context=context):
                raise osv.except_osv(_('No se puede Eliminar !'), _('En Estado de Cuenta para borrar una cuota, este deberia ser nuevo o estar cancelado.'))
