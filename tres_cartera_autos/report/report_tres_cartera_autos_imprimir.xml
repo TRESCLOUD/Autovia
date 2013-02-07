@@ -72,7 +72,7 @@
       		  name="report_tres_cartera_comprobante"
       		  rml="tres_cartera_autos/report/comprobanteCobro.jrxml"
       		  menu="False"/>
-     </data>
+     
      <report id="report_tres_cartera_egreso_prueba"
            	  string="Prueba"
       		  model="tres.cartera"
@@ -80,4 +80,5 @@
       		  rml="tres_cartera_autos/report/comprobanteEgreso.jrxml"
       		  menu="False"
       		  auto="True"/>
+      </data>
 </openerp>
