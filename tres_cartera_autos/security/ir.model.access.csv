@@ -9,7 +9,7 @@ access_product_template,product.template,product.model_product_template,group_tr
 access_res_partner_log,res.partner.log,model_res_partner,group_tres_cartera_log,1,1,1,1
 access_res_partner_address_log,res.partner.address log,base.model_res_partner_address,group_tres_cartera_log,1,1,1,1
 access_tres_cartera_cobro_log,tres.cartera.cobro log,model_tres_cartera_cobro,group_tres_cartera,1,1,1,0
-access_tres_linea_estado_cuenta_abono_log,tres.linea.estado.cuenta.abono log,model_tres_linea_estado_cuenta_abono,group_tres_cartera,1,1,1,0
+access_tres_linea_estado_cuenta_abono_log,tres.linea.estado.cuenta.abono log,model_tres_linea_estado_cuenta_abono,group_tres_cartera,1,1,1,1
 access_product_product_supplierinfo_cartera,product.supplierinfo cartera,product.model_product_supplierinfo,group_tres_cartera_log,1,0,0,0
 access_product_product_packaging_cartera,product.packaging cartera,product.model_product_packaging,group_tres_cartera_log,1,0,0,0
 access_stock_warehouse_log,stock.warehouse log,stock.model_stock_warehouse,group_tres_cartera_log,1,0,0,0

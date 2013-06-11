@@ -436,7 +436,8 @@ class tres_cartera_cobro(osv.osv):
                             #linea_pago['date_pago'] es desde el pago, no desde el cobro
                             fecha_pagado = info_cobro['fecha']
                             # Elimino el texto estra existente en este valor de fecha
-                            fecha_pagado = fecha_pagado[:fecha_pagado.rindex(" ")]
+#                            fecha_pagado = fecha_pagado[:fecha_pagado.rindex(" ")]
+#                            print  datetime.strptime(fecha_pagado, DATETIME_FORMAT) 
                             fecha_pago_dt = datetime.strptime(fecha_pagado, DATETIME_FORMAT) 
                             
                             if fecha_inicio_mora <= fecha_pago_dt:
